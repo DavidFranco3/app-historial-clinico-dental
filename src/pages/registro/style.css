@@ -1,0 +1,50 @@
+.sample-canvas {
+  height: 38vh;
+  width: 55rem;
+  border: 1px black solid;
+z-index: 9999;
+}
+
+.imagenFondoFig {
+    height: 40vh;
+    width: 100%;
+}
+
+.divFig {
+  width: 100%;
+  border: 1px black solid;
+  position: relative;
+  margin-top: 2%;
+  margin-bottom: 2%;
+}
+
+.divFigCa {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+}
+
+.divImageFig {
+  border: 1px black solid;
+  position: relative;
+}
+
+.btnsSimbologia{
+  display: flex;
+  justify-content: space-around;
+}
+
+@media screen and (max-width: 768px) {
+  .multistep-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .multistep-buttons .prev-button,
+  .multistep-buttons .next-button {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
