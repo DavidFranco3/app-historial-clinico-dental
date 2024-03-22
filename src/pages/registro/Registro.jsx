@@ -1,21 +1,20 @@
 import React, { useEffect, useState } from "react";
 import Autenticate from "../../layout/Autenticate";
-import { Button, Col, Form, Row } from "react-bootstrap";
+import { Button, Col, Form, Row, Table } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faTrash } from "@fortawesome/free-solid-svg-icons";
 import Container from "../../components/presentational/Container";
 import MultiStep from "react-multistep";
 import { FabricJSCanvas, useFabricJSEditor } from "fabricjs-react";
 import "./style.css";
-import imagenFondo from "../../assets/img/fondo.jpeg"
-import imgLesionCariosa from "../../assets/img/simbologia/LesionCariosa.png"
-import imgIndExt from "../../assets/img/simbologia/Indicadoparaextraerse.png"
-import imgObturado from "../../assets/img/simbologia/Obturado.png"
-import imgEspacioVacio from "../../assets/img/simbologia/EspacioVacio.png"
-import imgDiSupNum from "../../assets/img/simbologia/DienteSuperiorNumerado.png"
-import imgRetGin from "../../assets/img/simbologia/RetraccionGingival.png"
-import imgMovDent from "../../assets/img/simbologia/MovilidadDentaria.png"
-
+import imagenFondo from "../../assets/img/fondo.jpeg";
+import imgLesionCariosa from "../../assets/img/simbologia/LesionCariosa.png";
+import imgIndExt from "../../assets/img/simbologia/Indicadoparaextraerse.png";
+import imgObturado from "../../assets/img/simbologia/Obturado.png";
+import imgEspacioVacio from "../../assets/img/simbologia/EspacioVacio.png";
+import imgDiSupNum from "../../assets/img/simbologia/DienteSuperiorNumerado.png";
+import imgRetGin from "../../assets/img/simbologia/RetraccionGingival.png";
+import imgMovDent from "../../assets/img/simbologia/MovilidadDentaria.png";
 
 const steps = [
   { title: "Datos personales", component: <StepOne /> },
@@ -27,6 +26,8 @@ const steps = [
   { component: <StepSeven /> },
   { component: <StepEight /> },
   { component: <StepNine /> },
+  { component: <StepTen /> },
+  { component: <StepEleven /> },
 ];
 
 function StepOne() {
@@ -693,13 +694,22 @@ function StepNine() {
 
   return (
     <div>
+      <div>
+        <h2 className="titulosMultiStep">Odontograma Inicial</h2>
+      </div>
       <div className="btnsSimbologia">
-        <Button onClick={() => setIdentificador("LC")} variant="dark">Lesion cariosa</Button>
+        <Button onClick={() => setIdentificador("LC")} variant="dark">
+          Lesion cariosa
+        </Button>
         <Button onClick={() => setIdentificador("IE")} variant="dark">
           Indicado para extraerse
         </Button>
-        <Button onClick={() => setIdentificador("OB")} variant="dark">Obturado</Button>
-        <Button onClick={() => setIdentificador("EV")} variant="dark">Espacio vacio</Button>
+        <Button onClick={() => setIdentificador("OB")} variant="dark">
+          Obturado
+        </Button>
+        <Button onClick={() => setIdentificador("EV")} variant="dark">
+          Espacio vacio
+        </Button>
         <Button onClick={() => setIdentificador("DSN")} variant="dark">
           Diente superior numerado
         </Button>
@@ -712,7 +722,7 @@ function StepNine() {
       </div>
       <div className="divFig">
         <div className="divImageFig">
-          <img src={imagenFondo} className="imagenFondoFig"/>
+          <img src={imagenFondo} className="imagenFondoFig" />
         </div>
         <div className="divFigCa">
           <div
@@ -728,8 +738,8 @@ function StepNine() {
                 key={index}
                 style={{
                   position: "absolute",
-                  left: `${point.x-10}px`,
-                  top: `${point.y-10}px`,
+                  left: `${point.x - 10}px`,
+                  top: `${point.y - 10}px`,
                   width: "20px",
                   height: "20px",
                   borderRadius: "50%",
@@ -743,8 +753,8 @@ function StepNine() {
                 key={index}
                 style={{
                   position: "absolute",
-                  left: `${point.x-10}px`,
-                  top: `${point.y-10}px`,
+                  left: `${point.x - 10}px`,
+                  top: `${point.y - 10}px`,
                   width: "20px",
                   height: "20px",
                   borderRadius: "50%",
@@ -758,65 +768,367 @@ function StepNine() {
                 key={index}
                 style={{
                   position: "absolute",
-                  left: `${point.x-10}px`,
-                  top: `${point.y-10}px`,
+                  left: `${point.x - 10}px`,
+                  top: `${point.y - 10}px`,
                   width: "20px",
                   height: "20px",
                   borderRadius: "50%",
                 }}
-              ><img src={imgObturado} width="100%" height="100%" /></div>
+              >
+                <img src={imgObturado} width="100%" height="100%" />
+              </div>
             ))}
             {pointsEV.map((point, index) => (
               <div
                 key={index}
                 style={{
                   position: "absolute",
-                  left: `${point.x-10}px`,
-                  top: `${point.y-10}px`,
+                  left: `${point.x - 10}px`,
+                  top: `${point.y - 10}px`,
                   width: "20px",
                   height: "20px",
                   borderRadius: "50%",
                 }}
-              ><img src={imgEspacioVacio} width="100%" height="100%" /></div>
+              >
+                <img src={imgEspacioVacio} width="100%" height="100%" />
+              </div>
             ))}
             {pointsDSN.map((point, index) => (
               <div
                 key={index}
                 style={{
                   position: "absolute",
-                  left: `${point.x-10}px`,
-                  top: `${point.y-10}px`,
+                  left: `${point.x - 10}px`,
+                  top: `${point.y - 10}px`,
                   width: "20px",
                   height: "20px",
                   borderRadius: "50%",
                 }}
-              ><img src={imgDiSupNum} width="100%" height="100%" /></div>
+              >
+                <img src={imgDiSupNum} width="100%" height="100%" />
+              </div>
             ))}
             {pointsRG.map((point, index) => (
               <div
                 key={index}
                 style={{
                   position: "absolute",
-                  left: `${point.x-10}px`,
-                  top: `${point.y-10}px`,
+                  left: `${point.x - 10}px`,
+                  top: `${point.y - 10}px`,
                   width: "20px",
                   height: "20px",
                   borderRadius: "50%",
                 }}
-              ><img src={imgRetGin} width="100%" height="100%" /></div>
+              >
+                <img src={imgRetGin} width="100%" height="100%" />
+              </div>
             ))}
             {pointsMD.map((point, index) => (
               <div
                 key={index}
                 style={{
                   position: "absolute",
-                  left: `${point.x-10}px`,
-                  top: `${point.y-10}px`,
+                  left: `${point.x - 10}px`,
+                  top: `${point.y - 10}px`,
                   width: "20px",
                   height: "20px",
                   borderRadius: "50%",
                 }}
-              ><img src={imgMovDent} width="100%" height="100%" /></div>
+              >
+                <img src={imgMovDent} width="100%" height="100%" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function StepTen() {
+  const [arregloProcedimientos, setArregloProcedimientos] = useState([]);
+  const [fecha, setFecha] = useState("");
+  const [tratamiento, setTratamiento] = useState("");
+  const [tiempo, setTiempo] = useState("");
+  const [responsable, setResponsable] = useState("");
+
+  const agregarProcedimiento = () => {
+    const nuevoProcedimiento = {
+      fecha: fecha,
+      tratamiento: tratamiento,
+      tiempo: tiempo,
+      responsable: responsable,
+    };
+
+    setArregloProcedimientos([...arregloProcedimientos, nuevoProcedimiento]);
+    setFecha("");
+    setTratamiento("");
+    setTiempo("");
+    setResponsable("");
+  };
+
+  const handleQuit = (index) => {
+    const newArray = [...arregloProcedimientos];
+    newArray.splice(index, 1);
+    setArregloProcedimientos(newArray);
+  };
+
+  return (
+    <div>
+      <h2 className="titulosMultiStep">Procedimientos</h2>
+      <hr />
+      <div>
+        <Form>
+          <Row className="mb-2 mb-md-4 mb-lg-7">
+            <Col sm={12} md={2} lg={2}>
+              <Form.Label>Fecha:</Form.Label>
+              <Form.Control
+                type="date"
+                value={fecha}
+                onChange={(e) => setFecha(e.target.value)}
+              />
+            </Col>
+            <Col sm={12} md={3} lg={3}>
+              <Form.Label>Tratamiento:</Form.Label>
+              <Form.Control
+                type="text"
+                value={tratamiento}
+                onChange={(e) => setTratamiento(e.target.value)}
+              />
+            </Col>
+            <Col sm={12} md={2} lg={2}>
+              <Form.Label>Tiempo:</Form.Label>
+              <Form.Control
+                type="text"
+                value={tiempo}
+                onChange={(e) => setTiempo(e.target.value)}
+              />
+            </Col>
+            <Col sm={12} md={3} lg={3}>
+              <Form.Label>Responsable:</Form.Label>
+              <Form.Control
+                type="text"
+                value={responsable}
+                onChange={(e) => setResponsable(e.target.value)}
+              />
+            </Col>
+            <Col sm={12} md={1} lg={1} className="d-flex align-items-end">
+              <Button onClick={agregarProcedimiento}>Agregar</Button>
+            </Col>
+          </Row>
+        </Form>
+        <div>
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Fecha</th>
+                <th>Tratamiento</th>
+                <th>Tiempo</th>
+                <th>Responsable</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {arregloProcedimientos.map((procedimiento, index) => (
+                <tr key={index}>
+                  <td>{index + 1}</td>
+                  <td>{procedimiento.fecha}</td>
+                  <td>{procedimiento.tratamiento}</td>
+                  <td>{procedimiento.tiempo}</td>
+                  <td>{procedimiento.responsable}</td>
+                  <td>
+                    <Button variant="danger" onClick={() => handleQuit(index)}>
+                      <FontAwesomeIcon icon={faTrash} />
+                    </Button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function StepEleven() {
+  const [identificador, setIdentificador] = useState("");
+
+  const [pointsLC, setPointsLC] = useState([]);
+  const [pointsIE, setPointsIE] = useState([]);
+  const [pointsOB, setPointsOB] = useState([]);
+  const [pointsEV, setPointsEV] = useState([]);
+  const [pointsDSN, setPointsDSN] = useState([]);
+  const [pointsRG, setPointsRG] = useState([]);
+  const [pointsMD, setPointsMD] = useState([]);
+
+  const handleClick = (event) => {
+    const rect = event.target.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    if (identificador === "LC") {
+      setPointsLC([...pointsLC, { x, y }]);
+    } else if (identificador === "IE") {
+      setPointsIE([...pointsIE, { x, y }]);
+    } else if (identificador === "OB") {
+      setPointsOB([...pointsOB, { x, y }]);
+    } else if (identificador === "EV") {
+      setPointsEV([...pointsEV, { x, y }]);
+    } else if (identificador === "DSN") {
+      setPointsDSN([...pointsDSN, { x, y }]);
+    } else if (identificador === "RG") {
+      setPointsRG([...pointsRG, { x, y }]);
+    } else if (identificador === "MD") {
+      setPointsMD([...pointsMD, { x, y }]);
+    }
+  };
+
+  return (
+    <div>
+      <div>
+        <h2 className="titulosMultiStep">Odontograma Final</h2>
+      </div>
+      <div className="btnsSimbologia">
+        <Button onClick={() => setIdentificador("LC")} variant="dark">
+          Lesion cariosa
+        </Button>
+        <Button onClick={() => setIdentificador("IE")} variant="dark">
+          Indicado para extraerse
+        </Button>
+        <Button onClick={() => setIdentificador("OB")} variant="dark">
+          Obturado
+        </Button>
+        <Button onClick={() => setIdentificador("EV")} variant="dark">
+          Espacio vacio
+        </Button>
+        <Button onClick={() => setIdentificador("DSN")} variant="dark">
+          Diente superior numerado
+        </Button>
+        <Button onClick={() => setIdentificador("RG")} variant="dark">
+          Retracción gingival
+        </Button>
+        <Button onClick={() => setIdentificador("MD")} variant="dark">
+          Movilidad dentaria
+        </Button>
+      </div>
+      <div className="divFig">
+        <div className="divImageFig">
+          <img src={imagenFondo} className="imagenFondoFig" />
+        </div>
+        <div className="divFigCa">
+          <div
+            style={{
+              width: "82vw",
+              height: "40vh",
+              margin: "auto",
+            }}
+            onClick={handleClick}
+          >
+            {pointsLC.map((point, index) => (
+              <div
+                key={index}
+                style={{
+                  position: "absolute",
+                  left: `${point.x - 10}px`,
+                  top: `${point.y - 10}px`,
+                  width: "20px",
+                  height: "20px",
+                  borderRadius: "50%",
+                }}
+              >
+                <img src={imgLesionCariosa} width="100%" height="100%" />
+              </div>
+            ))}
+            {pointsIE.map((point, index) => (
+              <div
+                key={index}
+                style={{
+                  position: "absolute",
+                  left: `${point.x - 10}px`,
+                  top: `${point.y - 10}px`,
+                  width: "20px",
+                  height: "20px",
+                  borderRadius: "50%",
+                }}
+              >
+                <img src={imgIndExt} width="100%" height="100%" />
+              </div>
+            ))}
+            {pointsOB.map((point, index) => (
+              <div
+                key={index}
+                style={{
+                  position: "absolute",
+                  left: `${point.x - 10}px`,
+                  top: `${point.y - 10}px`,
+                  width: "20px",
+                  height: "20px",
+                  borderRadius: "50%",
+                }}
+              >
+                <img src={imgObturado} width="100%" height="100%" />
+              </div>
+            ))}
+            {pointsEV.map((point, index) => (
+              <div
+                key={index}
+                style={{
+                  position: "absolute",
+                  left: `${point.x - 10}px`,
+                  top: `${point.y - 10}px`,
+                  width: "20px",
+                  height: "20px",
+                  borderRadius: "50%",
+                }}
+              >
+                <img src={imgEspacioVacio} width="100%" height="100%" />
+              </div>
+            ))}
+            {pointsDSN.map((point, index) => (
+              <div
+                key={index}
+                style={{
+                  position: "absolute",
+                  left: `${point.x - 10}px`,
+                  top: `${point.y - 10}px`,
+                  width: "20px",
+                  height: "20px",
+                  borderRadius: "50%",
+                }}
+              >
+                <img src={imgDiSupNum} width="100%" height="100%" />
+              </div>
+            ))}
+            {pointsRG.map((point, index) => (
+              <div
+                key={index}
+                style={{
+                  position: "absolute",
+                  left: `${point.x - 10}px`,
+                  top: `${point.y - 10}px`,
+                  width: "20px",
+                  height: "20px",
+                  borderRadius: "50%",
+                }}
+              >
+                <img src={imgRetGin} width="100%" height="100%" />
+              </div>
+            ))}
+            {pointsMD.map((point, index) => (
+              <div
+                key={index}
+                style={{
+                  position: "absolute",
+                  left: `${point.x - 10}px`,
+                  top: `${point.y - 10}px`,
+                  width: "20px",
+                  height: "20px",
+                  borderRadius: "50%",
+                }}
+              >
+                <img src={imgMovDent} width="100%" height="100%" />
+              </div>
             ))}
           </div>
         </div>
@@ -853,7 +1165,7 @@ const Registro = () => {
                 <br />
               </div>
             </div>
-            <div >
+            <div>
               <MultiStep
                 steps={steps}
                 prevButton={{
