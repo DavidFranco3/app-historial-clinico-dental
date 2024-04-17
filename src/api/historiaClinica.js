@@ -43,7 +43,7 @@ export async function obtenerHistoriaClinica(params) {
             //Authorization: `Bearer ${getTokenApi()}`
         }
     };
-    return await axios.get(API_HOST + ENDPOINTObtenerHistoriaClinicas + `/${params}`, config);
+    return await axios.get(API_HOST + ENDPOINTObtenerHistoriaClinica + `/${params}`, config);
 }
 
 export async function actualizarHistoriaClinica(id, data) {
