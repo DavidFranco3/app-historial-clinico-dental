@@ -14,6 +14,7 @@
     "fabricjs-react": "^1.2.2",
     "jwt-decode": "^4.0.0",
     "pdfmake": "^0.2.10",
+    "query-string": "^9.0.0",
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.1",
     "react-data-table-component": "^7.6.2",
