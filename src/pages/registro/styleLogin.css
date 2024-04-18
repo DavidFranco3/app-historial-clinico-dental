@@ -1,0 +1,110 @@
+.princContainer{
+    background: rgb(233, 239, 241);
+}
+
+.container-princ {
+  display: flex;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center; /* Centra verticalmente */
+  height: 100vh;
+  width: 100vw; /* Altura del viewport */
+}
+
+.form-container {
+  max-width: 400px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: rgb(242, 250, 252);
+  z-index: 999999;
+}
+
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #A2C8D4;
+    text-align: center;
+    padding: 10px;
+  }
+
+.txtPassword{
+    height: 4rem;
+    font-size: xx-large;
+}
+
+.button_slide {
+    background-color: #27B5E9;
+    color: #FFF;
+    border: 2px solid #E84451;
+    border-radius: 0px;
+    padding: 18px 36px;
+    display: inline-block;
+    font-family: "Arial", Monaco, monospace;
+    font-size: 18px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    box-shadow: inset 0 0 0 0 #E84451;
+    -webkit-transition: ease-out 0.4s;
+    -moz-transition: ease-out 0.4s;
+    transition: ease-out 0.4s;
+  }
+  
+  .slide_right:hover {
+    box-shadow: inset 400px 0 0 0 #E84451;
+    border: 2px solid #A2C8D4;
+  }
+
+
+  .screen__background {		
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 0;
+	-webkit-clip-path: inset(0 0 0 0);
+	clip-path: inset(0 0 0 0);	
+}
+
+.screen__background__shape {
+	transform: rotate(45deg);
+	position: absolute;
+}
+
+.screen__background__shape1 {
+	height: 520px;
+	width: 520px;
+	background: #efbbbe;	
+	top: -50px;
+	right: 120px;	
+	border-radius: 72px;
+}
+
+.screen__background__shape2 {
+	height: 220px;
+	width: 220px;
+	background: #efaeb4;	
+	top: -172px;
+	right: 15;	
+	border-radius: 32px;
+}
+
+.screen__background__shape3 {
+	height: 540px;
+	width: 190px;
+	background: linear-gradient(270deg, #eacacc, #efc5c8);
+	top: -24px;
+	right: 0;	
+	border-radius: 32px;
+    margin-right: 1rem;
+}
+
+.screen__background__shape4 {
+	height: 600px;
+	width: 200px;
+	background: linear-gradient(270deg, #eacacc, #efc5c8);	
+	top: 300px;
+	border-radius: 60px;
+}
