@@ -46,98 +46,71 @@ function StepOne() {
       <div>
         <h2 className="titulosMultiStep">Datos personales</h2>
         <div>
-          <Row className="mb-2 mb-md-4 mb-lg-7">
-            <Col
-              sm={12}
-              md={4}
-              lg={4}
-              className="d-flex align-items-end justify-content-start justify-content-md-end justify-content-lg-end"
-            >
-              <Form.Label>Nombre del paciente:</Form.Label>
+
+          {/*NOMBRE Y EDAD*/}
+          <Row className="justify-content-center mb-2 mb-md-4 mb-lg-7">
+            <Col sm={12} md={4} lg={4}>
+              <div className="d-flex flex-column align-items-center">
+                <Form.Label>Nombre del paciente:</Form.Label>
+                <Form.Control name="nombrePaciente" defaultValue={formData.nombrePaciente} type="text" />
+              </div>
             </Col>
-            <Col sm={12} md={8} lg={8}>
-              <Form.Control name="nombrePaciente" defaultValue={formData.nombrePaciente} type="text" />
-            </Col>
-          </Row>
-          <Row className="mb-2 mb-md-4 mb-lg-7">
-            <Col
-              sm={12}
-              md={4}
-              lg={4}
-              className="d-flex align-items-end justify-content-start justify-content-md-end justify-content-lg-end"
-            >
-              <Form.Label>Edad (Años):</Form.Label>
-            </Col>
-            <Col sm={12} md={8} lg={8}>
-              <Form.Control name="edadPaciente" defaultValue={formData.edadPaciente} type="number" />
+            <Col sm={12} md={4} lg={4}>
+              <div className="d-flex flex-column align-items-center">
+                <Form.Label>Edad (Años):</Form.Label>
+                <Form.Control name="edadPaciente" defaultValue={formData.edadPaciente} type="number" />
+              </div>
             </Col>
           </Row>
-          <Row className="mb-2 mb-md-4 mb-lg-7">
-            <Col
-              sm={12}
-              md={4}
-              lg={4}
-              className="d-flex align-items-end justify-content-start justify-content-md-end justify-content-lg-end"
-            >
-              <Form.Label>Sexo:</Form.Label>
+
+          {/*SEXO Y FECHA DE NACIMIENTO*/}
+          <Row className="justify-content-center mb-2 mb-md-4 mb-lg-7">
+            <Col sm={12} md={4} lg={4}>
+              <div className="d-flex flex-column align-items-center">
+                <Form.Label>Sexo:</Form.Label>
+                <div className="d-flex flex-column align-items-center" > 
+                  <div>
+                    <Form.Check type="checkbox" value="Masculino" checked={formData.sexoPaciente == "Masculino"} name="sexoPaciente" id="sexoPaciente" defaultValue={formData.sexoPaciente} label={"Masculino"} inline />
+                    <Form.Check type="checkbox" value="Femenino" checked={formData.sexoPaciente == "Femenino"} name="sexoPaciente" id="sexoPaciente" defaultValue={formData.sexoPaciente} label={"Femenino"} inline />
+                  </div>
+                </div>
+              </div>
             </Col>
-            <Col sm={12} md={8} lg={8} className="justify-content-start">
-              <Form.Check type="checkbox" value="Masculino" checked={formData.sexoPaciente == "Masculino"} name="sexoPaciente" id="sexoPaciente" defaultValue={formData.sexoPaciente} label={"Masculino"} inline />
-              <Form.Check type="checkbox" value="Femenino" checked={formData.sexoPaciente == "Femenino"} name="sexoPaciente" id="sexoPaciente" defaultValue={formData.sexoPaciente} label={"Femenino"} inline />
-            </Col>
-          </Row>
-          <Row className="mb-2 mb-md-4 mb-lg-7">
-            <Col
-              sm={12}
-              md={4}
-              lg={4}
-              className="d-flex align-items-end justify-content-start justify-content-md-end justify-content-lg-end"
-            >
-              <Form.Label>Fecha de nacimiento:</Form.Label>
-            </Col>
-            <Col sm={12} md={8} lg={8}>
-              <Form.Control name="fechaNacimientoPaciente" defaultValue={formData.fechaNacimientoPaciente} type="date" />
+            <Col sm={12} md={4} lg={4}>
+              <div className="d-flex flex-column align-items-center">
+                <Form.Label>Fecha de nacimiento:</Form.Label>
+                <Form.Control name="fechaNacimientoPaciente" defaultValue={formData.fechaNacimientoPaciente} type="date" />
+              </div>
             </Col>
           </Row>
-          <Row className="mb-2 mb-md-4 mb-lg-7">
-            <Col
-              sm={12}
-              md={4}
-              lg={4}
-              className="d-flex align-items-end justify-content-start justify-content-md-end justify-content-lg-end"
-            >
-              <Form.Label>Expediente:</Form.Label>
+
+
+           {/*EXPEDIENTE Y EMAIL*/}
+           <Row className="justify-content-center mb-2 mb-md-4 mb-lg-7">
+            <Col sm={12} md={4} lg={4}>
+              <div className="d-flex flex-column align-items-center">
+                <Form.Label>Expediente:</Form.Label>
+                <Form.Control name="expedientePaciente" defaultValue={formData.expedientePaciente} type="text" />
+              </div>
             </Col>
-            <Col sm={12} md={8} lg={8}>
-              <Form.Control name="expedientePaciente" defaultValue={formData.expedientePaciente} type="text" />
-            </Col>
-          </Row>
-          <Row className="mb-2 mb-md-4 mb-lg-7">
-            <Col
-              sm={12}
-              md={4}
-              lg={4}
-              className="d-flex align-items-end justify-content-start justify-content-md-end justify-content-lg-end"
-            >
-              <Form.Label>Correo electronico:</Form.Label>
-            </Col>
-            <Col sm={12} md={8} lg={8}>
-              <Form.Control name="emailPaciente" defaultValue={formData.emailPaciente} type="email" />
+            <Col sm={12} md={4} lg={4}>
+              <div className="d-flex flex-column align-items-center">
+                <Form.Label>Correo electronico:</Form.Label>
+                <Form.Control name="emailPaciente" defaultValue={formData.emailPaciente} type="email" />
+              </div>
             </Col>
           </Row>
-          <Row className="mb-2 mb-md-4 mb-lg-7">
-            <Col
-              sm={12}
-              md={4}
-              lg={4}
-              className="d-flex align-items-end justify-content-start justify-content-md-end justify-content-lg-end"
-            >
-              <Form.Label>Teléfono particular o celular:</Form.Label>
-            </Col>
-            <Col sm={12} md={8} lg={8}>
-              <Form.Control name="telefonoPaciente" defaultValue={formData.telefonoPaciente} type="tel" />
+
+          {/*TELEFONO*/}
+          <Row className="justify-content-center mb-2 mb-md-4 mb-lg-7">
+            <Col sm={12} md={4} lg={4}>
+              <div className="d-flex flex-column align-items-center">
+                <Form.Label>Teléfono particular o celular:</Form.Label>
+                <Form.Control name="telefonoPaciente" defaultValue={formData.telefonoPaciente} type="tel" />
+              </div>
             </Col>
           </Row>
+         
         </div>
       </div>
     </Form>
@@ -159,92 +132,98 @@ function StepTwo() {
       <hr />
       <div>
         <Form onChange={onChange}>
-          <Row className="mb-2 mb-md-4 mb-lg-7">
+          {/*MOTIVO DE CONSULTA*/}
+          <Row className="justify-content-center mb-2 mb-md-4 mb-lg-7">
             <Col
               sm={12}
               md={4}
               lg={4}
-              className="d-flex align-items-end justify-content-start justify-content-md-end justify-content-lg-end"
             >
-              <Form.Label>Motivo de la consulta:</Form.Label>
-            </Col>
-            <Col sm={12} md={8} lg={8}>
-              <Form.Control
-                name="motivoConsulta"
-                defaultValue={formData.motivoConsulta}
-                as="textarea"
-                placeholder="Describe detalladamente el motivo de la consulta"
-              />
+              <div className="d-flex flex-column align-items-center">
+                <Form.Label>Motivo de la consulta:</Form.Label>
+                <Form.Control
+                  name="motivoConsulta"
+                  defaultValue={formData.motivoConsulta}
+                  as="textarea"
+                  placeholder="Describe detalladamente el motivo de la consulta"
+                />
+              </div>
             </Col>
           </Row>
-          <Row className="mb-2 mb-md-4 mb-lg-7">
+
+          {/*PADECIMIENTO ACTUAL*/}
+          <Row className="justify-content-center mb-2 mb-md-4 mb-lg-7">
             <Col
               sm={12}
               md={4}
               lg={4}
-              className="d-flex align-items-end justify-content-start justify-content-md-end justify-content-lg-end"
             >
-              <Form.Label>Padecimiento actual:</Form.Label>
-            </Col>
-            <Col sm={12} md={8} lg={8}>
-              <Form.Control
+              <div className="d-flex flex-column align-items-center">
+                <Form.Label>Padecimiento actual:</Form.Label>
+                <Form.Control
                 name="padecimientoActual"
                 defaultValue={formData.padecimientoActual}
                 as="textarea"
                 placeholder="Describe los padecimientos que tiene actualmente el paciente"
-              />
+                />
+              </div>
             </Col>
           </Row>
-          <Row className="mb-2 mb-md-4 mb-lg-7">
+
+         {/*PADECIMIENTOS SISTEMICOS*/}
+         <Row className="justify-content-center mb-2 mb-md-4 mb-lg-7">
             <Col
               sm={12}
               md={4}
               lg={4}
-              className="d-flex align-items-end justify-content-start justify-content-md-end justify-content-lg-end"
             >
-              <Form.Label>
-                Padecimientos sistémicos de interés para el caso:
-              </Form.Label>
-            </Col>
-            <Col sm={12} md={8} lg={8}>
-              <Form.Control
+              <div className="d-flex flex-column align-items-center">
+                <Form.Label>Padecimientos sistémicos de interés para el caso:</Form.Label>
+                <Form.Control
                 name="padecimientosSistemticos"
                 defaultValue={formData.padecimientosSistemticos}
                 as="textarea"
                 placeholder="Describe los padecimientos sistémicos que sufre el paciente"
-              />
+                />
+              </div>
             </Col>
           </Row>
-          <Row className="mb-2 mb-md-4 mb-lg-7">
+
+          {/*¿MEDICAMENTOS?*/}
+          <Row className="justify-content-center mb-2 mb-md-4 mb-lg-7">
             <Col
               sm={12}
               md={4}
               lg={4}
-              className="d-flex align-items-end justify-content-start justify-content-md-end justify-content-lg-end"
             >
-              <Form.Label>¿Está tomando algún medicamento?</Form.Label>
-            </Col>
-            <Col sm={12} md={8} lg={8}>
-              <Form.Check
-                type="checkbox"
-                name="tomandoMedicamento"
-                defaultValue={formData.tomandoMedicamento}
-                label={"No"}
-                inline
-                value="No" // Valor asociado al radio button
-                checked={formData.tomandoMedicamento === "No"} // Verificar si este radio button está seleccionado
-              />
-              <Form.Check
-                type="checkbox"
-                name="tomandoMedicamento"
-                defaultValue={formData.tomandoMedicamento}
-                label={"Sí"}
-                inline
-                value="Si"
-                checked={formData.tomandoMedicamento === "Si"}
-              />
+              <div className="d-flex flex-column align-items-center">
+                <Form.Label>¿Está tomando algún medicamento?:</Form.Label>
+                <div className="d-flex flex-column align-items-center">
+                  <div>
+                  <Form.Check
+                    type="checkbox"
+                    name="tomandoMedicamento"
+                    defaultValue={formData.tomandoMedicamento}
+                    label={"No"}
+                    inline
+                    value="No" // Valor asociado al radio button
+                    checked={formData.tomandoMedicamento === "No"} // Verificar si este radio button está seleccionado
+                  />
+                  <Form.Check
+                    type="checkbox"
+                    name="tomandoMedicamento"
+                    defaultValue={formData.tomandoMedicamento}
+                    label={"Sí"}
+                    inline
+                    value="Si"
+                    checked={formData.tomandoMedicamento === "Si"}
+                  />
+                  </div>
+                </div>
+              </div>
             </Col>
           </Row>
+
         </Form>
       </div>
     </div>
@@ -265,97 +244,123 @@ function StepThree() {
       <hr />
       <div>
         <Form onChange={onChange}>
-          <Row className="mb-2 mb-md-4 mb-lg-7">
+          
+          {/*DIABETES E HIPERTENSIÓN*/}         
+          <Row className="justify-content-center mb-2 mb-md-4 mb-lg-7">
             <Col sm={12} md={6} lg={6}>
-              <Form.Check
-                type="checkbox"
-                label={"Diabetes"}
-                name="estadoDiabetes"
-                defaultValue={formData.estadoDiabetes}
-                value="Si"
-              />
-              <Form.Control name="descripcionDiabetes" defaultValue={formData.descripcionDiabetes} as="textarea" placeholder="Añade descripción" />
+              <div className="d-flex flex-column align-items-center">
+                <Form.Check
+                  type="checkbox"
+                  label={"Diabetes"}
+                  name="estadoDiabetes"
+                  defaultValue={formData.estadoDiabetes}
+                  value="Si"
+                />
+                <Form.Control name="descripcionDiabetes" defaultValue={formData.descripcionDiabetes} as="textarea" placeholder="Añade descripción" />
+              </div>
             </Col>
             <Col sm={12} md={6} lg={6}>
+              <div className="d-flex flex-column align-items-center">
               <Form.Check
-                name="estadoHipertension"
-                defaultValue={formData.estadoHipertension}
-                value="Si"
-                type="checkbox"
-                label={"Hipertensión"}
-              />
-              <Form.Control name="descripcionHipertension" defaultValue={formData.descripcionHipertension} as="textarea" placeholder="Añade descripción" />
-            </Col>
-          </Row>
-          <Row className="mb-2 mb-md-4 mb-lg-7">
-            <Col sm={12} md={6} lg={6}>
-              <Form.Check
-                name="estadoNefropatias"
-                defaultValue={formData.estadoNefropatias}
-                value="Si"
-                type="checkbox"
-                label={"Nefropatías"}
-              />
-              <Form.Control defaultValue={formData.descripcionNefropatias} name="descripcionNefropatias" as="textarea" placeholder="Añade descripción" />
-            </Col>
-            <Col sm={12} md={6} lg={6}>
-              <Form.Check
-                name="estadoTuberculosis"
-                defaultValue={formData.estadoTuberculosis}
-                value="Si"
-                type="checkbox"
-                label={"Tuberculosis"}
-              />
-              <Form.Control defaultValue={formData.descripcionTuberculosis} name="descripcionTuberculosis" as="textarea" placeholder="Añade descripción" />
+                  name="estadoHipertension"
+                  defaultValue={formData.estadoHipertension}
+                  value="Si"
+                  type="checkbox"
+                  label={"Hipertensión"}
+                />
+                <Form.Control name="descripcionHipertension" defaultValue={formData.descripcionHipertension} as="textarea" placeholder="Añade descripción" />
+              </div>
             </Col>
           </Row>
-          <Row className="mb-2 mb-md-4 mb-lg-7">
+
+
+          {/*NEFROPATÍAS Y TUBERCULOSIS*/}
+          <Row className=" justify-content-center mb-2 mb-md-4 mb-lg-7">
             <Col sm={12} md={6} lg={6}>
-              <Form.Check
-                type="checkbox"
-                label={"Cáncer"}
-                value="Si"
-                defaultValue={formData.estadoCancer}
-                name="estadoCancer"
-              />
-              <Form.Control
-                as="textarea"
-                placeholder="Añade descripción"
-                name="descripcionCancer"
-                defaultValue={formData.descripcionCancer}
-              />
+              <div className="d-flex flex-column align-items-center">
+                <Form.Check
+                  name="estadoNefropatias"
+                  defaultValue={formData.estadoNefropatias}
+                  value="Si"
+                  type="checkbox"
+                  label={"Nefropatías"}
+                />
+                <Form.Control defaultValue={formData.descripcionNefropatias} name="descripcionNefropatias" as="textarea" placeholder="Añade descripción" />
+              </div>
+              
             </Col>
             <Col sm={12} md={6} lg={6}>
-              <Form.Check
-                value="Si"
-                defaultValue={formData.estadoCardiopatias}
-                name="estadoCardiopatias"
-                type="checkbox"
-                label={"Cardiopatías"}
-              />
-              <Form.Control defaultValue={formData.descripcionCardiopatias} name="descripcionCardiopatias" as="textarea" placeholder="Añade descripción" />
+              <div className="d-flex flex-column align-items-center">
+                <Form.Check
+                  name="estadoTuberculosis"
+                  defaultValue={formData.estadoTuberculosis}
+                  value="Si"
+                  type="checkbox"
+                  label={"Tuberculosis"}
+                />
+                <Form.Control defaultValue={formData.descripcionTuberculosis} name="descripcionTuberculosis" as="textarea" placeholder="Añade descripción" />
+              </div>
             </Col>
           </Row>
-          <Row className="mb-2 mb-md-4 mb-lg-7">
+
+          {/*CANCER Y CARDIPATÍAS*/}
+          <Row className="justify-content-center mb-2 mb-md-4 mb-lg-7">
             <Col sm={12} md={6} lg={6}>
-              <Form.Check
-                type="checkbox"
-                defaultValue={formData.estadoAlergias}
-                name="estadoAlergias"
-                value="Si"
-                label={"Alergias"}
-              />
-              <Form.Control defaultValue={formData.descripcionAlergias} name="descripcionAlergias" as="textarea" placeholder="Añade descripción" />
+            <div className="d-flex flex-column align-items-center">
+                <Form.Check
+                  type="checkbox"
+                  label={"Cáncer"}
+                  value="Si"
+                  defaultValue={formData.estadoCancer}
+                  name="estadoCancer"
+                />
+                <Form.Control
+                  as="textarea"
+                  placeholder="Añade descripción"
+                  name="descripcionCancer"
+                  defaultValue={formData.descripcionCancer}
+                />
+              </div>
             </Col>
             <Col sm={12} md={6} lg={6}>
-              <Form.Check
-                type="checkbox"
-                label={"Otros"}
-                defaultValue={formData.estadoOtros}
-                name="estadoOtros"
-                value="Si"
-              />
-              <Form.Control name="descripcionOtros" defaultValue={formData.descripcionOtros} as="textarea" placeholder="Añade descripción" />
+              <div className="d-flex flex-column align-items-center">
+                <Form.Check
+                  value="Si"
+                  defaultValue={formData.estadoCardiopatias}
+                  name="estadoCardiopatias"
+                  type="checkbox"
+                  label={"Cardiopatías"}
+                />
+                <Form.Control defaultValue={formData.descripcionCardiopatias} name="descripcionCardiopatias" as="textarea" placeholder="Añade descripción" />
+              </div>
+            </Col>
+          </Row>
+
+          {/*ALERGÍAS Y OTROS*/}
+          <Row className="mb-2 mb-md-4 mb-lg-7">
+            <Col sm={12} md={6} lg={6}>
+              <div className="d-flex flex-column align-items-center">
+                <Form.Check
+                  type="checkbox"
+                  defaultValue={formData.estadoAlergias}
+                  name="estadoAlergias"
+                  value="Si"
+                  label={"Alergias"}
+                />
+                <Form.Control defaultValue={formData.descripcionAlergias} name="descripcionAlergias" as="textarea" placeholder="Añade descripción" />
+              </div>
+            </Col>
+            <Col sm={12} md={6} lg={6}>
+              <div className="d-flex flex-column align-items-center">
+                <Form.Check
+                  type="checkbox"
+                  label={"Otros"}
+                  defaultValue={formData.estadoOtros}
+                  name="estadoOtros"
+                  value="Si"
+                />
+                <Form.Control name="descripcionOtros" defaultValue={formData.descripcionOtros} as="textarea" placeholder="Añade descripción" />
+              </div>
             </Col>
           </Row>
         </Form>
@@ -378,84 +383,105 @@ function StepFour() {
         Antecedentes Personales Patológicos (A.P.P.)
       </h2>
       <hr />
-      <div>
+      <div className="d-flex-block align-items-center">
         <Form onChange={onChange}>
+          {/*DIABETES E HIPERTENSIÓN*/}
           <Row className="mb-2 mb-md-4 mb-lg-7">
             <Col sm={12} md={6} lg={6}>
-              <Form.Check
-                type="checkbox"
-                label={"Diabetes"}
-                value="Si"
-                name="estadoDiabetesAntecedentes"
-                defaultValue={formData.estadoDiabetesAntecedentes}
-              />
-              <Form.Control defaultValue={formData.descripcionDiabetesAntecedentes} name="descripcionDiabetesAntecedentes" as="textarea" placeholder="Añade descripción" />
+            <div className="d-flex flex-column align-items-center">  
+                <Form.Check
+                  type="checkbox"
+                  label={"Diabetes"}
+                  value="Si"
+                  name="estadoDiabetesAntecedentes"
+                  defaultValue={formData.estadoDiabetesAntecedentes}
+                />
+                <Form.Control defaultValue={formData.descripcionDiabetesAntecedentes} name="descripcionDiabetesAntecedentes" as="textarea" placeholder="Añade descripción" />
+              </div>
             </Col>
             <Col sm={12} md={6} lg={6}>
-              <Form.Check
-                type="checkbox"
-                label={"Hipertensión"}
-                value="Si"
-                defaultValue={formData.descripcionHipertensionAntecedentes}
-                name="descripcionHipertensionAntecedentes"
-              />
-              <Form.Control as="textarea" placeholder="Añade descripción" />
+            <div className="d-flex flex-column align-items-center">
+                <Form.Check
+                  type="checkbox"
+                  label={"Hipertensión"}
+                  value="Si"
+                  defaultValue={formData.descripcionHipertensionAntecedentes}
+                  name="descripcionHipertensionAntecedentes"
+                />
+                <Form.Control as="textarea" placeholder="Añade descripción" />
+              </div>
             </Col>
           </Row>
+
+          {/*NEFROPATÍAS Y TUBERCULOSIS*/}
           <Row className="mb-2 mb-md-4 mb-lg-7">
             <Col sm={12} md={6} lg={6}>
-              <Form.Check
-                value="Si"
-                defaultValue={formData.estadoNefropatiasAntecedentes}
-                name="estadoNefropatiasAntecedentes"
-                type="checkbox"
-                label={"Nefropatías"}
-              />
-              <Form.Control defaultValue={formData.descripcionNefropatiasAntecedentes} name="descripcionNefropatiasAntecedentes" as="textarea" placeholder="Añade descripción" />
+              <div className="d-flex flex-column align-items-center">  
+                <Form.Check
+                  value="Si"
+                  defaultValue={formData.estadoNefropatiasAntecedentes}
+                  name="estadoNefropatiasAntecedentes"
+                  type="checkbox"
+                  label={"Nefropatías"}
+                />
+                <Form.Control defaultValue={formData.descripcionNefropatiasAntecedentes} name="descripcionNefropatiasAntecedentes" as="textarea" placeholder="Añade descripción" />
+              </div>
             </Col>
             <Col sm={12} md={6} lg={6}>
-              <Form.Check
-                value="Si"
-                defaultValue={formData.estadoTuberculosisAntecedentes}
-                name="estadoTuberculosisAntecedentes"
-                type="checkbox"
-                label={"Tuberculosis"}
-              />
-              <Form.Control name="descripcionTuberculosisAntecedentes" defaultValue={formData.descripcionTuberculosisAntecedentes} as="textarea" placeholder="Añade descripción" />
+              <div className="d-flex flex-column align-items-center">
+                <Form.Check
+                  value="Si"
+                  defaultValue={formData.estadoTuberculosisAntecedentes}
+                  name="estadoTuberculosisAntecedentes"
+                  type="checkbox"
+                  label={"Tuberculosis"}
+                />
+                <Form.Control name="descripcionTuberculosisAntecedentes" defaultValue={formData.descripcionTuberculosisAntecedentes} as="textarea" placeholder="Añade descripción" />
+              </div>
             </Col>
           </Row>
+
+          {/*CANCER Y CARDIPATÍAS*/}
           <Row className="mb-2 mb-md-4 mb-lg-7">
             <Col sm={12} md={6} lg={6}>
-              <Form.Check
-                type="checkbox"
-                label={"Cáncer"}
-                value="Si"
-                defaultValue={formData.estadoCancerAntecedentes}
-                name="estadoCancerAntecedentes"
-              />
-              <Form.Control name="descripcionCancerAntecedentes" defaultValue={formData.descripcionCancerAntecedentes} as="textarea" placeholder="Añade descripción" />
+              <div className="d-flex flex-column align-items-center">
+                <Form.Check
+                  type="checkbox"
+                  label={"Cáncer"}
+                  value="Si"
+                  defaultValue={formData.estadoCancerAntecedentes}
+                  name="estadoCancerAntecedentes"
+                />
+                <Form.Control name="descripcionCancerAntecedentes" defaultValue={formData.descripcionCancerAntecedentes} as="textarea" placeholder="Añade descripción" />
+              </div>
             </Col>
             <Col sm={12} md={6} lg={6}>
-              <Form.Check
-                value="Si"
-                defaultValue={formData.estadoCardiopatiasAntecedentes}
-                name="estadoCardiopatiasAntecedentes"
-                type="checkbox"
-                label={"Cardiopatías"}
-              />
-              <Form.Control name="descripcionCardiopatiasAntecedentes" defaultValue={formData.descripcionCardiopatiasAntecedentes} as="textarea" placeholder="Añade descripción" />
+              <div className="d-flex flex-column align-items-center">
+                <Form.Check
+                  value="Si"
+                  defaultValue={formData.estadoCardiopatiasAntecedentes}
+                  name="estadoCardiopatiasAntecedentes"
+                  type="checkbox"
+                  label={"Cardiopatías"}
+                />
+                <Form.Control name="descripcionCardiopatiasAntecedentes" defaultValue={formData.descripcionCardiopatiasAntecedentes} as="textarea" placeholder="Añade descripción" />
+              </div>
             </Col>
           </Row>
+
+
           <Row className="mb-2 mb-md-4 mb-lg-7">
             <Col sm={12} md={6} lg={6}>
-              <Form.Check
-                defaultValue={formData.estadoAlergiasAntecedentes}
-                name="estadoAlergiasAntecedentes"
-                value="Si"
-                type="checkbox"
-                label={"Alergias"}
-              />
-              <Form.Control name="descripcionAlergiasAntecedentes" defaultValue={formData.descripcionAlergiasAntecedentes} as="textarea" placeholder="Añade descripción" />
+              <div className="d-flex flex-column align-items-center">
+                <Form.Check
+                  defaultValue={formData.estadoAlergiasAntecedentes}
+                  name="estadoAlergiasAntecedentes"
+                  value="Si"
+                  type="checkbox"
+                  label={"Alergias"}
+                />
+                <Form.Control name="descripcionAlergiasAntecedentes" defaultValue={formData.descripcionAlergiasAntecedentes} as="textarea" placeholder="Añade descripción" />
+              </div>
             </Col>
           </Row>
         </Form>
@@ -480,8 +506,8 @@ function StepFive() {
       <hr />
       <div>
         <Form onChange={onChange}>
-          <Row className="mb-2 mb-md-4 mb-lg-7">
-            <Col sm={12} md={6} lg={6}>
+          <Row className="mb-2 mb-md-4 mb-lg-7 justify-content-center">
+            <Col sm={12} md={4} lg={4} className="d-flex justify-content-center">
               <Form.Check
                 defaultValue={formData.alimentacionAntipatologias}
                 name="alimentacionAntipatologias"
@@ -490,7 +516,7 @@ function StepFive() {
                 label={"Alimentación"}
               />
             </Col>
-            <Col sm={12} md={6} lg={6}>
+            <Col sm={12} md={4} lg={4} className="d-flex justify-content-center">
               <Form.Check
                 type="checkbox"
                 defaultValue={formData.hiegieneAntipatologias}
@@ -499,9 +525,7 @@ function StepFive() {
                 label={"Higiene"}
               />
             </Col>
-          </Row>
-          <Row className="mb-2 mb-md-4 mb-lg-7">
-            <Col sm={12} md={6} lg={6}>
+            <Col sm={12} md={4} lg={4} className="d-flex justify-content-center">
               <Form.Check
                 type="checkbox"
                 defaultValue={formData.convivenciaConAnimalesAntipatologias}
@@ -510,7 +534,9 @@ function StepFive() {
                 label={"Convivencia con Animales"}
               />
             </Col>
-            <Col sm={12} md={6} lg={6}>
+          </Row>
+          <Row className="mb-2 mb-md-4 mb-lg-7 justify-content-center">
+            <Col sm={12} md={4} lg={4} className="d-flex justify-content-center" >
               <Form.Check
                 type="checkbox"
                 defaultValue={formData.tatuajesnAntipatologias}
@@ -519,9 +545,7 @@ function StepFive() {
                 label={"Tatuajes"}
               />
             </Col>
-          </Row>
-          <Row className="mb-2 mb-md-4 mb-lg-7">
-            <Col sm={12} md={6} lg={6}>
+            <Col sm={12} md={4} lg={4} className="d-flex justify-content-center" >
               <Form.Check
                 type="checkbox"
                 label={"Deportes"}
@@ -530,7 +554,7 @@ function StepFive() {
                 value="Si"
               />
             </Col>
-            <Col sm={12} md={6} lg={6}>
+            <Col sm={12} md={4} lg={4} className="d-flex justify-content-center" >
               <Form.Check
                 type="checkbox"
                 label={"Vacunas"}
@@ -560,8 +584,8 @@ function StepSix() {
       <hr />
       <div>
         <Form onChange={onChange}>
-          <Row className="mb-2 mb-md-4 mb-lg-7">
-            <Col sm={12} md={6} lg={6}>
+          <Row className="mb-2 mb-md-4 mb-lg-7 justify-content-center">
+            <Col sm={6} md={3} lg={3} className="d-flex justify-content-center">
               <Form.Check
                 type="checkbox"
                 name="tallaSignosVitales"
@@ -570,7 +594,7 @@ function StepSix() {
                 label={"TA"}
               />
             </Col>
-            <Col sm={12} md={6} lg={6}>
+            <Col sm={6} md={3} lg={3}>
               <Form.Check
                 type="checkbox"
                 name="temperaturaSignosVitales"
@@ -579,19 +603,16 @@ function StepSix() {
                 label={"Temperatura"}
               />
             </Col>
-          </Row>
-          <Row className="mb-2 mb-md-4 mb-lg-7">
-            <Col sm={12} md={6} lg={6}>
+            <Col sm={6} md={3} lg={3}>
               <Form.Check
                 type="checkbox"
                 name="glucosaCapilarSignosVitales"
                 defaultValue={formData.glucosaCapilarSignosVitales}
                 value="Si"
                 label={"FR"}
-
               />
             </Col>
-            <Col sm={12} md={6} lg={6}>
+            <Col sm={6} md={3} lg={3}>
               <Form.Check
                 type="checkbox"
                 name="pesoSignosVitales"
@@ -623,14 +644,16 @@ function StepSeven() {
       <div>
         <Form onChange={onChange}>
           <Row className="mb-2 mb-md-4 mb-lg-7">
-            <Col sm={12} md={6} lg={6}>
-              <Form.Check
-                type="checkbox"
-                defaultValue={formData.estadoEstudiosGabinete}
-                name="estadoEstudiosGabinete"
-                value="Si"
-                label={"Estudios de gabinete"}
-              />
+            <Col sm={12} md={6} lg={6} className="d-flex flex-column align-items-center">
+              <div className="mb-2">
+                <Form.Check
+                  type="checkbox"
+                  defaultValue={formData.estadoEstudiosGabinete}
+                  name="estadoEstudiosGabinete"
+                  value="Si"
+                  label={"Estudios de gabinete"}
+                />
+              </div>
               <Form.Control
                 as="textarea"
                 defaultValue={formData.descripcionEstudiosGabinete}
@@ -639,14 +662,16 @@ function StepSeven() {
               />
               <Form.Control name="imagenEstudiosGabinete" defaultValue={formData.imagenEstudiosGabinete} type="file" className="mt-2" />
             </Col>
-            <Col sm={12} md={6} lg={6}>
-              <Form.Check
-                type="checkbox"
-                defaultValue={formData.estadoEstudiosLaboratorio}
-                name="estadoEstudiosLaboratorio"
-                value="Si"
-                label={"Estudios de Laboratorio"}
-              />
+            <Col sm={12} md={6} lg={6} className="d-flex flex-column align-items-center">
+              <div className="mb-2">
+                <Form.Check
+                  type="checkbox"
+                  defaultValue={formData.estadoEstudiosLaboratorio}
+                  name="estadoEstudiosLaboratorio"
+                  value="Si"
+                  label={"Estudios de Laboratorio"}
+                />
+              </div>
               <Form.Control
                 as="textarea"
                 defaultValue={formData.descripcionEstudiosLaboratorio}
@@ -679,57 +704,81 @@ function StepEight() {
       <hr />
       <div>
         <Form onChange={onChange}>
-          <Row className="mb-2 mb-md-4 mb-lg-7">
-            <Col sm={12} md={4} lg={4}>
-              <Form.Label>Tejidos blandos:</Form.Label>
-            </Col>
-            <Col sm={12} md={8} lg={8}>
-              <Form.Control
+
+          {/*TEJIDOS BLANDOS*/}
+         <Row className="justify-content-center mb-2 mb-md-4 mb-lg-7">
+            <Col
+              sm={12}
+              md={4}
+              lg={4}
+            >
+              <div className="d-flex flex-column align-items-center">
+                <Form.Label>Tejidos blandos:</Form.Label>
+                <Form.Control
                 defaultValue={formData.tejidosBlandosCavidadBucal}
                 name="tejidosBlandosCavidadBucal"
                 as="textarea"
                 placeholder="Describe los resultados de la exploración de los tejidos blandos"
-              />
+                />
+              </div>
             </Col>
           </Row>
-          <Row className="mb-2 mb-md-4 mb-lg-7">
-            <Col sm={12} md={4} lg={4}>
-              <Form.Label>Tejido óseo:</Form.Label>
-            </Col>
-            <Col sm={12} md={8} lg={8}>
-              <Form.Control
+
+          {/*TEJIDO OSEO*/}
+          <Row className="justify-content-center mb-2 mb-md-4 mb-lg-7">
+            <Col
+              sm={12}
+              md={4}
+              lg={4}
+            >
+              <div className="d-flex flex-column align-items-center">
+                <Form.Label>Tejido óseo:</Form.Label>
+                <Form.Control
                 defaultValue={formData.tejidoOseoCavidadBucal}
                 name="tejidoOseoCavidadBucal"
                 as="textarea"
                 placeholder="Describe los resultados de la exploración del tejido óseo"
-              />
+                />
+              </div>
             </Col>
           </Row>
-          <Row className="mb-2 mb-md-4 mb-lg-7">
-            <Col sm={12} md={4} lg={4}>
-              <Form.Label>Articulación temporomandibular (ATM):</Form.Label>
-            </Col>
-            <Col sm={12} md={8} lg={8}>
-              <Form.Control
-                defaultValue={formData.ATMCavidadBucal}
-                as="textarea"
-                placeholder="Describe los resultados de la exploración de la articulación temporomandibular (ATM)"
-              />
+
+          {/*ARTICULACIÓN TEMPOROMANDIBULAR ATM*/}
+          <Row className="justify-content-center mb-2 mb-md-4 mb-lg-7">
+            <Col
+              sm={12}
+              md={4}
+              lg={4}
+            >
+              <div className="d-flex flex-column align-items-center">
+                <Form.Label>Articulación temporomandibular (ATM):</Form.Label>
+                <Form.Control
+                  defaultValue={formData.ATMCavidadBucal}
+                  as="textarea"
+                  placeholder="Describe los resultados de la exploración de la articulación temporomandibular (ATM)"
+                />
+              </div>
             </Col>
           </Row>
+          
+          {/*DOLOR Y CREPITACIÓN*/}
           <Row className="mb-2 mb-md-4 mb-lg-7">
-            <Col sm={12} md={6} lg={6}>
-              <Form.Check value="Si" defaultValue={formData.estadoDolor} name="estadoDolor" type="checkbox" label={"Dolor"} />
+            <Col sm={12} md={6} lg={6} className="d-flex flex-column align-items-center">
+            <div className="mb-2">
+                <Form.Check value="Si" defaultValue={formData.estadoDolor} name="estadoDolor" type="checkbox" label={"Dolor"} />
+            </div>
               <Form.Control defaultValue={formData.descripcionDolor} name="descripcionDolor" as="textarea" placeholder="Descripción del dolor" />
             </Col>
-            <Col sm={12} md={6} lg={6}>
-              <Form.Check
-                value="Si"
-                formData={formData.estadoCrepitacion}
-                name="estadoCrepitacion"
-                type="checkbox"
-                label={"Crepitación"}
-              />
+            <Col sm={12} md={6} lg={6} className="d-flex flex-column align-items-center">
+              <div className="mb-2">
+                <Form.Check
+                  value="Si"
+                  formData={formData.estadoCrepitacion}
+                  name="estadoCrepitacion"
+                  type="checkbox"
+                  label={"Crepitación"}
+                />
+              </div>
               <Form.Control
                 defaultValue={formData.descripcionCrepitacion}
                 name="descripcionCrepitacion"
@@ -739,7 +788,7 @@ function StepEight() {
             </Col>
           </Row>
           <Row className="mb-2 mb-md-4 mb-lg-7">
-            <Col sm={12} md={6} lg={6}>
+            <Col sm={12} md={6} lg={6} className="d-flex flex-column align-items-center">
               <Form.Check
                 value="Si"
                 defaultValue={formData.estadosubluxacion}
@@ -754,7 +803,7 @@ function StepEight() {
                 placeholder="Descripción de la subluxación"
               />
             </Col>
-            <Col sm={12} md={6} lg={6}>
+            <Col sm={12} md={6} lg={6} className="d-flex flex-column align-items-center">
               <Form.Check
                 value="Si"
                 defaultValue={formData.estadoAnquilosis}
@@ -771,8 +820,10 @@ function StepEight() {
             </Col>
           </Row>
           <Row className="mb-2 mb-md-4 mb-lg-7">
-            <Col sm={12} md={6} lg={6}>
-              <Form.Check defaultValue={formData.estadoBruxismo} name="estadoBruxismo" value="Si" type="checkbox" label={"Bruxismo"} />
+            <Col sm={12} md={6} lg={6} className="d-flex flex-column align-items-center">
+              <div className="mb-2">
+                <Form.Check defaultValue={formData.estadoBruxismo} name="estadoBruxismo" value="Si" type="checkbox" label={"Bruxismo"} />
+              </div>
               <Form.Control
                 defaultValue={formData.descripcionBruxismo}
                 name="descripcionBruxismo"
@@ -780,14 +831,16 @@ function StepEight() {
                 placeholder="Descripción del bruxismo"
               />
             </Col>
-            <Col sm={12} md={6} lg={6}>
-              <Form.Check
-                value="Si"
-                defaultValue={formData.estadoEspasmoMuscular}
-                name="estadoEspasmoMuscular"
-                type="checkbox"
-                label={"Espasmo muscular"}
-              />
+            <Col sm={12} md={6} lg={6} className="d-flex flex-column align-items-center">
+              <div className="mb-2"> 
+                <Form.Check
+                  value="Si"
+                  defaultValue={formData.estadoEspasmoMuscular}
+                  name="estadoEspasmoMuscular"
+                  type="checkbox"
+                  label={"Espasmo muscular"}
+                />
+              </div>
               <Form.Control
                 defaultValue={formData.descripcionEspasmoMuscular}
                 name="descripcionEspasmoMuscular"
@@ -797,8 +850,10 @@ function StepEight() {
             </Col>
           </Row>
           <Row className="mb-2 mb-md-4 mb-lg-7">
-            <Col sm={12} md={6} lg={6}>
-              <Form.Check value="Si" defaultValue={formData.estadoLuxacion} name="estadoLuxacion" type="checkbox" label={"Luxación"} />
+            <Col sm={12} md={6} lg={6} className="d-flex flex-column align-items-center">
+              <div className="mb-2">
+                <Form.Check value="Si" defaultValue={formData.estadoLuxacion} name="estadoLuxacion" type="checkbox" label={"Luxación"} />
+              </div>
               <Form.Control
                 defaultValue={formData.descripcionLuxacion}
                 name="descripcionLuxacion"
@@ -807,30 +862,49 @@ function StepEight() {
               />
             </Col>
           </Row>
-          <Row className="mb-2 mb-md-4 mb-lg-7">
-            <Col sm={12} md={4} lg={4}>
-              <Form.Label>Diagnóstico:</Form.Label>
-            </Col>
-            <Col sm={12} md={8} lg={8}>
-              <Form.Control defaultValue={formData.diagnostico} name="diagnostico" as="textarea" placeholder="Diagnóstico" />
-            </Col>
-          </Row>
-          <Row className="mb-2 mb-md-4 mb-lg-7">
-            <Col sm={12} md={4} lg={4}>
-              <Form.Label>Pronóstico:</Form.Label>
-            </Col>
-            <Col sm={12} md={8} lg={8}>
-              <Form.Control defaultValue={formData.pronostico} name="pronostico" as="textarea" placeholder="Pronóstico" />
+
+          {/*DIAGNOSTICO*/}
+          <Row className="justify-content-center mb-2 mb-md-4 mb-lg-7">
+            <Col
+              sm={12}
+              md={4}
+              lg={4}
+            >
+              <div className="d-flex flex-column align-items-center">
+                <Form.Label>Diagnostico:</Form.Label>
+                <Form.Control defaultValue={formData.diagnostico} name="diagnostico" as="textarea" placeholder="Diagnóstico" />
+              </div>
             </Col>
           </Row>
-          <Row className="mb-2 mb-md-4 mb-lg-7">
-            <Col sm={12} md={4} lg={4}>
-              <Form.Label>Plan de tratamiento:</Form.Label>
-            </Col>
-            <Col sm={12} md={8} lg={8}>
-              <Form.Control defaultValue={formData.planTratamiento} name="planTratamiento" as="textarea" placeholder="Plan de tratamiento" />
+
+          {/*PRONOSTICO*/}
+          <Row className="justify-content-center mb-2 mb-md-4 mb-lg-7">
+            <Col
+              sm={12}
+              md={4}
+              lg={4}
+            >
+              <div className="d-flex flex-column align-items-center">
+                <Form.Label>Pronostico:</Form.Label>
+                <Form.Control defaultValue={formData.pronostico} name="pronostico" as="textarea" placeholder="Pronóstico" />
+              </div>
             </Col>
           </Row>
+
+          {/*PLAN DE TRATAMIENTO*/}
+          <Row className="justify-content-center mb-2 mb-md-4 mb-lg-7">
+            <Col
+              sm={12}
+              md={4}
+              lg={4}
+            >
+              <div className="d-flex flex-column align-items-center">
+                <Form.Label>Plan de tratamiento:</Form.Label>
+                <Form.Control defaultValue={formData.planTratamiento} name="planTratamiento" as="textarea" placeholder="Plan de tratamiento" />
+              </div>
+            </Col>
+          </Row>
+          
         </Form>
       </div>
     </div>
