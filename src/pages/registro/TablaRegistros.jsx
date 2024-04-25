@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Container, Badge } from 'react-bootstrap';
+import { useNavigate } from "react-router-dom";
+import { Container, Badge, Button } from 'react-bootstrap';
 import Autenticate from "../../layout/Autenticate";
 import { listarHistoriaClinica } from "../../api/historiaClinica";
 import DataTable from 'react-data-table-component';
@@ -24,6 +25,13 @@ const TablaRegistros = ({ history, location }) => {
   const [titulosModal, setTitulosModal] = useState(null);
 
   const [listarOrdenes, setListOrdenes] = useState([]);
+
+  // Para la modicicación de los registros
+  const enrutamiento = useNavigate();
+
+  const vistaPreviaRegistro = (id) => {
+    enrutamiento('/editarRegistro/%{id}')
+  }
 
   const obtenerOrdenesServicio = () => {
     try {
@@ -53,7 +61,10 @@ const TablaRegistros = ({ history, location }) => {
     setShowModal(true);
   }
 
- 
+   //Editar registro
+   function edicionRegistro(expediente) {
+    
+   }
 
   const columns = [
     {
@@ -117,7 +128,7 @@ const TablaRegistros = ({ history, location }) => {
       reorder: false
     },
     {
-      name: <span className='h4 text-center' >Correo electronico</span>,
+      name: <span className='h4 text-center' >Correo electrónico</span>,
       selector: row => row.email,
       sortable: false,
       style: {
@@ -127,7 +138,7 @@ const TablaRegistros = ({ history, location }) => {
       reorder: false
     },
     {
-      name: <span className='h4 text-center' >Telefono</span>,
+      name: <span className='h4 text-center' >Teléfono</span>,
       selector: row => row.telefono,
       sortable: false,
       style: {
@@ -152,25 +163,18 @@ const TablaRegistros = ({ history, location }) => {
       reorder: true,
       selector: row => (
         <>  
-          <Badge
-            bg="success"
-            className="eliminarProveedor"
-            title="Registro"
-            style={{cursor: 'pointer'}}
-            onClick={() => {
-              eliminacionHistorial(
-                <Eliminar
-                  data={row}
-                  setShowModal={setShowModal}
-                  history={history}
-                />
-              )
-            }}
-          >
-            
-            <FontAwesomeIcon icon={faPen} className="text-lg" />
-          </Badge>
 
+        <Badge
+          bg='success'
+          title='Editar Registro'
+          className='eliminarProveedor'
+          onClick={() => {
+            vistaPreviaRegistro(row.id)
+          }}
+        >
+          <FontAwesomeIcon icon={faPen} className="text-lg bs-success" />
+        </Badge>
+          
           <span className='mx-1'></span>
 
           <Badge
@@ -226,6 +230,8 @@ const TablaRegistros = ({ history, location }) => {
   );
 };
 
+
+
 function formatModelOrdenes(data) {
   const dataTemp = [];
   data.forEach((data) => {
@@ -244,5 +250,6 @@ function formatModelOrdenes(data) {
   });
   return dataTemp;
 }
+
 
 export default withRouter(TablaRegistros);

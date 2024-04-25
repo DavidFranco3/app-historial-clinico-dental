@@ -14,7 +14,7 @@ const Menu = () => {
             className="brand-image img-circle elevation-3"
             style={{ opacity: ".8" }}
           />
-          <span className="brand-text font-weight-light">Rehabilitación bucal</span>
+          <span className="brand-text font-weight-light">Rehabilitación Bucal</span>
         </a>
         {/* Sidebar */}
         <div className="sidebar">

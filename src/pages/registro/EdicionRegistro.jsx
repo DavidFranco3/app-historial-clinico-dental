@@ -1,4 +1,5 @@
 import { useEffect, useState, useContext, createContext } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import Autenticate from "../../layout/Autenticate";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -95,7 +96,7 @@ function StepOne() {
             </Col>
             <Col sm={12} md={4} lg={4}>
               <div className="d-flex flex-column align-items-center">
-                <Form.Label>Correo electrónico:</Form.Label>
+                <Form.Label>Correo electronico:</Form.Label>
                 <Form.Control name="emailPaciente" defaultValue={formData.emailPaciente} type="email" />
               </div>
             </Col>
@@ -1077,10 +1078,31 @@ function StepNine() {
   );
 }
 
+
+
 const Registro = () => {
+
+  const params = useParams();
+  const {id} = params;
+  const navigate = useNavigate();
+
+  console.log(id);
+
+
   // Para almacenar los datos del formulario
   const [formData, setFormData] = useState(initialFormData());
   console.log(formData)
+
+  // Función para cargar los datos del paciente para editarlos
+  /*const cargarDatosPaciente = async () => {
+    try {
+      const response = await obtener
+    } catch (error) {
+      
+    }
+  }
+  */
+
   // Estado para realizar un seguimiento del índice del paso actual
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const totalSteps = steps.length;
