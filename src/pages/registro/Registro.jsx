@@ -2248,36 +2248,48 @@ const Registro = () => {
             </div>
             <div >
               <SharedStateContext.Provider value={{ formData, setFormData }}>
-                <MultiStep
-                  steps={steps}
-                  prevButton={{
-                    title: "Atrás",
-                    onClick: goToPreviousStep,
-                    style: {
-                      background: "#fff3cd",
-                      borderColor: "#ffeeba",
-                      color: "#856404",
-                      borderRadius: "5px",
-                      padding: "10px 20px",
-                    },
-                  }}
-                  nextButton={{
-                    title: isLastStep ? "Finalizar" : "Siguiente",
-                    onClick: goToNextStep,
-                    style: {
-                      background: "#d1ecf1",
-                      borderColor: "#bee5eb",
-                      color: "#007bff",
-                      marginLeft: "50%",
-                      borderRadius: "5px",
-                      padding: "10px 20px",
-                    },
-                  }}
-                />
-                <Button variant="success" onClick={onSubmit}>
-                  <FontAwesomeIcon icon={faCloudArrowUp} />
-                  &nbsp; Enviar
-                </Button>
+                <div className="container justify-content-center">
+                  <div className="d-flex justify-content-center">
+                    <MultiStep
+                      steps={steps}
+                      prevButton={{
+                        title: "Atrás",
+                        onClick: goToPreviousStep,
+                        style: {
+                          background: "#fff3cd",
+                          borderColor: "#ffeeba",
+                          color: "#856404",
+                          borderRadius: "5px",
+                          padding: "10px 20px",
+                          display: "float",
+                          float: "left", 
+                        },
+                      }}
+                      nextButton={{
+                        title: isLastStep ? "Finalizar" : "Siguiente",
+                        onClick: goToNextStep,
+                        style: {
+                          background: "#d1ecf1",
+                          borderColor: "#bee5eb",
+                          color: "#007bff",
+                          borderRadius: "5px",
+                          padding: "10px 20px",
+                          display: "float",
+                          float: "right", 
+                        },
+                      }}
+                    />
+                    
+                  </div>
+                  
+                  <div className="button-container" style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+                      <Button variant="success" onClick={onSubmit}>
+                        <FontAwesomeIcon icon={faCloudArrowUp} />
+                        &nbsp; Enviar
+                      </Button>
+                    </div>
+
+                </div>
               </SharedStateContext.Provider>
             </div>
           </div>

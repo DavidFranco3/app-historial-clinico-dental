@@ -53,79 +53,110 @@ const TablaRegistros = ({ history, location }) => {
     setShowModal(true);
   }
 
+ 
+
   const columns = [
     {
-      name: "Nombre",
+      name: <span className='h4 text-center' >Nombre</span>,
       selector: row => row.nombre,
       sortable: false,
+      style: {
+        fontSize: '15px'
+      },
       center: true,
       reorder: false
     },
     {
-      name: "Edad",
+      name: <span className='h4 text-center' >Edad</span>,
       selector: row => row.edad,
       sortable: false,
+      style: {
+        fontSize: '15px'
+      },
       center: true,
       reorder: false
     },
     {
-      name: "Sexo",
+      name: <span className='h4 text-center' >Sexo</span>,
       selector: row => row.sexo,
       sortable: false,
+      style: {
+        fontSize: '15px'
+      },
       center: true,
       reorder: false
     },
     {
-      name: "Escolaridad",
+      name: <span className='h4 text-center' >Escolaridad </span>,
       selector: row => row.escolaridad,
       sortable: false,
+      style: {
+        fontSize: '15px'
+      },
       center: true,
       reorder: false
     },
     {
-      name: "Fecha de nacimiento",
+      name: <span className='h4 text-center' >Fecha de nacimiento</span>,
       selector: row => row.fechaNacimiento,
       sortable: false,
+      style: {
+        fontSize: '15px'
+      },
       center: true,
       reorder: false
     },
     {
-      name: "Expediente",
+      name: <span className='h4 text-center' >Expediente</span>,
       selector: row => row.expediente,
       sortable: false,
+      style: {
+        fontSize: '15px'
+      },
       center: true,
       reorder: false
     },
     {
-      name: "Correo electronico",
+      name: <span className='h4 text-center' >Correo electronico</span>,
       selector: row => row.email,
       sortable: false,
+      style: {
+        fontSize: '15px'
+      },
       center: true,
       reorder: false
     },
     {
-      name: "Telefono",
+      name: <span className='h4 text-center' >Telefono</span>,
       selector: row => row.telefono,
       sortable: false,
+      style: {
+        fontSize: '15px'
+      },
       center: true,
       reorder: false
     },
     {
-      name: 'Estado',
+      name: <span className='h4 text-center' >Estado</span>,
+      style: {
+        fontSize: '15px',
+
+      },
       center: true,
       reorder: false,
       selector: row => row.estado
     },
     {
-      name: "Acciones",
+      name: <span className='h4 text-center' >Acciones</span>,
       center: true,
       reorder: true,
       selector: row => (
-        <>
+        <>  
           <Badge
-            bg="danger"
+            bg="success"
             className="eliminarProveedor"
-            title="Eliminar"
+            title="Registro"
+            style={{cursor: 'pointer'}}
             onClick={() => {
               eliminacionHistorial(
                 <Eliminar
@@ -136,8 +167,31 @@ const TablaRegistros = ({ history, location }) => {
               )
             }}
           >
+            
+            <FontAwesomeIcon icon={faPen} className="text-lg" />
+          </Badge>
+
+          <span className='mx-1'></span>
+
+          <Badge
+            bg="danger"
+            className="eliminarProveedor"
+            title="Eliminar"
+            style={{cursor: 'pointer'}}
+            onClick={() => {
+              eliminacionHistorial(
+                <Eliminar
+                  data={row}
+                  setShowModal={setShowModal}
+                  history={history}
+                />
+              )
+            }}
+          >
+            
             <FontAwesomeIcon icon={faTrashCan} className="text-lg" />
           </Badge>
+          
         </>
       )
     }
