@@ -30,7 +30,7 @@ const TablaRegistros = ({ history, location }) => {
   const enrutamiento = useNavigate();
 
   const vistaPreviaRegistro = (id) => {
-    enrutamiento('/editarRegistro/%{id}')
+    enrutamiento(`/editarRegistro/${id}`)
   }
 
   const obtenerOrdenesServicio = () => {
