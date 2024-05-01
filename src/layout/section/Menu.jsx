@@ -9,7 +9,7 @@ const Menu = () => {
         {/* Brand Logo */}
         <a href="" className="brand-link">
           <img
-            src="dist/img/color.png"
+            src="/dist/img/color.png"
             alt="AdminLTE Logo"
             className="brand-image img-circle elevation-3"
             style={{ opacity: ".8" }}
@@ -22,7 +22,7 @@ const Menu = () => {
           <div className="user-panel mt-3 pb-3 mb-3 d-flex">
             <div className="image">
               <img
-                src="dist/img/icon.png"
+                src="/dist/img/icon.png"
                 className="img-circle elevation-2"
                 alt="User Image"
               />

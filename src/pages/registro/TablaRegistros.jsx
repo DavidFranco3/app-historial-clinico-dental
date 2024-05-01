@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { Container, Badge, Button } from 'react-bootstrap';
+import { pdfMake } from 'pdfmake/build/vfs_fonts';
 import Autenticate from "../../layout/Autenticate";
 import { listarHistoriaClinica } from "../../api/historiaClinica";
 import DataTable from 'react-data-table-component';
