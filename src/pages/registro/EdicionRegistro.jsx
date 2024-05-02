@@ -1776,7 +1776,7 @@ const EditarHistoriaClinica = () => {
           pronostico: formData?.cavidadBucal?.pronostico,
           planTratamiento: formData?.cavidadBucal?.planTratamiento,
         },
-        procedimientos: "",
+        procedimientos: formData?.procedimientos,
         estado: "true",
       };
 
