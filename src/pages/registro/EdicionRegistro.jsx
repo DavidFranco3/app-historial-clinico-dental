@@ -68,7 +68,7 @@ function StepOne() {
             <Col sm={12} md={4} lg={4}>
               <div className="d-flex flex-column align-items-center">
                 <Form.Label>Nombre del paciente:</Form.Label>
-                <Form.Control name="datosPaciente.nombre" defaultValue={formData?.datosPaciente?.nombre || ''} onChange={onChange} type="text" />
+                <Form.Control name="datosPaciente.nombre" defaultValue={formData?.datosPaciente?.nombre } onChange={onChange} type="text" />
               </div>
             </Col>
             <Col sm={12} md={4} lg={4}>
@@ -179,10 +179,21 @@ function StepTwo() {
   // Para almacenar los datos del formulario
   const { formData, setFormData } = useContext(SharedStateContext);
   console.log(formData)
-  const onChange = e => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
-    const { name, checked } = e.target;
-  }
+  
+  const onChange = (e) => {
+    const { name, value, checked, type } = e.target;
+    const keys = name.split('.');
+    const level1 = keys[0];
+    const level2 = keys[1];
+
+    setFormData((prev) => ({
+      ...prev,
+      [level1]: {
+        ...prev[level1],
+        [level2]: type === 'checkbox' ? checked : value
+      }
+    }));
+  };
 
   const onChangeMedicamento = (e) => {
     // actualizamos el estado según si el checkbox está marcado o no
@@ -269,25 +280,25 @@ function StepTwo() {
                 <Form.Label>¿Está tomando algún medicamento?:</Form.Label>
                 <div className="d-flex flex-column align-items-center">
                   <div>
-                    <Form.Check
-                      type="checkbox"
-                      name="interrogatorio.tomandoMedicamento"
-                      label="No"
-                      inline
-                      value="No"
-                      checked={formData?.interrogatorio?.tomandoMedicamento === "No"}
-                      onChange={onChangeMedicamento}
-                    />
-                    <Form.Check
-                      type="checkbox"
-                      name="interrogatorio.tomandoMedicamento"
-                      label="Sí"
-                      inline
-                      value="Si"
-                      checked={formData?.interrogatorio?.tomandoMedicamento === "Si"}
-                      onChange={onChangeMedicamento}
-                    />
-                  </div>
+                      <Form.Check
+                        type="radio"
+                        name="interrogatorio.tomandoMedicamento"
+                        label="No"
+                        value="No"
+                        checked={formData?.interrogatorio?.tomandoMedicamento === "No"}
+                        onChange={onChange}
+                        inline
+                      />
+                      <Form.Check
+                        type="radio"
+                        name="interrogatorio.tomandoMedicamento"
+                        label="Si"
+                        value="Si"
+                        checked={formData?.interrogatorio?.tomandoMedicamento === "Si"}
+                        onChange={onChange}
+                        inline
+                      />
+                    </div>
                 </div>
               </div>
             </Col>
@@ -306,20 +317,25 @@ function StepThree() {
   // Función para manejar cambios en los inputs del formulario
   const onChange = (e) => {
     const { name, value, checked, type } = e.target;
-    const [category, key] = name.split('.');
-
-    // Actualiza formData basándose en si el input es un checkbox o no
-    setFormData(prevFormData => ({
-      ...prevFormData,
-      antecedentesHeredofamiliares: {
-        ...prevFormData.antecedentesHeredofamiliares,
-        [category]: {
-          ...prevFormData.antecedentesHeredofamiliares[category],
-          // Si es checkbox, actualiza 'estado', si no, actualiza 'descripcion'
-          [key]: type === 'checkbox' ? (checked ? "Si" : "No") : value
-        }
+    const [mainCategory, subCategory, property] = name.split('.');
+  
+    setFormData(prev => {
+      // Copia del estado anterior
+      const newFormData = { ...prev };
+  
+      // Aseguramos que mainCategory y subCategory existen en el estado
+      if (!newFormData[mainCategory]) {
+        newFormData[mainCategory] = {};
       }
-    }));
+      if (!newFormData[mainCategory][subCategory]) {
+        newFormData[mainCategory][subCategory] = {};
+      }
+  
+      // Asignamos el valor dependiendo si es checkbox o no
+      newFormData[mainCategory][subCategory][property] = type === 'checkbox' ? (checked ? "Si" : "No") : value;
+  
+      return newFormData;
+    });
   };
 
   return (
@@ -327,24 +343,24 @@ function StepThree() {
       <h2 className="titulosMultiStep">Antecedentes Heredofamiliares</h2>
       <hr />
       <div>
-        <Form onChange={onChange}>
+        <Form>
 
           {/*DIABETES E HIPERTENSIÓN*/}
           <Row className="justify-content-center mb-2 mb-md-4 mb-lg-7">
             <Col sm={12} md={6} lg={6}>
               <div className="d-flex flex-column align-items-center">
-                <Form.Check
-                  type="checkbox"
-                  label="Diabetes"
-                  name="antecedentesHeredofamiliares.diabetes.estado"
-                  checked={formData?.antecedentesHeredofamiliares?.diabetes?.estado === "Si"}
-                  onChange={onChange}
-                />
+              <Form.Check
+                type="checkbox"
+                label="Diabetes"
+                name="antecedentesHeredofamiliares.diabetes.estado"
+                checked={formData?.antecedentesHeredofamiliares?.diabetes?.estado === "Si"}
+                onChange={onChange}
+              />
                 <Form.Control
                   as="textarea"
                   placeholder="Añade descripción"
                   name="antecedentesHeredofamiliares.diabetes.descripcion"
-                  value={formData?.antecedentesHeredofamiliares?.diabetes?.descripcion}
+                  value={formData?.antecedentesHeredofamiliares?.diabetes?.descripcion || ''}
                   onChange={onChange}
                 />
               </div>
@@ -363,7 +379,7 @@ function StepThree() {
                   as="textarea"
                   placeholder="Añade descripción"
                   name="antecedentesHeredofamiliares.hipertension.descripcion"
-                  value={formData?.antecedentesHeredofamiliares?.hipertension?.descripcion}
+                  value={formData?.antecedentesHeredofamiliares?.hipertension?.descripcion || ''}
                   onChange={onChange}
                 />
               </div>
@@ -386,7 +402,7 @@ function StepThree() {
                   as="textarea"
                   placeholder="Añade descripción"
                   name="antecedentesHeredofamiliares.nefropatias.descripcion"
-                  value={formData?.antecedentesHeredofamiliares?.nefropatias?.descripcion}
+                  value={formData?.antecedentesHeredofamiliares?.nefropatias?.descripcion || ''}
                   onChange={onChange}
                 />
 
@@ -406,7 +422,7 @@ function StepThree() {
                   as="textarea"
                   placeholder="Añade descripción"
                   name="antecedentesHeredofamiliares.tuberculosis.descripcion"
-                  value={formData?.antecedentesHeredofamiliares?.tuberculosis?.descripcion}
+                  value={formData?.antecedentesHeredofamiliares?.tuberculosis?.descripcion || ''}
                   onChange={onChange}
                 />
               </div>
@@ -428,7 +444,7 @@ function StepThree() {
                   as="textarea"
                   placeholder="Añade descripción"
                   name="antecedentesHeredofamiliares.cancer.descripcion"
-                  value={formData?.antecedentesHeredofamiliares?.cancer?.descripcion}
+                  value={formData?.antecedentesHeredofamiliares?.cancer?.descripcion || ''}
                   onChange={onChange}
                 />
               </div>
@@ -446,7 +462,7 @@ function StepThree() {
                   as="textarea"
                   placeholder="Añade descripción"
                   name="antecedentesHeredofamiliares.cardiopatias.descripcion"
-                  value={formData?.antecedentesHeredofamiliares?.cardiopatias?.descripcion}
+                  value={formData?.antecedentesHeredofamiliares?.cardiopatias?.descripcion || ''}
                   onChange={onChange}
                 />
               </div>
@@ -468,7 +484,7 @@ function StepThree() {
                   as="textarea"
                   placeholder="Añade descripción"
                   name="antecedentesHeredofamiliares.alergias.descripcion"
-                  value={formData?.antecedentesHeredofamiliares?.alergias?.descripcion}
+                  value={formData?.antecedentesHeredofamiliares?.alergias?.descripcion || ''}
                   onChange={onChange}
                 />
               </div>
@@ -486,7 +502,7 @@ function StepThree() {
                   as="textarea"
                   placeholder="Añade descripción"
                   name="antecedentesHeredofamiliares.otros.descripcion"
-                  value={formData?.antecedentesHeredofamiliares?.otros?.descripcion}
+                  defaultValue={formData?.antecedentesHeredofamiliares?.otros?.descripcion || ''}
                   onChange={onChange}
                 />
               </div>
@@ -505,20 +521,25 @@ function StepFour() {
 
   const onChange = (e) => {
     const { name, value, checked, type } = e.target;
-    const [category, key] = name.split('.');
-
-    // Actualiza formData basándose en si el input es un checkbox o no
-    setFormData(prevFormData => ({
-      ...prevFormData,
-      antecedentesPersonalesPatologicos: {
-        ...prevFormData.antecedentesPersonalesPatologicos,
-        [category]: {
-          ...prevFormData.antecedentesPersonalesPatologicos[category],
-          // Si es checkbox, actualiza 'estado', si no, actualiza 'descripcion'
-          [key]: type === 'checkbox' ? (checked ? "Si" : "No") : value
-        }
+    const [mainCategory, subCategory, property] = name.split('.');
+  
+    setFormData(prev => {
+      // Copia del estado anterior
+      const newFormData = { ...prev };
+  
+      // Aseguramos que mainCategory y subCategory existen en el estado
+      if (!newFormData[mainCategory]) {
+        newFormData[mainCategory] = {};
       }
-    }));
+      if (!newFormData[mainCategory][subCategory]) {
+        newFormData[mainCategory][subCategory] = {};
+      }
+  
+      // Asignamos el valor dependiendo si es checkbox o no
+      newFormData[mainCategory][subCategory][property] = type === 'checkbox' ? (checked ? "Si" : "No") : value;
+  
+      return newFormData;
+    });
   };
 
   return (
@@ -742,11 +763,14 @@ function StepFive() {
   // Manejador de cambios para actualizar el estado de formData
   const onChange = (e) => {
     const { name, checked } = e.target;
-
-    // Actualizar formData
+    const [mainCategory, subCategory] = name.split('.');
+  
     setFormData(prevFormData => ({
       ...prevFormData,
-      [name]: checked ? "Si" : "No" // Establecer el valor basado en si el checkbox está marcado
+      [mainCategory]: {
+        ...prevFormData[mainCategory],
+        [subCategory]: checked ? "Si" : "No"
+      }
     }));
   };
 
@@ -836,11 +860,14 @@ function StepSix() {
   // Manejador de cambios para actualizar el estado de formData
   const onChange = (e) => {
     const { name, checked } = e.target;
-
-    // Actualizar formData
+    const [mainCategory, subCategory] = name.split('.');
+  
     setFormData(prevFormData => ({
       ...prevFormData,
-      [name]: checked ? "Si" : "No" // Establecer el valor basado en si el checkbox está marcado
+      [mainCategory]: {
+        ...prevFormData[mainCategory],
+        [subCategory]: checked ? "Si" : "No"
+      }
     }));
   };
 
@@ -930,34 +957,27 @@ function StepSix() {
 function StepSeven() {
   const { formData, setFormData } = useContext(SharedStateContext);
 
-  const onCheckboxChange = (e) => {
-    const { name, checked } = e.target;
-    const path = name.split(".");
-    setFormData(prevFormData => ({
-      ...prevFormData,
-      estudios: {
-        ...prevFormData.estudios,
-        [path[0]]: {
-          ...prevFormData.estudios[path[0]],
-          estado: checked ? "Si" : "No",
-        },
-      },
-    }));
-  };
-
-  const onTextChange = (e) => {
-    const { name, value } = e.target;
-    const path = name.split(".");
-    setFormData(prevFormData => ({
-      ...prevFormData,
-      estudios: {
-        ...prevFormData.estudios,
-        [path[0]]: {
-          ...prevFormData.estudios[path[0]],
-          [path[1]]: value,
-        },
-      },
-    }));
+  const onChange = (e) => {
+    const { name, value, checked, type } = e.target;
+    const [mainCategory, subCategory, property] = name.split('.');
+  
+    setFormData(prev => {
+      // Copia del estado anterior
+      const newFormData = { ...prev };
+  
+      // Aseguramos que mainCategory y subCategory existen en el estado
+      if (!newFormData[mainCategory]) {
+        newFormData[mainCategory] = {};
+      }
+      if (!newFormData[mainCategory][subCategory]) {
+        newFormData[mainCategory][subCategory] = {};
+      }
+  
+      // Asignamos el valor dependiendo si es checkbox o no
+      newFormData[mainCategory][subCategory][property] = type === 'checkbox' ? (checked ? "Si" : "No") : value;
+  
+      return newFormData;
+    });
   };
 
   return (
@@ -973,7 +993,7 @@ function StepSeven() {
                 type="checkbox"
                 checked={formData?.estudios?.estudiosGabinete?.estado === "Si"}
                 name="estudios.estudiosGabinete.estado"
-                onChange={onCheckboxChange}
+                onChange={onChange}
                 label={"Estudios de gabinete"}
               />
             </div>
@@ -981,7 +1001,7 @@ function StepSeven() {
               as="textarea"
               value={formData?.estudios?.estudiosGabinete?.descripcion || ''}
               name="estudios.estudiosGabinete.descripcion"
-              onChange={onTextChange}
+              onChange={onChange}
               placeholder="Descripción de los estudios de gabinete (Radiografías, Resonancias, etc.)"
             />
             {/* El input de tipo file no es manejado por el estado de React */}
@@ -989,6 +1009,7 @@ function StepSeven() {
               name="imagenEstudiosGabinete"
               type="file"
               className="mt-2"
+              value={formData?.estudiosGabinete?.imagen}
             />
           </Col>
           {/* Estudios de laboratorio */}
@@ -998,7 +1019,7 @@ function StepSeven() {
                 type="checkbox"
                 checked={formData?.estudios?.estudiosLaboratorio?.estado === "Si"}
                 name="estudios.estudiosLaboratorio.estado"
-                onChange={onCheckboxChange}
+                onChange={onChange}
                 label={"Estudios de Laboratorio"}
               />
             </div>
@@ -1006,7 +1027,7 @@ function StepSeven() {
               as="textarea"
               value={formData?.estudios?.estudiosLaboratorio?.descripcion || ''}
               name="estudios.estudiosLaboratorio.descripcion"
-              onChange={onTextChange}
+              onChange={onChange}
               placeholder="Descripción de los estudios de Laboratorio (Análisis, etc.)"
             />
             {/* El input de tipo file no es manejado por el estado de React */}
@@ -1029,20 +1050,25 @@ function StepEight() {
 
   const onChange = (e) => {
     const { name, value, checked, type } = e.target;
-    const [category, key] = name.split('.');
-
-    // Actualiza formData basándose en si el input es un checkbox o no
-    setFormData(prevFormData => ({
-      ...prevFormData,
-      cavidadBucal: {
-        ...prevFormData.cavidadBucal,
-        [category]: {
-          ...prevFormData.cavidadBucal[category],
-          // Si es checkbox, actualiza 'estado', si no, actualiza 'descripcion'
-          [key]: type === 'checkbox' ? (checked ? "Si" : "No") : value
-        }
+    const [mainCategory, subCategory, property] = name.split('.');
+  
+    setFormData(prev => {
+      // Copia del estado anterior
+      const newFormData = { ...prev };
+  
+      // Aseguramos que mainCategory y subCategory existen en el estado
+      if (!newFormData[mainCategory]) {
+        newFormData[mainCategory] = {};
       }
-    }));
+      if (!newFormData[mainCategory][subCategory]) {
+        newFormData[mainCategory][subCategory] = {};
+      }
+  
+      // Asignamos el valor dependiendo si es checkbox o no
+      newFormData[mainCategory][subCategory][property] = type === 'checkbox' ? (checked ? "Si" : "No") : value;
+  
+      return newFormData;
+    });
   };
 
   return (
@@ -1552,6 +1578,41 @@ function StepNine() {
 const EditarHistoriaClinica = () => {
 
   const { id } = useParams(); // Obtiene el ID del paciente desde la URL
+
+  const initialState = {
+    datosPaciente: {},
+    interrogatorio: {},
+    antecedentesHeredofamiliares: {
+      diabetes: {estado: "No", descripcion: ""},
+      hipertension: {estado: "No", descripcion: ""},
+      nefropatias: {estado: "No", descripcion: ""},
+      tuberculosis: {estado: "No", descripcion: ""},
+      cancer: {estado: "No", descripcion: ""},
+      cardiopatias: {estado: "No", descripcion: ""},
+      alergias: {estado: "No", descripcion: ""},
+      otros: {estado: "No", descripcion: ""}
+    },
+    antecedentesPersonalesPatologicos: {
+      diabetes: {estado: "No", descripcion: ""},
+      hipertension: {estado: "No", descripcion: ""},
+      nefropatias: {estado: "No", descripcion: ""},
+      tuberculosis: {estado: "No", descripcion: ""},
+      cancer: {estado: "No", descripcion: ""},
+      cardiopatias: {estado: "No", descripcion: ""},
+      alergias: {estado: "No", descripcion: ""},
+      toxicomanias: {estado: "No", descripcion: ""},
+      grupoSanguineo: {estado: "No", descripcion: ""},
+      transtornosHemorragicos: {estado: "No", descripcion: ""}
+    },
+    antecedentesPersonalesNoPatologicos: {
+      alimentacion: "No"
+    },
+    signosVitales: {},
+    estudios: {},
+    cavidadBucal: {},
+    procedimientos: []
+  }
+
   const [formData, setFormData] = useState({
     // Aquí defines el estado inicial básico, antes de la carga
     datosPaciente: {},

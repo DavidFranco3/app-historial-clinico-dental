@@ -226,54 +226,72 @@ const TablaRegistros = ({ history, location }) => {
 
   const DescargaPDF =  async (id) => {
 
-    const response = await obtenerHistoriaClinica(id)
+    const response = await obtenerHistoriaClinica(id);
+    const datosFormularios = response.data;
+    const procedimientos = datosFormularios?.procedimientos || [];
     console.log("esta es la respuesta", response);
-    generarPDF(response.data);
+    GenerarPDF(datosFormularios, procedimientos);
   }
 
-  const generarPDF = async (formData) => {
+  const GenerarPDF = async (formData, procedimientos) => {
 
     //INICIO DE LA DECLARACIÓND DE RENGLONES 
-    const listprocedimientosCargados = formData.procedimientos;
-    const renglon = listprocedimientosCargados.length + 1;
+    const listProcedimientosCargados = procedimientos; 
+    const renglon = listProcedimientosCargados.length + 1;
     console.log(renglon);
 
     const dataProcedmientos = () => {
-      let newArray = [];
-      listprocedimientosCargados.map((procedimiento, index) => {
 
+      if (listProcedimientosCargados && listProcedimientosCargados.length > 0) {
+        let newArray = [];
+        listProcedimientosCargados.map((procedimientos, index) => {
+  
+          newArray.push([
+            {
+              text: index + 1,
+              fontSize: 9,
+              bold: true
+            },
+            {
+              text: procedimientos.fecha,
+              fontSize: 9,
+              bold: true
+            },
+            {
+              text: procedimientos.tratamiento,
+              fontSize: 9,
+              bold: true
+            },
+            {
+              text: procedimientos.tiempo,
+              fontSize: 9,
+              bold: true
+            },
+            {
+              text: procedimientos.responsable,
+              fontSize: 9,
+              bold: true
+            },
+          ])
+        });
+  
+        return newArray;
+      } else {
+        let newArray = [];
         newArray.push([
           {
-            text: index + 1,
+            colSpan: 5,
+            text: "SIN PROCEDIMIENTOS",
             fontSize: 9,
             bold: true
           },
-          {
-            text: procedimiento.fecha,
-            fontSize: 9,
-            bold: true
-          },
-          {
-            text: procedimiento.tratamiento,
-            fontSize: 9,
-            bold: true
-          },
-          {
-            text: procedimiento.tiempo,
-            fontSize: 9,
-            bold: true
-          },
-          {
-            text: procedimiento.responsable,
-            fontSize: 9,
-            bold: true
-          },
+          {},{},{},{},
         ])
-      });
-
-      return newArray;
-    };
-
+        return newArray;
+      }
+      };
+  
+      
     const listProcedimientos = dataProcedmientos();
     
 
