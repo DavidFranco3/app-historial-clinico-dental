@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { BrowserRouter as Router } from "react-router-dom";
 import './App.css';
 import Routing from "./routers/Routing";
 import Login from './pages/registro/login';
@@ -9,34 +10,22 @@ import { ToastContainer } from "react-toastify";
 function App() {
     const [user, setUser] = useState(null);
     const [LoadUser, setLoadUser] = useState(false);
-    const [refreshCheckLogin, setRefreshCheckLogin] = useState(false);
+    const [initialRoute, setInitialRoute] = useState("/"); // Estado para la ruta inicial
 
     useEffect(() => {
-        setUser(isUserLogedApi());
-        setRefreshCheckLogin(false);
+        const loggedUser = isUserLogedApi();
+        setUser(loggedUser);
+        setInitialRoute(loggedUser ? "/tablaRegistros" : "/login"); // Establecer la ruta inicial basada en la autenticación
         setLoadUser(true);
-    }, [refreshCheckLogin]);
+    }, []);
 
     if (!LoadUser) return null;
 
     return (
-        <AuthContext.Provider value={user}>
-            {user ?
-                (
-                    <>
-                        <Routing
-                            setRefreshCheckLogin={setRefreshCheckLogin}
-                        />
-                    </>
-                )
-                :
-                (
-                    <Login
-                        setRefreshCheckLogin={setRefreshCheckLogin}
-                    />
-                )
-            }
-
+        <AuthContext.Provider value={{ user, setInitialRoute }}>
+            <Router>
+                <Routing initialRoute={initialRoute} />
+            </Router>
             <ToastContainer
                 position="top-right"
                 autoClose={5000}
