@@ -6,6 +6,7 @@ import { Spinner, Button, Form, Image, Row, Col } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { obtenerUsuario } from "../../api/usuarios";
+import { useNavigate } from "react-router-dom";
 import "./styleLogin.css";
 import imagenLogin from "../../assets/img/rehabilitacionbucal.png";
 import { faRightToBracket } from "@fortawesome/free-solid-svg-icons/faRightToBracket";
@@ -13,6 +14,7 @@ import { faRightToBracket } from "@fortawesome/free-solid-svg-icons/faRightToBra
 function Login({ setRefreshCheckLogin }) {
   const [formData, setFormData] = useState(initialFormValue);
   const [signInLoading, setSignInLoading] = useState(false);
+  const navigate =  useNavigate();
 
   const [mostrarPassword, setMostrarPassword] = useState(false);
   const togglePasswordVisiblity = () => {
@@ -39,6 +41,7 @@ function Login({ setRefreshCheckLogin }) {
               obtenerUsuario(idUdsuario).then((response) => {
                 const { data } = response;
                 toast.success("Bienvenido " + data.nombre);
+                navigate('/tablaRegistros');
                 setRefreshCheckLogin(true);
               });
               //enrutamiento("/Dashboard");
