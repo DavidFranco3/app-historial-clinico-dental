@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext, createContext } from "react";
+import { useEffect, useState, useContext, createContext, useRef } from "react";
 import Dropzone from "../../components/dropzone/Dropzone";
 import Autenticate from "../../layout/Autenticate";
 import { Button, Col, Form, Row } from "react-bootstrap";
@@ -22,9 +22,10 @@ import pdfFonts from "pdfmake/build/vfs_fonts";
 import { height, width } from "@fortawesome/free-solid-svg-icons/fa0";
 import { text } from "@fortawesome/fontawesome-svg-core";
 import BasicModal from "../../components/Modal/BasicModal";
-import RegistroProcedimiento from "./AnadirRegistro"; 
+import RegistroProcedimiento from "./AnadirRegistro";
 import { toast } from "react-toastify";
 import { subeArchivosCloudinary } from "../../api/cloudinary";
+import html2canvas from "html2canvas";
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 const SharedStateContext = createContext();
@@ -44,14 +45,15 @@ const steps = [
 function StepOne() {
   // Para almacenar los datos del formulario
   const { formData, setFormData } = useContext(SharedStateContext);
-  
+  const { odontograma, setOdontograma } = useContext(SharedStateContext);
+
   console.log(formData)
 
   const onChange = (e) => {
     const { name, value, type, checked } = e.target;
     const dataPath = name.split('.');
     const lastKey = dataPath.pop();
-  
+
     setFormData((prev) => {
       let ref = prev;
       for (let key of dataPath) {
@@ -79,20 +81,20 @@ function StepOne() {
             <Col sm={12} md={4} lg={4}>
               <div className="d-flex flex-column align-items-center">
                 <Form.Label>Nombre del paciente:</Form.Label>
-                <Form.Control 
+                <Form.Control
                   name="datosPaciente.nombre"
                   defaultValue={formData.datosPaciente.nombre}
-                  type="text" 
+                  type="text"
                 />
               </div>
             </Col>
             <Col sm={12} md={4} lg={4}>
               <div className="d-flex flex-column align-items-center">
                 <Form.Label>Edad (Años):</Form.Label>
-                <Form.Control 
-                  name="datosPaciente.edad" 
-                  defaultValue={formData.datosPaciente.edad} 
-                  type="number" 
+                <Form.Control
+                  name="datosPaciente.edad"
+                  defaultValue={formData.datosPaciente.edad}
+                  type="number"
                 />
               </div>
             </Col>
@@ -103,27 +105,27 @@ function StepOne() {
             <Col sm={12} md={4} lg={4}>
               <div className="d-flex flex-column align-items-center">
                 <Form.Label>Sexo:</Form.Label>
-                <div className="d-flex flex-column align-items-center" > 
+                <div className="d-flex flex-column align-items-center" >
                   <div>
-                    <Form.Check 
-                      type="radio" 
-                      value="Masculino" 
-                      checked={formData.datosPaciente.sexo === "Masculino"} 
-                      name="datosPaciente.sexo" 
-                      id="datosPaciente.sexo" 
-                      defaultValue={formData.datosPaciente.sexo} 
-                      label={"Masculino"} 
-                      inline 
+                    <Form.Check
+                      type="radio"
+                      value="Masculino"
+                      checked={formData.datosPaciente.sexo === "Masculino"}
+                      name="datosPaciente.sexo"
+                      id="datosPaciente.sexo"
+                      defaultValue={formData.datosPaciente.sexo}
+                      label={"Masculino"}
+                      inline
                     />
-                    <Form.Check 
-                      type="radio" 
-                      value="Femenino" 
-                      checked={formData.datosPaciente.sexo === "Femenino"} 
-                      name="datosPaciente.sexo" 
-                      id="datosPaciente.sexo" 
-                      defaultValue={formData.datosPaciente.sexo} 
-                      label={"Femenino"} 
-                      inline 
+                    <Form.Check
+                      type="radio"
+                      value="Femenino"
+                      checked={formData.datosPaciente.sexo === "Femenino"}
+                      name="datosPaciente.sexo"
+                      id="datosPaciente.sexo"
+                      defaultValue={formData.datosPaciente.sexo}
+                      label={"Femenino"}
+                      inline
                     />
                   </div>
                 </div>
@@ -132,35 +134,35 @@ function StepOne() {
             <Col sm={12} md={4} lg={4}>
               <div className="d-flex flex-column align-items-center">
                 <Form.Label>Fecha de nacimiento:</Form.Label>
-                <Form.Control 
-                  name="datosPaciente.fechaNacimiento" 
-                  defaultValue={formData.datosPaciente.fechaNacimiento} 
-                  type="date" 
+                <Form.Control
+                  name="datosPaciente.fechaNacimiento"
+                  defaultValue={formData.datosPaciente.fechaNacimiento}
+                  type="date"
                 />
               </div>
             </Col>
           </Row>
 
 
-           {/*EXPEDIENTE Y ESCOLARIDAD*/}
-           <Row className="justify-content-center mb-2 mb-md-4 mb-lg-7">
+          {/*EXPEDIENTE Y ESCOLARIDAD*/}
+          <Row className="justify-content-center mb-2 mb-md-4 mb-lg-7">
             <Col sm={12} md={4} lg={4}>
               <div className="d-flex flex-column align-items-center">
                 <Form.Label>Expediente:</Form.Label>
-                <Form.Control 
-                  name="datosPaciente.expediente" 
-                  defaultValue={formData.datosPaciente.expediente} 
-                  type="text" 
+                <Form.Control
+                  name="datosPaciente.expediente"
+                  defaultValue={formData.datosPaciente.expediente}
+                  type="text"
                 />
               </div>
             </Col>
             <Col sm={12} md={4} lg={4}>
               <div className="d-flex flex-column align-items-center">
                 <Form.Label>Escolaridad:</Form.Label>
-                <Form.Control 
-                  name="datosPaciente.escolaridad" 
-                  defaultValue={formData.datosPaciente.escolaridad} 
-                  type="email" 
+                <Form.Control
+                  name="datosPaciente.escolaridad"
+                  defaultValue={formData.datosPaciente.escolaridad}
+                  type="email"
                 />
               </div>
             </Col>
@@ -171,25 +173,25 @@ function StepOne() {
             <Col sm={12} md={4} lg={4}>
               <div className="d-flex flex-column align-items-center">
                 <Form.Label>Teléfono particular o celular:</Form.Label>
-                <Form.Control 
-                  name="datosPaciente.telefono" 
-                  defaultValue={formData.datosPaciente.telefono} 
-                  type="tel" 
+                <Form.Control
+                  name="datosPaciente.telefono"
+                  defaultValue={formData.datosPaciente.telefono}
+                  type="tel"
                 />
               </div>
             </Col>
             <Col sm={12} md={4} lg={4}>
               <div className="d-flex flex-column align-items-center">
                 <Form.Label>Correo electrónico:</Form.Label>
-                <Form.Control 
-                  name="datosPaciente.email" 
-                  defaultValue={formData.datosPaciente.email} 
-                  type="email" 
+                <Form.Control
+                  name="datosPaciente.email"
+                  defaultValue={formData.datosPaciente.email}
+                  type="email"
                 />
               </div>
             </Col>
           </Row>
-         
+
         </div>
       </div>
     </Form>
@@ -200,12 +202,12 @@ function StepTwo() {
   // Para almacenar los datos del formulario
   const { formData, setFormData } = useContext(SharedStateContext);
   console.log(formData)
-  
+
   const onChange = (e) => {
     const { name, value, type, checked } = e.target;
     const dataPath = name.split('.');
     const lastKey = dataPath.pop();
-  
+
     setFormData((prev) => {
       let ref = prev;
       for (let key of dataPath) {
@@ -257,17 +259,17 @@ function StepTwo() {
               <div className="d-flex flex-column align-items-center">
                 <Form.Label>Padecimiento actual:</Form.Label>
                 <Form.Control
-                name="interrogatorio.padecimientoActual"
-                defaultValue={formData.interrogatorio.padecimientoActual}
-                as="textarea"
-                placeholder="Describe los padecimientos que tiene actualmente el paciente"
+                  name="interrogatorio.padecimientoActual"
+                  defaultValue={formData.interrogatorio.padecimientoActual}
+                  as="textarea"
+                  placeholder="Describe los padecimientos que tiene actualmente el paciente"
                 />
               </div>
             </Col>
           </Row>
 
-         {/*PADECIMIENTOS SISTEMICOS*/}
-         <Row className="justify-content-center mb-2 mb-md-4 mb-lg-7">
+          {/*PADECIMIENTOS SISTEMICOS*/}
+          <Row className="justify-content-center mb-2 mb-md-4 mb-lg-7">
             <Col
               sm={12}
               md={4}
@@ -276,10 +278,10 @@ function StepTwo() {
               <div className="d-flex flex-column align-items-center">
                 <Form.Label>Padecimientos sistémicos de interés para el caso:</Form.Label>
                 <Form.Control
-                name="interrogatorio.padecimientosSistemticos"
-                defaultValue={formData.interrogatorio.padecimientosSistemticos}
-                as="textarea"
-                placeholder="Describe los padecimientos sistémicos que sufre el paciente"
+                  name="interrogatorio.padecimientosSistemticos"
+                  defaultValue={formData.interrogatorio.padecimientosSistemticos}
+                  as="textarea"
+                  placeholder="Describe los padecimientos sistémicos que sufre el paciente"
                 />
               </div>
             </Col>
@@ -296,24 +298,24 @@ function StepTwo() {
                 <Form.Label>¿Está tomando algún medicamento?:</Form.Label>
                 <div className="d-flex flex-column align-items-center">
                   <div>
-                  <Form.Check
-                    type="radio"
-                    name="interrogatorio.tomandoMedicamento"
-                    defaultValue={formData.interrogatorio.tomandoMedicamento}
-                    label={"No"}
-                    inline
-                    value="No" // Valor asociado al radio button
-                    checked={formData.interrogatorio.tomandoMedicamento === "No"} // Verificar si este radio button está seleccionado
-                  />
-                  <Form.Check
-                    type="radio"
-                    name="interrogatorio.tomandoMedicamento"
-                    defaultValue={formData.interrogatorio.tomandoMedicamento}
-                    label={"Sí"}
-                    inline
-                    value="Si"
-                    checked={formData.interrogatorio.tomandoMedicamento === "Si"}
-                  />
+                    <Form.Check
+                      type="radio"
+                      name="interrogatorio.tomandoMedicamento"
+                      defaultValue={formData.interrogatorio.tomandoMedicamento}
+                      label={"No"}
+                      inline
+                      value="No" // Valor asociado al radio button
+                      checked={formData.interrogatorio.tomandoMedicamento === "No"} // Verificar si este radio button está seleccionado
+                    />
+                    <Form.Check
+                      type="radio"
+                      name="interrogatorio.tomandoMedicamento"
+                      defaultValue={formData.interrogatorio.tomandoMedicamento}
+                      label={"Sí"}
+                      inline
+                      value="Si"
+                      checked={formData.interrogatorio.tomandoMedicamento === "Si"}
+                    />
                   </div>
                 </div>
               </div>
@@ -330,12 +332,12 @@ function StepThree() {
   // Para almacenar los datos del formulario
   const { formData, setFormData } = useContext(SharedStateContext);
   console.log(formData)
-  
+
   const onChange = (e) => {
     const { name, value, type, checked } = e.target;
     const dataPath = name.split('.');
     const lastKey = dataPath.pop();
-    
+
     setFormData((prev) => {
       let ref = prev;
       for (let key of dataPath) {
@@ -351,15 +353,15 @@ function StepThree() {
       return { ...prev };
     });
   };
-  
+
   return (
     <div>
       <h2 className="titulosMultiStep">Antecedentes Heredofamiliares</h2>
       <hr />
       <div>
         <Form onChange={onChange}>
-          
-          {/*DIABETES E HIPERTENSIÓN*/}         
+
+          {/*DIABETES E HIPERTENSIÓN*/}
           <Row className="justify-content-center mb-2 mb-md-4 mb-lg-7">
             <Col sm={12} md={6} lg={6}>
               <div className="d-flex flex-column align-items-center">
@@ -371,17 +373,17 @@ function StepThree() {
                   value="Si"
                   onChange={onChange}
                 />
-                <Form.Control 
-                  name="antecedentesHeredofamiliares.diabetes.descripcion" 
-                  defaultValue={formData.antecedentesHeredofamiliares.diabetes.descripcion} 
-                  as="textarea" 
-                  placeholder="Añade descripción" 
+                <Form.Control
+                  name="antecedentesHeredofamiliares.diabetes.descripcion"
+                  defaultValue={formData.antecedentesHeredofamiliares.diabetes.descripcion}
+                  as="textarea"
+                  placeholder="Añade descripción"
                 />
               </div>
             </Col>
             <Col sm={12} md={6} lg={6}>
               <div className="d-flex flex-column align-items-center">
-              <Form.Check
+                <Form.Check
                   name="antecedentesHeredofamiliares.hipertension.estado"
                   defaultValue={formData.antecedentesHeredofamiliares.hipertension.estado}
                   value="Si"
@@ -407,7 +409,7 @@ function StepThree() {
                 />
                 <Form.Control defaultValue={formData.antecedentesHeredofamiliares.nefropatias.descripcion} name="antecedentesHeredofamiliares.nefropatias.descripcion" as="textarea" placeholder="Añade descripción" />
               </div>
-              
+
             </Col>
             <Col sm={12} md={6} lg={6}>
               <div className="d-flex flex-column align-items-center">
@@ -426,7 +428,7 @@ function StepThree() {
           {/*CANCER Y CARDIPATÍAS*/}
           <Row className="justify-content-center mb-2 mb-md-4 mb-lg-7">
             <Col sm={12} md={6} lg={6}>
-            <div className="d-flex flex-column align-items-center">
+              <div className="d-flex flex-column align-items-center">
                 <Form.Check
                   type="checkbox"
                   label={"Cáncer"}
@@ -493,12 +495,12 @@ function StepFour() {
   // Para almacenar los datos del formulario
   const { formData, setFormData } = useContext(SharedStateContext);
   console.log(formData)
-  
+
   const onChange = (e) => {
     const { name, value, type, checked } = e.target;
     const dataPath = name.split('.');
     const lastKey = dataPath.pop();
-    
+
     setFormData((prev) => {
       let ref = prev;
       for (let key of dataPath) {
@@ -526,7 +528,7 @@ function StepFour() {
           {/*DIABETES E HIPERTENSIÓN*/}
           <Row className="mb-2 mb-md-4 mb-lg-7">
             <Col sm={12} md={6} lg={6}>
-            <div className="d-flex flex-column align-items-center">  
+              <div className="d-flex flex-column align-items-center">
                 <Form.Check
                   type="checkbox"
                   label={"Diabetes"}
@@ -534,16 +536,16 @@ function StepFour() {
                   name="antecedentesPersonalesPatologicos.diabetes.estado"
                   defaultValue={formData.antecedentesPersonalesPatologicos.diabetes.estado}
                 />
-                <Form.Control 
-                  defaultValue={formData.antecedentesPersonalesPatologicos.diabetes.descripcion} 
-                  name="antecedentesPersonalesPatologicos.diabetes.descripcion" 
-                  as="textarea" 
-                  placeholder="Añade descripción" 
+                <Form.Control
+                  defaultValue={formData.antecedentesPersonalesPatologicos.diabetes.descripcion}
+                  name="antecedentesPersonalesPatologicos.diabetes.descripcion"
+                  as="textarea"
+                  placeholder="Añade descripción"
                 />
               </div>
             </Col>
             <Col sm={12} md={6} lg={6}>
-            <div className="d-flex flex-column align-items-center">
+              <div className="d-flex flex-column align-items-center">
                 <Form.Check
                   type="checkbox"
                   label={"Hipertensión"}
@@ -551,12 +553,12 @@ function StepFour() {
                   defaultValue={formData.antecedentesPersonalesPatologicos.hipertension.estado}
                   name="antecedentesPersonalesPatologicos.hipertension.estado"
                 />
-                <Form.Control 
-                  defaultValue={formData.antecedentesPersonalesPatologicos.hipertension.descripcion} 
-                  name="antecedentesPersonalesPatologicos.hipertension.descripcion" 
-                  as="textarea" 
-                  placeholder="Añade descripción" 
-                />              
+                <Form.Control
+                  defaultValue={formData.antecedentesPersonalesPatologicos.hipertension.descripcion}
+                  name="antecedentesPersonalesPatologicos.hipertension.descripcion"
+                  as="textarea"
+                  placeholder="Añade descripción"
+                />
               </div>
             </Col>
           </Row>
@@ -564,7 +566,7 @@ function StepFour() {
           {/*NEFROPATÍAS Y TUBERCULOSIS*/}
           <Row className="mb-2 mb-md-4 mb-lg-7">
             <Col sm={12} md={6} lg={6}>
-              <div className="d-flex flex-column align-items-center">  
+              <div className="d-flex flex-column align-items-center">
                 <Form.Check
                   value="Si"
                   defaultValue={formData.antecedentesPersonalesPatologicos.nefropatias.estado}
@@ -628,11 +630,11 @@ function StepFour() {
                   type="checkbox"
                   label={"Alergias"}
                 />
-                <Form.Control 
-                  name="antecedentesPersonalesPatologicos.alergias.descripcion" 
-                  defaultValue={formData.antecedentesPersonalesPatologicos.alergias.descripcion} 
-                  as="textarea" 
-                  placeholder="Añade descripción" 
+                <Form.Control
+                  name="antecedentesPersonalesPatologicos.alergias.descripcion"
+                  defaultValue={formData.antecedentesPersonalesPatologicos.alergias.descripcion}
+                  as="textarea"
+                  placeholder="Añade descripción"
                 />
               </div>
             </Col>
@@ -645,11 +647,11 @@ function StepFour() {
                   type="checkbox"
                   label={"Toxicomanias"}
                 />
-                <Form.Control 
-                  name="antecedentesPersonalesPatologicos.toxicomanias.descripcion" 
-                  defaultValue={formData.antecedentesPersonalesPatologicos.toxicomanias.descripcion} 
-                  as="textarea" 
-                  placeholder="Añade descripción" 
+                <Form.Control
+                  name="antecedentesPersonalesPatologicos.toxicomanias.descripcion"
+                  defaultValue={formData.antecedentesPersonalesPatologicos.toxicomanias.descripcion}
+                  as="textarea"
+                  placeholder="Añade descripción"
                 />
               </div>
             </Col>
@@ -664,11 +666,11 @@ function StepFour() {
                   type="checkbox"
                   label={"Sanguineo"}
                 />
-                <Form.Control 
-                  name="antecedentesPersonalesPatologicos.grupoSanguineo.descripcion" 
-                  defaultValue={formData.antecedentesPersonalesPatologicos.grupoSanguineo.descripcion} 
-                  as="textarea" 
-                  placeholder="Añade descripción" 
+                <Form.Control
+                  name="antecedentesPersonalesPatologicos.grupoSanguineo.descripcion"
+                  defaultValue={formData.antecedentesPersonalesPatologicos.grupoSanguineo.descripcion}
+                  as="textarea"
+                  placeholder="Añade descripción"
                 />
               </div>
             </Col>
@@ -681,11 +683,11 @@ function StepFour() {
                   type="checkbox"
                   label={"Hemorragias"}
                 />
-                <Form.Control 
-                  name="antecedentesPersonalesPatologicos.transtornosHemorragicos.descripcion" 
-                  defaultValue={formData.antecedentesPersonalesPatologicos.transtornosHemorragicos.descripcion} 
-                  as="textarea" 
-                  placeholder="Añade descripción" 
+                <Form.Control
+                  name="antecedentesPersonalesPatologicos.transtornosHemorragicos.descripcion"
+                  defaultValue={formData.antecedentesPersonalesPatologicos.transtornosHemorragicos.descripcion}
+                  as="textarea"
+                  placeholder="Añade descripción"
                 />
               </div>
             </Col>
@@ -700,12 +702,12 @@ function StepFive() {
   // Para almacenar los datos del formulario
   const { formData, setFormData } = useContext(SharedStateContext);
   console.log(formData)
-  
+
   const onChange = (e) => {
     const { name, value, type, checked } = e.target;
     const dataPath = name.split('.');
     const lastKey = dataPath.pop();
-    
+
     setFormData((prev) => {
       let ref = prev;
       for (let key of dataPath) {
@@ -798,12 +800,12 @@ function StepSix() {
   // Para almacenar los datos del formulario
   const { formData, setFormData } = useContext(SharedStateContext);
   console.log(formData)
-  
+
   const onChange = (e) => {
     const { name, value, type, checked } = e.target;
     const dataPath = name.split('.');
     const lastKey = dataPath.pop();
-    
+
     setFormData((prev) => {
       let ref = prev;
       for (let key of dataPath) {
@@ -904,12 +906,12 @@ function StepSix() {
 function StepSeven() {
   const { formData, setFormData } = useContext(SharedStateContext);
   console.log(formData);
-  
+
   const onChange = (e) => {
     const { name, value, type, checked } = e.target;
     const dataPath = name.split('.');
     const lastKey = dataPath.pop();
-    
+
     setFormData((prev) => {
       let ref = prev;
       for (let key of dataPath) {
@@ -927,17 +929,17 @@ function StepSeven() {
 
   const onFileChange = (file, field) => {
     setFormData(prevFormData => ({
-        ...prevFormData,
-        estudios: {
-            ...prevFormData.estudios,
-            [field]: {
-                ...prevFormData.estudios[field],
-                imagen: file
-            }
+      ...prevFormData,
+      estudios: {
+        ...prevFormData.estudios,
+        [field]: {
+          ...prevFormData.estudios[field],
+          imagen: file
         }
+      }
     }));
   };
-  
+
   return (
     <div>
       <h2 className="titulosMultiStep">Estudios</h2>
@@ -962,7 +964,7 @@ function StepSeven() {
                 placeholder="Descripción de los estudios de gabinete (Radiografías, Resonancias, etc.)"
               />
               <Dropzone
-                  setImagenFile={(file) => onFileChange(file, 'estudiosGabinete')}
+                setImagenFile={(file) => onFileChange(file, 'estudiosGabinete')}
               />
             </Col>
             <Col sm={12} md={6} lg={6} className="d-flex flex-column align-items-center">
@@ -985,10 +987,10 @@ function StepSeven() {
                 <h4 className="textoImagenPrincipal">Sube tu imagen</h4>
                 <div title="Seleccionar imagen de la categoría" className="imagenProducto">
                   <Dropzone
-                      setImagenFile={(file) => onFileChange(file, 'estudiosLaboratorio')}
+                    setImagenFile={(file) => onFileChange(file, 'estudiosLaboratorio')}
                   />
                 </div>
-              </div>
+              </div>
             </Col>
           </Row>
         </Form>
@@ -1001,12 +1003,12 @@ function StepEight() {
   // Para almacenar los datos del formulario
   const { formData, setFormData } = useContext(SharedStateContext);
   console.log(formData)
-  
+
   const onChange = (e) => {
     const { name, value, type, checked } = e.target;
     const dataPath = name.split('.');
     const lastKey = dataPath.pop();
-    
+
     setFormData((prev) => {
       let ref = prev;
       for (let key of dataPath) {
@@ -1033,7 +1035,7 @@ function StepEight() {
         <Form onChange={onChange}>
 
           {/*TEJIDOS BLANDOS*/}
-         <Row className="justify-content-center mb-2 mb-md-4 mb-lg-7">
+          <Row className="justify-content-center mb-2 mb-md-4 mb-lg-7">
             <Col
               sm={12}
               md={4}
@@ -1042,10 +1044,10 @@ function StepEight() {
               <div className="d-flex flex-column align-items-center">
                 <Form.Label>Tejidos blandos:</Form.Label>
                 <Form.Control
-                defaultValue={formData.cavidadBucal.tejidosBlandos}
-                name="cavidadBucal.tejidosBlandos"
-                as="textarea"
-                placeholder="Describe los resultados de la exploración de los tejidos blandos"
+                  defaultValue={formData.cavidadBucal.tejidosBlandos}
+                  name="cavidadBucal.tejidosBlandos"
+                  as="textarea"
+                  placeholder="Describe los resultados de la exploración de los tejidos blandos"
                 />
               </div>
             </Col>
@@ -1061,10 +1063,10 @@ function StepEight() {
               <div className="d-flex flex-column align-items-center">
                 <Form.Label>Tejido óseo:</Form.Label>
                 <Form.Control
-                defaultValue={formData.cavidadBucal.tejidoOseo}
-                name="cavidadBucal.tejidoOseo"
-                as="textarea"
-                placeholder="Describe los resultados de la exploración del tejido óseo"
+                  defaultValue={formData.cavidadBucal.tejidoOseo}
+                  name="cavidadBucal.tejidoOseo"
+                  as="textarea"
+                  placeholder="Describe los resultados de la exploración del tejido óseo"
                 />
               </div>
             </Col>
@@ -1088,13 +1090,13 @@ function StepEight() {
               </div>
             </Col>
           </Row>
-          
+
           {/*DOLOR Y CREPITACIÓN*/}
           <Row className="mb-2 mb-md-4 mb-lg-7">
             <Col sm={12} md={6} lg={6} className="d-flex flex-column align-items-center">
-            <div className="mb-2">
+              <div className="mb-2">
                 <Form.Check value="Si" defaultValue={formData.cavidadBucal.dolor.estado} name="cavidadBucal.dolor.estado" type="checkbox" label={"Dolor"} />
-            </div>
+              </div>
               <Form.Control defaultValue={formData.cavidadBucal.dolor.descripcion} name="cavidadBucal.dolor.descripcion" as="textarea" placeholder="Descripción del dolor" />
             </Col>
             <Col sm={12} md={6} lg={6} className="d-flex flex-column align-items-center">
@@ -1160,7 +1162,7 @@ function StepEight() {
               />
             </Col>
             <Col sm={12} md={6} lg={6} className="d-flex flex-column align-items-center">
-              <div className="mb-2"> 
+              <div className="mb-2">
                 <Form.Check
                   value="Si"
                   defaultValue={formData.cavidadBucal.espasmoMuscular.estado}
@@ -1232,7 +1234,7 @@ function StepEight() {
               </div>
             </Col>
           </Row>
-          
+
         </Form>
       </div>
     </div>
@@ -1240,7 +1242,8 @@ function StepEight() {
 }
 
 function StepNine() {
-  const {formData, setFormData} = useContext(SharedStateContext)
+  const { formData, setFormData } = useContext(SharedStateContext);
+  const { odontograma, setOdontograma } = useContext(SharedStateContext);
 
   const [identificador, setIdentificador] = useState("");
 
@@ -1249,18 +1252,18 @@ function StepNine() {
 
   const eliminarProcedimiento = (index) => {
     const updatedProcedimientos = formData.procedimientos.filter((_, i) => i !== index);
-    setFormData({...formData, procedimientos: updatedProcedimientos});
+    setFormData({ ...formData, procedimientos: updatedProcedimientos });
   };
 
   const anadirProcedimiento = (nuevoProcedimiento) => {
     const updatedProcedimientos = [...formData.procedimientos, nuevoProcedimiento];
-    setFormData({...formData, procedimientos: updatedProcedimientos});
+    setFormData({ ...formData, procedimientos: updatedProcedimientos });
   };
 
   useEffect(() => {
     console.log("Procedimientos actualizados:", procedimientos);
   }, [procedimientos]);
-  
+
 
   // Para hacer uso del modal
   const [showModal, setShowModal] = useState(false);
@@ -1302,6 +1305,59 @@ function StepNine() {
     }
   };
 
+  const capturarPantalla = () => {
+    return new Promise((resolve, reject) => {
+      const elemento = document.getElementById("divFig");
+
+      html2canvas(elemento, { useCORS: true }).then((canvas) => {
+        const imgData = canvas.toDataURL("image/png");
+        cargarImagen1(imgData).then(() => {
+          resolve(); // Resuelve la promesa después de cargar la imagen
+        });
+      });
+    });
+  };
+
+  const cargarImagen1 = (imgData) => {
+    console.log(imgData)
+    return new Promise((resolve, reject) => {
+      try {
+        subeArchivosCloudinary(imgData, "odontogramas")
+          .then((response) => {
+            console.log(response)
+            setOdontograma(response);
+            resolve(); // Resuelve la promesa después de establecer el enlace de la imagen
+          })
+          .catch((e) => {
+            console.log(e);
+            reject(e); // Rechaza la promesa si hay un error
+          });
+      } catch (e) {
+        console.log(e);
+        reject(e); // Rechaza la promesa si hay un error
+      }
+    });
+  };
+
+  const ejecutarCapturaEImagen = async () => {
+    try {
+      await capturarPantalla();
+      console.log("Enlace de la imagen: " + odontograma); // Mover el console.log aquí
+    } catch (error) {
+      console.error("Error al capturar o cargar la imagen:", error);
+    }
+  };
+
+  async function ejecutarCapturasYMostrarLogs() {
+      try {
+        await Promise.all([
+          ejecutarCapturaEImagen(),
+        ]);
+      } catch (error) {
+        console.error("Error en ejecutarCapturasYMostrarLogs:", error);
+      }
+  }
+
   return (
     <div>
       <h2 className="titulosMultiStep">
@@ -1324,7 +1380,7 @@ function StepNine() {
           Movilidad dentaria
         </Button>
       </div>
-      <div className="divFig">
+      <div className="divFig" id="divFig">
         <div className="divImageFig">
           <img src={imagenFondo} className="imagenFondoFig" />
         </div>
@@ -1438,54 +1494,56 @@ function StepNine() {
       <div className="container mt-5">
         <h2>Procedimientos</h2>
         <table className="table">
-            <thead>
-              <tr>
-                <th scope="col">Fecha</th>
-                <th scope="col">Tratamiento</th>
-                <th scope="col">Tiempo</th>
-                <th scope="col">Responsable</th>
-                <th scope="col">Acción</th>
-              </tr>
-            </thead>
-            <tbody>
-            {formData.procedimientos.map((procedimiento, index) => (
-            <tr key={index}>
-              <td>{procedimiento.fecha}</td>
-              <td>{procedimiento.tratamiento}</td>
-              <td>{procedimiento.tiempo}</td>
-              <td>{procedimiento.responsable}</td>
-              <td>
-                <button
-                  className="btn btn-danger"
-                  onClick={() => eliminarProcedimiento(index)}
-                >
-                  Eliminar
-                </button>
-              </td>
+          <thead>
+            <tr>
+              <th scope="col">Fecha</th>
+              <th scope="col">Tratamiento</th>
+              <th scope="col">Tiempo</th>
+              <th scope="col">Responsable</th>
+              <th scope="col">Acción</th>
             </tr>
-          ))}
-            </tbody>
+          </thead>
+          <tbody>
+            {formData.procedimientos.map((procedimiento, index) => (
+              <tr key={index}>
+                <td>{procedimiento.fecha}</td>
+                <td>{procedimiento.tratamiento}</td>
+                <td>{procedimiento.tiempo}</td>
+                <td>{procedimiento.responsable}</td>
+                <td>
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => eliminarProcedimiento(index)}
+                  >
+                    Eliminar
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
         </table>
-          <div className="container mt-5">
-            <button 
-              className="btn btn-primary" 
-              onClick={() => {
-                activacionModal(
-                  <RegistroProcedimiento
-                    setShowModal = {setShowModal}
-                    anadirProcedimiento={anadirProcedimiento}
-                  />
-                )
-              }}
-            >
-              Añadir otro registro
-            </button>
-              <BasicModal show={showModal} setShow={setShowModal} title={titulosModal}>
-                {contentModal}
-              </BasicModal>
-          </div>
-      {/* ESPACIO EN BLANCO */}
-      <div className="container mt-5"></div>
+        <div className="container mt-5">
+          <button
+            className="btn btn-primary"
+            onClick={() => {
+              activacionModal(
+                <RegistroProcedimiento
+                  setShowModal={setShowModal}
+                  anadirProcedimiento={anadirProcedimiento}
+                />
+              )
+            }}
+          >
+            Añadir otro registro
+          </button>
+          <button onClick={ejecutarCapturasYMostrarLogs}>Capture Image</button>
+
+          <BasicModal show={showModal} setShow={setShowModal} title={titulosModal}>
+            {contentModal}
+          </BasicModal>
+        </div>
+        {/* ESPACIO EN BLANCO */}
+        <div className="container mt-5"></div>
       </div>
     </div>
   );
@@ -1494,7 +1552,9 @@ function StepNine() {
 const Registro = () => {
   // Para almacenar los datos del formulario
   const [formData, setFormData] = useState(initialFormData());
+  const [odontograma, setOdontograma] = useState("");
   console.log(formData)
+  console.log(odontograma)
   // Estado para realizar un seguimiento del índice del paso actual
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const totalSteps = steps.length;
@@ -1531,28 +1591,28 @@ const Registro = () => {
 
       const uploads = [];
 
-if (formData.estudios.estudiosGabinete.imagen) {
-  const uploadPromise = subeArchivosCloudinary(formData.estudios.estudiosGabinete.imagen, 'estudiosGabinete')
-    .then(url => {
-      formData.estudios.estudiosGabinete.imagen = url; // Actualiza la propiedad con la URL
-      return url; // Opcionalmente puedes devolver la URL si es necesario para algo más
-    });
-  uploads.push(uploadPromise);
-}
+      if (formData.estudios.estudiosGabinete.imagen) {
+        const uploadPromise = subeArchivosCloudinary(formData.estudios.estudiosGabinete.imagen, 'estudiosGabinete')
+          .then(url => {
+            formData.estudios.estudiosGabinete.imagen = url; // Actualiza la propiedad con la URL
+            return url; // Opcionalmente puedes devolver la URL si es necesario para algo más
+          });
+        uploads.push(uploadPromise);
+      }
 
-if (formData.estudios.estudiosLaboratorio.imagen) {
-  const uploadPromise = subeArchivosCloudinary(formData.estudios.estudiosLaboratorio.imagen, 'estudiosLaboratorio')
-    .then(url => {
-      formData.estudios.estudiosLaboratorio.imagen = url; // Actualiza la propiedad con la URL
-      return url; // Opcionalmente puedes devolver la URL si es necesario para algo más
-    });
-  uploads.push(uploadPromise);
-}
+      if (formData.estudios.estudiosLaboratorio.imagen) {
+        const uploadPromise = subeArchivosCloudinary(formData.estudios.estudiosLaboratorio.imagen, 'estudiosLaboratorio')
+          .then(url => {
+            formData.estudios.estudiosLaboratorio.imagen = url; // Actualiza la propiedad con la URL
+            return url; // Opcionalmente puedes devolver la URL si es necesario para algo más
+          });
+        uploads.push(uploadPromise);
+      }
 
-// Esperar a que todas las imágenes se hayan subido y las URLs estén actualizadas en formData
-await Promise.all(uploads);
+      // Esperar a que todas las imágenes se hayan subido y las URLs estén actualizadas en formData
+      await Promise.all(uploads);
 
-console.log('Imágenes subidas y URLs actualizadas en formData:', formData);
+      console.log('Imágenes subidas y URLs actualizadas en formData:', formData);
 
       const dataTemp = {
         datosPaciente: formData.datosPaciente,
@@ -1564,6 +1624,7 @@ console.log('Imágenes subidas y URLs actualizadas en formData:', formData);
         estudios: formData.estudios,
         cavidadBucal: formData.cavidadBucal,
         procedimientos: formData.procedimientos,
+        odontograma: odontograma,
         estado: "true",
       };
 
@@ -1605,7 +1666,7 @@ console.log('Imágenes subidas y URLs actualizadas en formData:', formData);
               </div>
             </div>
             <div >
-              <SharedStateContext.Provider value={{ formData, setFormData }}>
+              <SharedStateContext.Provider value={{ formData, setFormData, odontograma, setOdontograma }}>
                 <div className="container justify-content-center">
                   <div className="d-flex justify-content-center">
                     <MultiStep
@@ -1620,7 +1681,7 @@ console.log('Imágenes subidas y URLs actualizadas en formData:', formData);
                           borderRadius: "5px",
                           padding: "10px 20px",
                           display: "float",
-                          float: "left", 
+                          float: "left",
                         },
                       }}
                       nextButton={{
@@ -1633,19 +1694,19 @@ console.log('Imágenes subidas y URLs actualizadas en formData:', formData);
                           borderRadius: "5px",
                           padding: "10px 20px",
                           display: "float",
-                          float: "right", 
+                          float: "right",
                         },
                       }}
                     />
-                    
+
                   </div>
-                  
+
                   <div className="button-container" style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
-                      <Button variant="success" onClick={onSubmit}>
-                        <FontAwesomeIcon icon={faCloudArrowUp} />
-                        &nbsp; Enviar
-                      </Button>
-                    </div>
+                    <Button variant="success" onClick={onSubmit}>
+                      <FontAwesomeIcon icon={faCloudArrowUp} />
+                      &nbsp; Enviar
+                    </Button>
+                  </div>
 
                 </div>
               </SharedStateContext.Provider>
@@ -1817,6 +1878,7 @@ function initialFormData() {
       planTratamiento: "",
     },
     procedimientos: [],
+    odontograma: ""
   }
 }
 

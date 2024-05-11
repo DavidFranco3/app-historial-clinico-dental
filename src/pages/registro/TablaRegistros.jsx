@@ -19,7 +19,7 @@ import { withRouter } from "../../utils/withRouter";
 import Eliminar from "./Eliminar";
 import BasicModal from "../../components/Modal/BasicModal";
 import { text } from '@fortawesome/fontawesome-svg-core';
-pdfMake.vfs = pdfFonts.pdfMake.vfs; 
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 const TablaRegistros = ({ history, location }) => {
 
@@ -163,33 +163,33 @@ const TablaRegistros = ({ history, location }) => {
       center: true,
       reorder: true,
       selector: row => (
-        <>  
+        <>
 
-        <Badge
-          bg='success'
-          title='Editar Registro'
-          className='eliminarProveedor'
-          style={{cursor: 'pointer'}}
-          onClick={() => {
-            vistaPreviaRegistro(row.id)
-          }}
-        >
-          <FontAwesomeIcon icon={faPen} className="text-lg bs-success" />
-        </Badge>
-          
+          <Badge
+            bg='success'
+            title='Editar Registro'
+            className='eliminarProveedor'
+            style={{ cursor: 'pointer' }}
+            onClick={() => {
+              vistaPreviaRegistro(row.id)
+            }}
+          >
+            <FontAwesomeIcon icon={faPen} className="text-lg bs-success" />
+          </Badge>
+
           <span className='mx-1'></span>
 
           <Badge
-          bg='primary'
-          title='Descargar PDF'
-          className='eliminarProveedor'
-          style={{cursor: 'pointer'}}
-          onClick={() => {
-            DescargaPDF(row.id)
-          }}
-        >
-          <FontAwesomeIcon icon={faArrowDownLong} className="text-lg bs-success" />
-        </Badge>
+            bg='primary'
+            title='Descargar PDF'
+            className='eliminarProveedor'
+            style={{ cursor: 'pointer' }}
+            onClick={() => {
+              DescargaPDF(row.id)
+            }}
+          >
+            <FontAwesomeIcon icon={faArrowDownLong} className="text-lg bs-success" />
+          </Badge>
 
           <span className='mx-1'></span>
 
@@ -197,7 +197,7 @@ const TablaRegistros = ({ history, location }) => {
             bg="danger"
             className="eliminarProveedor"
             title="Eliminar"
-            style={{cursor: 'pointer'}}
+            style={{ cursor: 'pointer' }}
             onClick={() => {
               eliminacionHistorial(
                 <Eliminar
@@ -208,10 +208,10 @@ const TablaRegistros = ({ history, location }) => {
               )
             }}
           >
-            
+
             <FontAwesomeIcon icon={faTrashCan} className="text-lg" />
           </Badge>
-          
+
         </>
       )
     }
@@ -224,7 +224,7 @@ const TablaRegistros = ({ history, location }) => {
 
   const [resetPaginationToogle, setResetPaginationToogle] = useState(false);
 
-  const DescargaPDF =  async (id) => {
+  const DescargaPDF = async (id) => {
 
     const response = await obtenerHistoriaClinica(id);
     const datosFormularios = response.data;
@@ -233,10 +233,38 @@ const TablaRegistros = ({ history, location }) => {
     GenerarPDF(datosFormularios, procedimientos);
   }
 
+  const ImageToBase64Converter = ({ imageUrl }) => {
+    const getImageBase64 = async () => {
+      try {
+        const response = await fetch(imageUrl);
+        const blob = await response.blob();
+        const reader = new FileReader();
+
+        return new Promise((resolve, reject) => {
+          reader.onloadend = () => {
+            const base64data = reader.result;
+            resolve(base64data);
+          };
+          reader.onerror = reject;
+          reader.readAsDataURL(blob);
+        });
+      } catch (error) {
+        console.error('Error fetching image:', error);
+        throw error;
+      }
+    };
+
+    return getImageBase64();
+  };
+
   const GenerarPDF = async (formData, procedimientos) => {
 
+    const imagenB64 = await ImageToBase64Converter({ imageUrl: formData.odontograma });
+
+    // Aquí puedes seguir con la lógica para generar el PDF utilizando la imagen en base64
+    console.log("Imagen en base64:", imagenB64);
     //INICIO DE LA DECLARACIÓND DE RENGLONES 
-    const listProcedimientosCargados = procedimientos; 
+    const listProcedimientosCargados = procedimientos;
     const renglon = listProcedimientosCargados.length + 1;
     console.log(renglon);
 
@@ -245,7 +273,7 @@ const TablaRegistros = ({ history, location }) => {
       if (listProcedimientosCargados && listProcedimientosCargados.length > 0) {
         let newArray = [];
         listProcedimientosCargados.map((procedimientos, index) => {
-  
+
           newArray.push([
             {
               text: index + 1,
@@ -274,7 +302,7 @@ const TablaRegistros = ({ history, location }) => {
             },
           ])
         });
-  
+
         return newArray;
       } else {
         let newArray = [];
@@ -285,15 +313,15 @@ const TablaRegistros = ({ history, location }) => {
             fontSize: 9,
             bold: true
           },
-          {},{},{},{},
+          {}, {}, {}, {},
         ])
         return newArray;
       }
-      };
-  
-      
+    };
+
+
     const listProcedimientos = dataProcedmientos();
-    
+
 
     const docDefinition = {
       pageSize: 'LETTER',
@@ -316,7 +344,7 @@ const TablaRegistros = ({ history, location }) => {
       },
       content: [
         {
-          columns: [  
+          columns: [
             {
               alignment: 'center',
               style: 'header',
@@ -329,15 +357,15 @@ const TablaRegistros = ({ history, location }) => {
               alignment: 'center',
               width: '*',
               stack: [
-                { text: 'HISTORIA CLÍNICA ESTOMATOLÓGICA' ,fontSize: '20' },
+                { text: 'HISTORIA CLÍNICA ESTOMATOLÓGICA', fontSize: '20' },
                 { text: 'Unidad Médica: Consultorio Dental RH', fontSize: '10' },
                 { text: 'Dirección: Calle 2 de Abril No. 5, Col. Centro, San Juan del Río, Qro.', fontSize: '10' },
                 { text: 'Estomatólogo: Sandra Angeles Ramírez', fontSize: '10' },
                 { text: 'Cédula profesional: 2926159', fontSize: '10' },
                 { text: 'Teléfono: 4272729318', fontSize: '10' }
               ],
-              
-              },
+
+            },
             {
               alignment: 'center',
               style: 'header',
@@ -361,7 +389,7 @@ const TablaRegistros = ({ history, location }) => {
                   alignment: 'center',
                   colSpan: 4
                 },
-                {},{},{},
+                {}, {}, {},
               ],
               [
                 {
@@ -379,7 +407,7 @@ const TablaRegistros = ({ history, location }) => {
                 },
                 {
                   text: 'Fecha: ' + (new Date()).toLocaleDateString(),
-                  fontSize: 9, 
+                  fontSize: 9,
                   bold: true,
                   colSpan: 1
                 }
@@ -442,7 +470,7 @@ const TablaRegistros = ({ history, location }) => {
                   bold: true,
                   alignment: 'center'
                 },
-                {},{},{}
+                {}, {}, {}
               ],
               [
                 {
@@ -467,7 +495,7 @@ const TablaRegistros = ({ history, location }) => {
                 {},
                 {},
                 {},
-  
+
               ],
               [
                 {
@@ -494,7 +522,7 @@ const TablaRegistros = ({ history, location }) => {
               ],
             ]
           },
-  
+
         },
         {
           margin: [0, 5, 0, 5],
@@ -510,23 +538,23 @@ const TablaRegistros = ({ history, location }) => {
                   bold: true,
                   colSpan: 4,
                 },
-                {},{},{}
+                {}, {}, {}
               ],
               [
                 {
                   fontSize: 9,
                   colSpan: 2,
                   stack: [
-                    {text: `Diabetes: ${formData.antecedentesHeredofamiliares.diabetes.estado}`, bold: true},
-                    {text: `${formData.antecedentesHeredofamiliares.diabetes.descripcion}`}
+                    { text: `Diabetes: ${formData.antecedentesHeredofamiliares.diabetes.estado}`, bold: true },
+                    { text: `${formData.antecedentesHeredofamiliares.diabetes.descripcion}` }
                   ]
-                },{},
+                }, {},
                 {
                   fontSize: 9,
                   colSpan: 2,
                   stack: [
-                    {text: `Hipertensión: ${formData.antecedentesHeredofamiliares.hipertension.estado}`, bold: true},
-                    {text: `${formData.antecedentesHeredofamiliares.hipertension.descripcion}`}
+                    { text: `Hipertensión: ${formData.antecedentesHeredofamiliares.hipertension.estado}`, bold: true },
+                    { text: `${formData.antecedentesHeredofamiliares.hipertension.descripcion}` }
                   ]
                 }
               ],
@@ -535,16 +563,16 @@ const TablaRegistros = ({ history, location }) => {
                   fontSize: 9,
                   colSpan: 2,
                   stack: [
-                    {text: `Nefropatías: ${formData.antecedentesHeredofamiliares.nefropatias.estado}`, bold: true},
-                    {text: `${formData.antecedentesHeredofamiliares.nefropatias.descripcion}`}
+                    { text: `Nefropatías: ${formData.antecedentesHeredofamiliares.nefropatias.estado}`, bold: true },
+                    { text: `${formData.antecedentesHeredofamiliares.nefropatias.descripcion}` }
                   ]
-                },{},
+                }, {},
                 {
                   fontSize: 9,
                   colSpan: 2,
                   stack: [
-                    {text: `Tuberculosis: ${formData.antecedentesHeredofamiliares.tuberculosis.estado}`, bold: true},
-                    {text: `${formData.antecedentesHeredofamiliares.tuberculosis.descripcion}`}
+                    { text: `Tuberculosis: ${formData.antecedentesHeredofamiliares.tuberculosis.estado}`, bold: true },
+                    { text: `${formData.antecedentesHeredofamiliares.tuberculosis.descripcion}` }
                   ]
                 },
                 {}
@@ -554,36 +582,36 @@ const TablaRegistros = ({ history, location }) => {
                   fontSize: 9,
                   colSpan: 2,
                   stack: [
-                    {text: `Cáncer: ${formData.antecedentesHeredofamiliares.cancer.estado}`, bold: true},
-                    {text: `${formData.antecedentesHeredofamiliares.cancer.descripcion}`}
+                    { text: `Cáncer: ${formData.antecedentesHeredofamiliares.cancer.estado}`, bold: true },
+                    { text: `${formData.antecedentesHeredofamiliares.cancer.descripcion}` }
                   ]
-                },{},
+                }, {},
                 {
                   fontSize: 9,
                   colSpan: 2,
                   stack: [
-                    {text: `Cardiopatías: ${formData.antecedentesHeredofamiliares.cardiopatias.estado}`, bold: true},
-                    {text: `${formData.antecedentesHeredofamiliares.cardiopatias.descripcion}`}
+                    { text: `Cardiopatías: ${formData.antecedentesHeredofamiliares.cardiopatias.estado}`, bold: true },
+                    { text: `${formData.antecedentesHeredofamiliares.cardiopatias.descripcion}` }
                   ]
-                },{},
+                }, {},
               ],
               [
                 {
                   fontSize: 9,
                   colSpan: 2,
                   stack: [
-                    {text: `Alergias: ${formData.antecedentesHeredofamiliares.alergias.estado}`, bold: true},
-                    {text: `${formData.antecedentesHeredofamiliares.alergias.descripcion}`}
+                    { text: `Alergias: ${formData.antecedentesHeredofamiliares.alergias.estado}`, bold: true },
+                    { text: `${formData.antecedentesHeredofamiliares.alergias.descripcion}` }
                   ]
-                },{},
+                }, {},
                 {
                   fontSize: 9,
                   colSpan: 2,
                   stack: [
-                    {text: `Otros: ${formData.antecedentesHeredofamiliares.otros.estado}`, bold: true},
-                    {text: `${formData.antecedentesHeredofamiliares.otros.descripcion}`}
+                    { text: `Otros: ${formData.antecedentesHeredofamiliares.otros.estado}`, bold: true },
+                    { text: `${formData.antecedentesHeredofamiliares.otros.descripcion}` }
                   ]
-                },{},
+                }, {},
               ]
             ],
           }
@@ -602,23 +630,23 @@ const TablaRegistros = ({ history, location }) => {
                   bold: true,
                   colSpan: 4,
                 },
-                {},{},{}
+                {}, {}, {}
               ],
               [
                 {
                   fontSize: 9,
                   colSpan: 2,
                   stack: [
-                    {text: `Diabetes: ${formData.antecedentesPersonalesPatologicos.diabetes.estado}`, bold: true},
-                    {text: `${formData.antecedentesPersonalesPatologicos.diabetes.descripcion}`}
+                    { text: `Diabetes: ${formData.antecedentesPersonalesPatologicos.diabetes.estado}`, bold: true },
+                    { text: `${formData.antecedentesPersonalesPatologicos.diabetes.descripcion}` }
                   ]
-                },{},
+                }, {},
                 {
                   fontSize: 9,
                   colSpan: 2,
                   stack: [
-                    {text: `Hipertensión: ${formData.antecedentesPersonalesPatologicos.hipertension.estado}`, bold: true},
-                    {text: `${formData.antecedentesPersonalesPatologicos.hipertension.descripcion}`}
+                    { text: `Hipertensión: ${formData.antecedentesPersonalesPatologicos.hipertension.estado}`, bold: true },
+                    { text: `${formData.antecedentesPersonalesPatologicos.hipertension.descripcion}` }
                   ]
                 }
               ],
@@ -627,16 +655,16 @@ const TablaRegistros = ({ history, location }) => {
                   fontSize: 9,
                   colSpan: 2,
                   stack: [
-                    {text: `Nefropatías: ${formData.antecedentesPersonalesPatologicos.nefropatias.estado}`, bold: true},
-                    {text: `${formData.antecedentesPersonalesPatologicos.nefropatias.descripcion}`}
+                    { text: `Nefropatías: ${formData.antecedentesPersonalesPatologicos.nefropatias.estado}`, bold: true },
+                    { text: `${formData.antecedentesPersonalesPatologicos.nefropatias.descripcion}` }
                   ]
-                },{},
+                }, {},
                 {
                   fontSize: 9,
                   colSpan: 2,
                   stack: [
-                    {text: `Tuberculosis: ${formData.antecedentesPersonalesPatologicos.tuberculosis.estado}`, bold: true},
-                    {text: `${formData.antecedentesPersonalesPatologicos.tuberculosis.descripcion}`}
+                    { text: `Tuberculosis: ${formData.antecedentesPersonalesPatologicos.tuberculosis.estado}`, bold: true },
+                    { text: `${formData.antecedentesPersonalesPatologicos.tuberculosis.descripcion}` }
                   ]
                 },
                 {}
@@ -646,54 +674,54 @@ const TablaRegistros = ({ history, location }) => {
                   fontSize: 9,
                   colSpan: 2,
                   stack: [
-                    {text: `Cáncer: ${formData.antecedentesPersonalesPatologicos.cancer.estado}`, bold: true},
-                    {text: `${formData.antecedentesPersonalesPatologicos.cancer.descripcion}`}
+                    { text: `Cáncer: ${formData.antecedentesPersonalesPatologicos.cancer.estado}`, bold: true },
+                    { text: `${formData.antecedentesPersonalesPatologicos.cancer.descripcion}` }
                   ]
-                },{},
+                }, {},
                 {
                   fontSize: 9,
                   colSpan: 2,
                   stack: [
-                    {text: `Cardiopatías: ${formData.antecedentesPersonalesPatologicos.cardiopatias.estado}`, bold: true},
-                    {text: `${formData.antecedentesPersonalesPatologicos.cardiopatias.descripcion}`}
+                    { text: `Cardiopatías: ${formData.antecedentesPersonalesPatologicos.cardiopatias.estado}`, bold: true },
+                    { text: `${formData.antecedentesPersonalesPatologicos.cardiopatias.descripcion}` }
                   ]
-                },{},
+                }, {},
               ],
               [
                 {
                   fontSize: 9,
                   colSpan: 2,
                   stack: [
-                    {text: `Alergias: ${formData.antecedentesPersonalesPatologicos.alergias.estado}`, bold: true},
-                    {text: `${formData.antecedentesPersonalesPatologicos.alergias.descripcion}`}
+                    { text: `Alergias: ${formData.antecedentesPersonalesPatologicos.alergias.estado}`, bold: true },
+                    { text: `${formData.antecedentesPersonalesPatologicos.alergias.descripcion}` }
                   ]
-                },{},
+                }, {},
                 {
                   fontSize: 9,
                   colSpan: 2,
                   stack: [
-                    {text: `Toxicomanías: ${formData.antecedentesPersonalesPatologicos.toxicomanias.estado}`, bold: true},
-                    {text: `${formData.antecedentesPersonalesPatologicos.toxicomanias.descripcion}`}
+                    { text: `Toxicomanías: ${formData.antecedentesPersonalesPatologicos.toxicomanias.estado}`, bold: true },
+                    { text: `${formData.antecedentesPersonalesPatologicos.toxicomanias.descripcion}` }
                   ]
-                },{},
+                }, {},
               ],
               [
                 {
                   fontSize: 9,
                   colSpan: 2,
                   stack: [
-                    {text: `Sanguineo: ${formData.antecedentesPersonalesPatologicos.grupoSanguineo.estado}`, bold: true},
-                    {text: `${formData.antecedentesPersonalesPatologicos.grupoSanguineo.descripcion}`}
+                    { text: `Sanguineo: ${formData.antecedentesPersonalesPatologicos.grupoSanguineo.estado}`, bold: true },
+                    { text: `${formData.antecedentesPersonalesPatologicos.grupoSanguineo.descripcion}` }
                   ]
-                },{},
+                }, {},
                 {
                   fontSize: 9,
                   colSpan: 2,
                   stack: [
-                    {text: `Hemorragias: ${formData.antecedentesPersonalesPatologicos.transtornosHemorragicos.estado}`, bold: true},
-                    {text: `${formData.antecedentesPersonalesPatologicos.transtornosHemorragicos.descripcion}`}
+                    { text: `Hemorragias: ${formData.antecedentesPersonalesPatologicos.transtornosHemorragicos.estado}`, bold: true },
+                    { text: `${formData.antecedentesPersonalesPatologicos.transtornosHemorragicos.descripcion}` }
                   ]
-                },{},
+                }, {},
               ]
             ],
           }
@@ -702,7 +730,7 @@ const TablaRegistros = ({ history, location }) => {
           margin: [0, 5, 0, 5],
           table: {
             widths: ['33.3%', '33.3%', '33.4%'],
-            heights: [13, 10, 10 ],
+            heights: [13, 10, 10],
             body: [
               [
                 {
@@ -712,7 +740,7 @@ const TablaRegistros = ({ history, location }) => {
                   text: 'ANTECENDENTES PERSONASLES NO PATOLÓGICOS (A.P.N.P.)',
                   bold: true,
                 },
-                {},{},
+                {}, {},
               ],
               [
                 {
@@ -879,31 +907,15 @@ const TablaRegistros = ({ history, location }) => {
                 {
                   fontSize: 9,
                   stack: [
-                    {text: `Dolor: ${formData.cavidadBucal.dolor.estado}`, bold: true},
-                    {text: `${formData.cavidadBucal.dolor.descripcion}`}
+                    { text: `Dolor: ${formData.cavidadBucal.dolor.estado}`, bold: true },
+                    { text: `${formData.cavidadBucal.dolor.descripcion}` }
                   ]
                 },
                 {
                   fontSize: 9,
                   stack: [
-                    {text: `Crepitación: ${formData.cavidadBucal.crepitacion.estado}`, bold: true},
-                    {text: `${formData.cavidadBucal.crepitacion.descripcion}`}
-                  ]
-                },
-              ],
-              [
-                {
-                  fontSize: 9,
-                  stack: [
-                    {text: `Subluxación: ${formData.cavidadBucal.subluxacion.estado}`, bold: true},
-                    {text: `${formData.cavidadBucal.subluxacion.descripcion}`}
-                  ]
-                },
-                {
-                  fontSize: 9,
-                  stack: [
-                    {text: `Anquilosis: ${formData.cavidadBucal.anquilosis.estado}`, bold: true},
-                    {text: `${formData.cavidadBucal.anquilosis.descripcion}`}
+                    { text: `Crepitación: ${formData.cavidadBucal.crepitacion.estado}`, bold: true },
+                    { text: `${formData.cavidadBucal.crepitacion.descripcion}` }
                   ]
                 },
               ],
@@ -911,15 +923,15 @@ const TablaRegistros = ({ history, location }) => {
                 {
                   fontSize: 9,
                   stack: [
-                    {text: `Bruxismo: ${formData.cavidadBucal.bruxismo.estado}`, bold: true},
-                    {text: `${formData.cavidadBucal.bruxismo.descripcion}`}
+                    { text: `Subluxación: ${formData.cavidadBucal.subluxacion.estado}`, bold: true },
+                    { text: `${formData.cavidadBucal.subluxacion.descripcion}` }
                   ]
                 },
                 {
                   fontSize: 9,
                   stack: [
-                    {text: `Espasmo muscular: ${formData.cavidadBucal.espasmoMuscular.descripcion}`, bold: true},
-                    {text: `${formData.cavidadBucal.espasmoMuscular.descripcion}`}
+                    { text: `Anquilosis: ${formData.cavidadBucal.anquilosis.estado}`, bold: true },
+                    { text: `${formData.cavidadBucal.anquilosis.descripcion}` }
                   ]
                 },
               ],
@@ -927,8 +939,24 @@ const TablaRegistros = ({ history, location }) => {
                 {
                   fontSize: 9,
                   stack: [
-                    {text: `Luxación: ${formData.cavidadBucal.luxacion.estado}`, bold: true},
-                    {text: `${formData.cavidadBucal.luxacion.descripcion}`}
+                    { text: `Bruxismo: ${formData.cavidadBucal.bruxismo.estado}`, bold: true },
+                    { text: `${formData.cavidadBucal.bruxismo.descripcion}` }
+                  ]
+                },
+                {
+                  fontSize: 9,
+                  stack: [
+                    { text: `Espasmo muscular: ${formData.cavidadBucal.espasmoMuscular.descripcion}`, bold: true },
+                    { text: `${formData.cavidadBucal.espasmoMuscular.descripcion}` }
+                  ]
+                },
+              ],
+              [
+                {
+                  fontSize: 9,
+                  stack: [
+                    { text: `Luxación: ${formData.cavidadBucal.luxacion.estado}`, bold: true },
+                    { text: `${formData.cavidadBucal.luxacion.descripcion}` }
                   ]
                 },
                 {
@@ -955,9 +983,9 @@ const TablaRegistros = ({ history, location }) => {
         {
           margin: [0, 5, 0, 0],
           table: {
-            widths: ['10%','15%','30%','15%','30%'],
+            widths: ['10%', '15%', '30%', '15%', '30%'],
             heights: [13, 10],
-            body: [ 
+            body: [
               [
                 {
                   alignment: 'center',
@@ -965,7 +993,7 @@ const TablaRegistros = ({ history, location }) => {
                   bold: true,
                   colSpan: 5,
                 },
-                {},{},{},{}
+                {}, {}, {}, {}
               ],
               [
                 {
@@ -999,18 +1027,25 @@ const TablaRegistros = ({ history, location }) => {
         },
         {
           table: {
-            widths: ['10%','15%','30%','15%','30%'],
+            widths: ['10%', '15%', '30%', '15%', '30%'],
             heights: [10],
             body: listProcedimientos
-          }
-        }
+          },
+        },
+        {
+          alignment: 'center',
+          style: 'header',
+          image: imagenB64,
+          width: 50,
+          height: 50,
+        },
       ],
     };
-  
+
     const pdf = pdfMake.createPdf(docDefinition);
-  
+
     pdf.download(`${formData.datosPaciente.nombre}.pdf`);
-    }
+  }
 
   return (
     <div>
