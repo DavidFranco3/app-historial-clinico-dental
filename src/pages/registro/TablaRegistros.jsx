@@ -19,6 +19,9 @@ import { withRouter } from "../../utils/withRouter";
 import Eliminar from "./Eliminar";
 import BasicModal from "../../components/Modal/BasicModal";
 import { text } from '@fortawesome/fontawesome-svg-core';
+//import { image } from 'html2canvas/dist/types/css/types/image';
+import { height, width } from '@fortawesome/free-solid-svg-icons/fa0';
+//import { content } from 'html2canvas/dist/types/css/property-descriptors/content';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 const TablaRegistros = ({ history, location }) => {
@@ -259,10 +262,11 @@ const TablaRegistros = ({ history, location }) => {
 
   const GenerarPDF = async (formData, procedimientos) => {
 
-    const imagenB64 = await ImageToBase64Converter({ imageUrl: formData.odontograma });
+    const odontogramaInicial = await ImageToBase64Converter({ imageUrl: formData.odontograma });
+    const odontogramaFinal = await ImageToBase64Converter({ imageUrl: formData.odontogramaFinal });
 
     // Aquí puedes seguir con la lógica para generar el PDF utilizando la imagen en base64
-    console.log("Imagen en base64:", imagenB64);
+    console.log("Imagen en base64:", odontogramaInicial);
     //INICIO DE LA DECLARACIÓND DE RENGLONES 
     const listProcedimientosCargados = procedimientos;
     const renglon = listProcedimientosCargados.length + 1;
@@ -319,9 +323,28 @@ const TablaRegistros = ({ history, location }) => {
       }
     };
 
-
     const listProcedimientos = dataProcedmientos();
 
+    const generacionOdontogramaFinal = () => {
+      if ( odontogramaFinal ) {
+        let newArray = [];
+        newArray.push([
+          {
+            text: 'ODONTOGRAMA',
+            fontSize: 13,
+            bold: true,
+          },
+          {
+            alignment: 'center',
+            image: odontogramaFinal,
+            width: 500,
+            height: 300,
+          }
+        ])
+      }
+    }
+
+    const imgOdontoGFinal = generacionOdontogramaFinal();
 
     const docDefinition = {
       pageSize: 'LETTER',
@@ -1002,7 +1025,7 @@ const TablaRegistros = ({ history, location }) => {
                   bold: true
                 },
                 {
-                  text: 'Fecha#',
+                  text: 'Fecha',
                   fontSize: 9,
                   bold: true
                 },
@@ -1027,17 +1050,39 @@ const TablaRegistros = ({ history, location }) => {
         },
         {
           table: {
+            margin: [0, 0, 0, 10],
             widths: ['10%', '15%', '30%', '15%', '30%'],
             heights: [10],
             body: listProcedimientos
           },
         },
         {
+          fontSize: 12,
+          bold: true,
+          alignment: 'center',
+          text: ' ODONTOGRAMA INICIAL ', // Espacio en blanco
+          margin: [0, 10, 0, 5], // márgenes: [izquierda, arriba, derecha, abajo]
+        },
+        {
           alignment: 'center',
           style: 'header',
-          image: imagenB64,
-          width: 50,
-          height: 50,
+          image: odontogramaInicial,
+          width: 500,
+          height: 300,
+        },
+        {
+          fontSize: 12,
+          bold: true,
+          alignment: 'center',
+          text: ' ODONTOGRAMA FINAL ', // Espacio en blanco
+          margin: [0, 50, 0, 5], // márgenes: [izquierda, arriba, derecha, abajo]
+        },
+        {
+          alignment: 'center',
+          style: 'header',
+          image: odontogramaFinal,
+          width: 500,
+          height: 300,
         },
       ],
     };

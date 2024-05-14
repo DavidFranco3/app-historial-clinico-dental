@@ -1625,6 +1625,7 @@ const Registro = () => {
         cavidadBucal: formData.cavidadBucal,
         procedimientos: formData.procedimientos,
         odontograma: odontograma,
+        odontogramaFinal: "",
         estado: "true",
       };
 
@@ -1878,7 +1879,8 @@ function initialFormData() {
       planTratamiento: "",
     },
     procedimientos: [],
-    odontograma: ""
+    odontograma: "",
+    odontogramaFinal: ""
   }
 }
 

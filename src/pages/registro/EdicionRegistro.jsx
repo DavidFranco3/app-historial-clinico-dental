@@ -22,6 +22,8 @@ import pdfFonts from "pdfmake/build/vfs_fonts";
 import { toast } from "react-toastify";
 import BasicModal from "../../components/Modal/BasicModal";
 import RegistroProcedimiento from "./AnadirRegistro";
+import html2canvas from "html2canvas";
+import { subeArchivosCloudinary } from "../../api/cloudinary";
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 const SharedStateContext = createContext();
@@ -36,6 +38,7 @@ const steps = [
   { component: <StepSeven /> },
   { component: <StepEight /> },
   { component: <StepNine /> },
+  { component: <StepTen /> }
 ];
 
 function StepOne() {
@@ -178,6 +181,7 @@ function StepOne() {
 function StepTwo() {
   // Para almacenar los datos del formulario
   const { formData, setFormData } = useContext(SharedStateContext);
+  const { odontogramaFinal, setOdontogramaFinal } = useContext(SharedStateContext);
   console.log(formData)
   
   const onChange = (e) => {
@@ -1390,6 +1394,11 @@ function StepNine() {
 
   return (
     <div>
+
+      <h2 className="titulosMultiStep">
+        Odontograma incial y procedimientos
+      </h2>
+
       <div className="btnsSimbologia">
         <Button onClick={() => setIdentificador("LC")} variant="dark">Lesion cariosa</Button>
         <Button onClick={() => setIdentificador("IE")} variant="dark">
@@ -1574,44 +1583,254 @@ function StepNine() {
   );
 }
 
+function StepTen() {
+  const [identificador, setIdentificador] = useState("");
+
+  const { formData, setFormData } = useContext(SharedStateContext)
+  const { odontogramaFinal, setOdontogramaFinal } = useContext(SharedStateContext);
+
+
+  const [pointsLC, setPointsLC] = useState([]);
+  const [pointsIE, setPointsIE] = useState([]);
+  const [pointsOB, setPointsOB] = useState([]);
+  const [pointsEV, setPointsEV] = useState([]);
+  const [pointsDSN, setPointsDSN] = useState([]);
+  const [pointsRG, setPointsRG] = useState([]);
+  const [pointsMD, setPointsMD] = useState([]);
+
+  const handleClick = (event) => {
+    const rect = event.target.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    if (identificador === "LC") {
+      setPointsLC([...pointsLC, { x, y }]);
+    } else if (identificador === "IE") {
+      setPointsIE([...pointsIE, { x, y }]);
+    } else if (identificador === "OB") {
+      setPointsOB([...pointsOB, { x, y }]);
+    } else if (identificador === "EV") {
+      setPointsEV([...pointsEV, { x, y }]);
+    } else if (identificador === "DSN") {
+      setPointsDSN([...pointsDSN, { x, y }]);
+    } else if (identificador === "RG") {
+      setPointsRG([...pointsRG, { x, y }]);
+    } else if (identificador === "MD") {
+      setPointsMD([...pointsMD, { x, y }]);
+    }
+  };
+
+  const capturarPantalla = () => {
+    return new Promise((resolve, reject) => {
+      const elemento = document.getElementById("divFigFinal");
+
+      html2canvas(elemento, { useCORS: true }).then((canvas) => {
+        const imgData = canvas.toDataURL("image/png");
+        cargarImagen1(imgData).then(() => {
+          resolve(); // Resuelve la promesa después de cargar la imagen
+        });
+      });
+    });
+  };
+
+  const cargarImagen1 = (imgData) => {
+    console.log(imgData)
+    return new Promise((resolve, reject) => {
+      try {
+        subeArchivosCloudinary(imgData, "odontogramas")
+          .then((response) => {
+            console.log(response)
+            setOdontogramaFinal(response);
+            resolve(response); // Resuelve la promesa después de establecer el enlace de la imagen
+          })
+          .catch((e) => {
+            console.log(e);
+            reject(e); // Rechaza la promesa si hay un error
+          });
+      } catch (e) {
+        console.log(e);
+        reject(e); // Rechaza la promesa si hay un error
+      }
+    });
+  };
+
+  useEffect(() => {
+    if (odontogramaFinal) {
+      setFormData(prevFormData => ({
+        ...prevFormData, 
+        odontogramaFinal: odontogramaFinal
+      }));
+    }
+  }, [odontogramaFinal]);
+
+  const ejecutarCapturaEImagen = async () => {
+    try {
+      await capturarPantalla();
+      console.log("Enlace de la imagen: " + odontogramaFinal); // Mover el console.log aquí
+    } catch (error) {
+      console.error("Error al capturar o cargar la imagen:", error);
+    }
+  };
+
+  async function ejecutarCapturasYMostrarLogs() {
+      try {
+        await Promise.all([
+          ejecutarCapturaEImagen(),
+        ]);
+      } catch (error) {
+        console.error("Error en ejecutarCapturasYMostrarLogs:", error);
+      }
+  }
+
+  return (
+    <div>
+
+      <div>
+        <h2 className="titulosMultiStep">
+          Odontograma final
+        </h2>
+      </div>
+
+      <div className="btnsSimbologia">
+        <Button onClick={() => setIdentificador("LC")} variant="dark">Lesion cariosa</Button>
+        <Button onClick={() => setIdentificador("IE")} variant="dark">
+          Indicado para extraerse
+        </Button>
+        <Button onClick={() => setIdentificador("OB")} variant="dark">Obturado</Button>
+        <Button onClick={() => setIdentificador("EV")} variant="dark">Espacio vacio</Button>
+        <Button onClick={() => setIdentificador("DSN")} variant="dark">
+          Diente superior numerado
+        </Button>
+        <Button onClick={() => setIdentificador("RG")} variant="dark">
+          Retracción gingival
+        </Button>
+        <Button onClick={() => setIdentificador("MD")} variant="dark">
+          Movilidad dentaria
+        </Button>
+      </div>
+      <div id="divFigFinal" className="divFig">
+        <div className="divImageFig">
+          <img src={imagenFondo} className="imagenFondoFig" />
+        </div>
+        <div className="divFigCa">
+          <div
+            style={{
+              width: "82vw",
+              height: "40vh",
+              margin: "auto",
+            }}
+            onClick={handleClick}
+          >
+            {pointsLC.map((point, index) => (
+              <div
+                key={index}
+                style={{
+                  position: "absolute",
+                  left: `${point.x}px`,
+                  top: `${point.y}px`,
+                  width: "20px",
+                  height: "20px",
+                  borderRadius: "50%",
+                }}
+              >
+                <img src={imgLesionCariosa} width="100%" height="100%" />
+              </div>
+            ))}
+            {pointsIE.map((point, index) => (
+              <div
+                key={index}
+                style={{
+                  position: "absolute",
+                  left: `${point.x}px`,
+                  top: `${point.y}px`,
+                  width: "20px",
+                  height: "20px",
+                  borderRadius: "50%",
+                }}
+              >
+                <img src={imgIndExt} width="100%" height="100%" />
+              </div>
+            ))}
+            {pointsOB.map((point, index) => (
+              <div
+                key={index}
+                style={{
+                  position: "absolute",
+                  left: `${point.x}px`,
+                  top: `${point.y}px`,
+                  width: "20px",
+                  height: "20px",
+                  borderRadius: "50%",
+                }}
+              ><img src={imgObturado} width="100%" height="100%" /></div>
+            ))}
+            {pointsEV.map((point, index) => (
+              <div
+                key={index}
+                style={{
+                  position: "absolute",
+                  left: `${point.x}px`,
+                  top: `${point.y}px`,
+                  width: "20px",
+                  height: "20px",
+                  borderRadius: "50%",
+                }}
+              ><img src={imgEspacioVacio} width="100%" height="100%" /></div>
+            ))}
+            {pointsDSN.map((point, index) => (
+              <div
+                key={index}
+                style={{
+                  position: "absolute",
+                  left: `${point.x}px`,
+                  top: `${point.y}px`,
+                  width: "20px",
+                  height: "20px",
+                  borderRadius: "50%",
+                }}
+              ><img src={imgDiSupNum} width="100%" height="100%" /></div>
+            ))}
+            {pointsRG.map((point, index) => (
+              <div
+                key={index}
+                style={{
+                  position: "absolute",
+                  left: `${point.x}px`,
+                  top: `${point.y}px`,
+                  width: "20px",
+                  height: "20px",
+                  borderRadius: "50%",
+                }}
+              ><img src={imgRetGin} width="100%" height="100%" /></div>
+            ))}
+            {pointsMD.map((point, index) => (
+              <div
+                key={index}
+                style={{
+                  position: "absolute",
+                  left: `${point.x}px`,
+                  top: `${point.y}px`,
+                  width: "20px",
+                  height: "20px",
+                  borderRadius: "50%",
+                }}
+              ><img src={imgMovDent} width="100%" height="100%" /></div>
+            ))}
+          </div>
+        </div>
+      </div>
+      <button onClick={ejecutarCapturasYMostrarLogs}>Capture Image</button>
+        {/* ESPACIO EN BLANCO */}
+        <div className="container mt-5">
+        
+        </div>
+      </div>
+  );
+}
+
 
 const EditarHistoriaClinica = () => {
 
   const { id } = useParams(); // Obtiene el ID del paciente desde la URL
-
-  const initialState = {
-    datosPaciente: {},
-    interrogatorio: {},
-    antecedentesHeredofamiliares: {
-      diabetes: {estado: "No", descripcion: ""},
-      hipertension: {estado: "No", descripcion: ""},
-      nefropatias: {estado: "No", descripcion: ""},
-      tuberculosis: {estado: "No", descripcion: ""},
-      cancer: {estado: "No", descripcion: ""},
-      cardiopatias: {estado: "No", descripcion: ""},
-      alergias: {estado: "No", descripcion: ""},
-      otros: {estado: "No", descripcion: ""}
-    },
-    antecedentesPersonalesPatologicos: {
-      diabetes: {estado: "No", descripcion: ""},
-      hipertension: {estado: "No", descripcion: ""},
-      nefropatias: {estado: "No", descripcion: ""},
-      tuberculosis: {estado: "No", descripcion: ""},
-      cancer: {estado: "No", descripcion: ""},
-      cardiopatias: {estado: "No", descripcion: ""},
-      alergias: {estado: "No", descripcion: ""},
-      toxicomanias: {estado: "No", descripcion: ""},
-      grupoSanguineo: {estado: "No", descripcion: ""},
-      transtornosHemorragicos: {estado: "No", descripcion: ""}
-    },
-    antecedentesPersonalesNoPatologicos: {
-      alimentacion: "No"
-    },
-    signosVitales: {},
-    estudios: {},
-    cavidadBucal: {},
-    procedimientos: []
-  }
 
   const [formData, setFormData] = useState({
     // Aquí defines el estado inicial básico, antes de la carga
@@ -1623,8 +1842,12 @@ const EditarHistoriaClinica = () => {
     signosVitales: {},
     estudios: {},
     cavidadBucal: {},
-    procedimientos: []
-  });
+    procedimientos: [],
+    odontograma: "",
+    odontogramaFinal: ""
+  })
+
+  const [ odontogramaFinal, setOdontogramaFinal ] = useState("");
 
   useEffect(() => {
     // Función para cargar los datos del paciente
@@ -1642,7 +1865,9 @@ const EditarHistoriaClinica = () => {
           signosVitales: response.data.signosVitales || {},
           estudios: response.data.estudios || {},
           cavidadBucal: response.data.cavidadBucal || {},
-          procedimientos: response.data.procedimientos || []
+          procedimientos: response.data.procedimientos || [],
+          odontograma: response.data.odontograma || "",
+          odontogramaFinal: response.data.odontogramaFinal || ""
           // Repite para cada categoría según tu estructura de datos
         });
       } catch (error) {
@@ -1764,8 +1989,8 @@ const EditarHistoriaClinica = () => {
             descripcion: formData?.antecedentesPersonalesPatologicos?.cardiopatias?.descripcion
           },
           toxicomanias: {
-            estado: formData?.antecedentesPersonalesPatologicos?.taxicomanias?.estado,
-            descripcion: formData?.antecedentesPersonalesPatologicos?.taxicomanias?.descripcion
+            estado: formData?.antecedentesPersonalesPatologicos?.toxicomanias?.estado,
+            descripcion: formData?.antecedentesPersonalesPatologicos?.toxicomanias?.descripcion
           },
           grupoSanguineo: {
             estado: formData?.antecedentesPersonalesPatologicos?.grupoSanguineo?.estado,
@@ -1822,8 +2047,8 @@ const EditarHistoriaClinica = () => {
             descripcion: formData?.cavidadBucal?.anquilosis?.descripcion
           },
           bruxismo: {
-            estado: formData.estadoBruxismo,
-            descripcion: formData.descripcionBruxismo
+            estado: formData?.cavidadBucal?.bruxismo?.estado,
+            descripcion: formData?.cavidadBucal?.bruxismo?.descripcion
           },
           espasmoMuscular: {
             estado: formData?.cavidadBucal?.espasmoMuscular?.estado,
@@ -1838,10 +2063,14 @@ const EditarHistoriaClinica = () => {
           planTratamiento: formData?.cavidadBucal?.planTratamiento,
         },
         procedimientos: formData?.procedimientos,
+        odontograma: formData?.odontograma,
+        odontogramaFinal: formData?.odontogramaFinal,
         estado: "true",
       };
 
       const response = await actualizarHistoriaClinica(id, dataTemp);
+      console.log(dataTemp);
+
       if (response.status === 200) {
         console.log("Datos actualizados con éxito");
         toast("Datos actualizado con exito")
@@ -1884,7 +2113,7 @@ const EditarHistoriaClinica = () => {
               </div>
             </div>
             <div >
-              <SharedStateContext.Provider value={{ formData, setFormData }}>
+              <SharedStateContext.Provider value={{ formData, setFormData, odontogramaFinal, setOdontogramaFinal}}>
                 <div className="container justify-content-center">
                   <div className="d-flex justify-content-center">
                     <MultiStep
