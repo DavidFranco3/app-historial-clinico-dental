@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { BrowserRouter as Router } from "react-router-dom";
 import './App.css';
 import Routing from "./routers/Routing";
-import Login from './pages/registro/login';
 import { AuthContext } from "./utils/contexts";
 import { isUserLogedApi } from "./api/auth";
 import { ToastContainer } from "react-toastify";

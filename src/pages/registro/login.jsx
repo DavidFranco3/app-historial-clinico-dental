@@ -11,7 +11,7 @@ import "./styleLogin.css";
 import imagenLogin from "../../assets/img/rehabilitacionbucal.png";
 import { faRightToBracket } from "@fortawesome/free-solid-svg-icons/faRightToBracket";
 
-function Login({ setRefreshCheckLogin }) {
+function Login() {
   const [formData, setFormData] = useState(initialFormValue);
   const [signInLoading, setSignInLoading] = useState(false);
   const navigate =  useNavigate();
@@ -42,7 +42,6 @@ function Login({ setRefreshCheckLogin }) {
                 const { data } = response;
                 toast.success("Bienvenido " + data.nombre);
                 navigate('/tablaRegistros');
-                setRefreshCheckLogin(true);
               });
               //enrutamiento("/Dashboard");
             } catch (ex) {
