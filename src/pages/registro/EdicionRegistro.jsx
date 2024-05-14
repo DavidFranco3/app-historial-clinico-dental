@@ -1331,8 +1331,6 @@ function StepEight() {
 }
 
 function StepNine() {
-  const [identificador, setIdentificador] = useState("");
-
   const { formData, setFormData } = useContext(SharedStateContext)
 
   const [procedimientos, setProcedimientos] = useState([]);
@@ -1363,172 +1361,13 @@ function StepNine() {
     setShowModal(true);
   }
 
-  const [pointsLC, setPointsLC] = useState([]);
-  const [pointsIE, setPointsIE] = useState([]);
-  const [pointsOB, setPointsOB] = useState([]);
-  const [pointsEV, setPointsEV] = useState([]);
-  const [pointsDSN, setPointsDSN] = useState([]);
-  const [pointsRG, setPointsRG] = useState([]);
-  const [pointsMD, setPointsMD] = useState([]);
-
-  const handleClick = (event) => {
-    const rect = event.target.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
-    if (identificador === "LC") {
-      setPointsLC([...pointsLC, { x, y }]);
-    } else if (identificador === "IE") {
-      setPointsIE([...pointsIE, { x, y }]);
-    } else if (identificador === "OB") {
-      setPointsOB([...pointsOB, { x, y }]);
-    } else if (identificador === "EV") {
-      setPointsEV([...pointsEV, { x, y }]);
-    } else if (identificador === "DSN") {
-      setPointsDSN([...pointsDSN, { x, y }]);
-    } else if (identificador === "RG") {
-      setPointsRG([...pointsRG, { x, y }]);
-    } else if (identificador === "MD") {
-      setPointsMD([...pointsMD, { x, y }]);
-    }
-  };
-
   return (
     <div>
 
       <h2 className="titulosMultiStep">
-        Odontograma incial y procedimientos
+        Procedimientos
       </h2>
-
-      <div className="btnsSimbologia">
-        <Button onClick={() => setIdentificador("LC")} variant="dark">Lesion cariosa</Button>
-        <Button onClick={() => setIdentificador("IE")} variant="dark">
-          Indicado para extraerse
-        </Button>
-        <Button onClick={() => setIdentificador("OB")} variant="dark">Obturado</Button>
-        <Button onClick={() => setIdentificador("EV")} variant="dark">Espacio vacio</Button>
-        <Button onClick={() => setIdentificador("DSN")} variant="dark">
-          Diente superior numerado
-        </Button>
-        <Button onClick={() => setIdentificador("RG")} variant="dark">
-          Retracción gingival
-        </Button>
-        <Button onClick={() => setIdentificador("MD")} variant="dark">
-          Movilidad dentaria
-        </Button>
-      </div>
-      <div className="divFig">
-        <div className="divImageFig">
-          <img src={imagenFondo} className="imagenFondoFig" />
-        </div>
-        <div className="divFigCa">
-          <div
-            style={{
-              width: "82vw",
-              height: "40vh",
-              margin: "auto",
-            }}
-            onClick={handleClick}
-          >
-            {pointsLC.map((point, index) => (
-              <div
-                key={index}
-                style={{
-                  position: "absolute",
-                  left: `${point.x}px`,
-                  top: `${point.y}px`,
-                  width: "20px",
-                  height: "20px",
-                  borderRadius: "50%",
-                }}
-              >
-                <img src={imgLesionCariosa} width="100%" height="100%" />
-              </div>
-            ))}
-            {pointsIE.map((point, index) => (
-              <div
-                key={index}
-                style={{
-                  position: "absolute",
-                  left: `${point.x}px`,
-                  top: `${point.y}px`,
-                  width: "20px",
-                  height: "20px",
-                  borderRadius: "50%",
-                }}
-              >
-                <img src={imgIndExt} width="100%" height="100%" />
-              </div>
-            ))}
-            {pointsOB.map((point, index) => (
-              <div
-                key={index}
-                style={{
-                  position: "absolute",
-                  left: `${point.x}px`,
-                  top: `${point.y}px`,
-                  width: "20px",
-                  height: "20px",
-                  borderRadius: "50%",
-                }}
-              ><img src={imgObturado} width="100%" height="100%" /></div>
-            ))}
-            {pointsEV.map((point, index) => (
-              <div
-                key={index}
-                style={{
-                  position: "absolute",
-                  left: `${point.x}px`,
-                  top: `${point.y}px`,
-                  width: "20px",
-                  height: "20px",
-                  borderRadius: "50%",
-                }}
-              ><img src={imgEspacioVacio} width="100%" height="100%" /></div>
-            ))}
-            {pointsDSN.map((point, index) => (
-              <div
-                key={index}
-                style={{
-                  position: "absolute",
-                  left: `${point.x}px`,
-                  top: `${point.y}px`,
-                  width: "20px",
-                  height: "20px",
-                  borderRadius: "50%",
-                }}
-              ><img src={imgDiSupNum} width="100%" height="100%" /></div>
-            ))}
-            {pointsRG.map((point, index) => (
-              <div
-                key={index}
-                style={{
-                  position: "absolute",
-                  left: `${point.x}px`,
-                  top: `${point.y}px`,
-                  width: "20px",
-                  height: "20px",
-                  borderRadius: "50%",
-                }}
-              ><img src={imgRetGin} width="100%" height="100%" /></div>
-            ))}
-            {pointsMD.map((point, index) => (
-              <div
-                key={index}
-                style={{
-                  position: "absolute",
-                  left: `${point.x}px`,
-                  top: `${point.y}px`,
-                  width: "20px",
-                  height: "20px",
-                  borderRadius: "50%",
-                }}
-              ><img src={imgMovDent} width="100%" height="100%" /></div>
-            ))}
-          </div>
-        </div>
-      </div>
       <div className="container mt-5">
-        <h2>Procedimientos</h2>
         <table className="table">
           <thead>
             <tr>
@@ -2073,7 +1912,8 @@ const EditarHistoriaClinica = () => {
 
       if (response.status === 200) {
         console.log("Datos actualizados con éxito");
-        toast("Datos actualizado con exito")
+        toast.success("Datos actualizado con exito");
+        window.location.reload();
       }
 
       console.log(dataTemp);

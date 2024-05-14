@@ -102,38 +102,8 @@ const TablaRegistros = ({ history, location }) => {
       reorder: false
     },
     {
-      name: <span className='h4 text-center' >Escolaridad </span>,
-      selector: row => row.escolaridad,
-      sortable: false,
-      style: {
-        fontSize: '15px'
-      },
-      center: true,
-      reorder: false
-    },
-    {
-      name: <span className='h4 text-center' >Fecha de nacimiento</span>,
-      selector: row => row.fechaNacimiento,
-      sortable: false,
-      style: {
-        fontSize: '15px'
-      },
-      center: true,
-      reorder: false
-    },
-    {
       name: <span className='h4 text-center' >Expediente</span>,
       selector: row => row.expediente,
-      sortable: false,
-      style: {
-        fontSize: '15px'
-      },
-      center: true,
-      reorder: false
-    },
-    {
-      name: <span className='h4 text-center' >Correo electrónico</span>,
-      selector: row => row.email,
       sortable: false,
       style: {
         fontSize: '15px'
@@ -150,16 +120,6 @@ const TablaRegistros = ({ history, location }) => {
       },
       center: true,
       reorder: false
-    },
-    {
-      name: <span className='h4 text-center' >Estado</span>,
-      style: {
-        fontSize: '15px',
-
-      },
-      center: true,
-      reorder: false,
-      selector: row => row.estado
     },
     {
       name: <span className='h4 text-center' >Acciones</span>,

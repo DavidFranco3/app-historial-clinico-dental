@@ -40,6 +40,7 @@ const steps = [
   { component: <StepSeven /> },
   { component: <StepEight /> },
   { component: <StepNine /> },
+  { component: <StepTen /> },
 ];
 
 function StepOne() {
@@ -602,7 +603,7 @@ function StepFour() {
                   defaultValue={formData.antecedentesPersonalesPatologicos.cancer.estado}
                   name="antecedentesPersonalesPatologicos.cancer.estado"
                 />
-                <Form.Control name="antecedentesHeredofamiliares.cancer.descripcion" defaultValue={formData.antecedentesHeredofamiliares.cancer.descripcion} as="textarea" placeholder="Añade descripción" />
+                <Form.Control name="antecedentesPersonalesPatologicos.cancer.descripcion" defaultValue={formData.antecedentesPersonalesPatologicos.cancer.descripcion} as="textarea" placeholder="Añade descripción" />
               </div>
             </Col>
             <Col sm={12} md={6} lg={6}>
@@ -1247,35 +1248,6 @@ function StepNine() {
 
   const [identificador, setIdentificador] = useState("");
 
-  //AÑADE UN ESTADO PARA ALMACENAR LOS PROCEDIMIENTOS
-  const [procedimientos, setProcedimientos] = useState([]);
-
-  const eliminarProcedimiento = (index) => {
-    const updatedProcedimientos = formData.procedimientos.filter((_, i) => i !== index);
-    setFormData({ ...formData, procedimientos: updatedProcedimientos });
-  };
-
-  const anadirProcedimiento = (nuevoProcedimiento) => {
-    const updatedProcedimientos = [...formData.procedimientos, nuevoProcedimiento];
-    setFormData({ ...formData, procedimientos: updatedProcedimientos });
-  };
-
-  useEffect(() => {
-    console.log("Procedimientos actualizados:", procedimientos);
-  }, [procedimientos]);
-
-
-  // Para hacer uso del modal
-  const [showModal, setShowModal] = useState(false);
-  const [contentModal, setContentModal] = useState(null);
-  const [titulosModal, setTitulosModal] = useState(null);
-
-  const activacionModal = (content) => {
-    setTitulosModal("Añadir procedimientos");
-    setContentModal(content);
-    setShowModal(true);
-  }
-
   const [pointsLC, setPointsLC] = useState([]);
   const [pointsIE, setPointsIE] = useState([]);
   const [pointsOB, setPointsOB] = useState([]);
@@ -1361,7 +1333,7 @@ function StepNine() {
   return (
     <div>
       <h2 className="titulosMultiStep">
-        Procedimientos
+        Odontograma
       </h2>
       <div className="btnsSimbologia">
         <Button onClick={() => setIdentificador("LC")} variant="dark">Lesion cariosa</Button>
@@ -1492,7 +1464,54 @@ function StepNine() {
         </div>
       </div>
       <div className="container mt-5">
-        <h2>Procedimientos</h2>
+        <div className="container mt-5">
+          <button onClick={ejecutarCapturasYMostrarLogs}>Capture Image</button>
+        </div>
+        {/* ESPACIO EN BLANCO */}
+        <div className="container mt-5"></div>
+      </div>
+    </div>
+  );
+}
+
+function StepTen() {
+  const { formData, setFormData } = useContext(SharedStateContext);
+
+  //AÑADE UN ESTADO PARA ALMACENAR LOS PROCEDIMIENTOS
+  const [procedimientos, setProcedimientos] = useState([]);
+
+  const eliminarProcedimiento = (index) => {
+    const updatedProcedimientos = formData.procedimientos.filter((_, i) => i !== index);
+    setFormData({ ...formData, procedimientos: updatedProcedimientos });
+  };
+
+  const anadirProcedimiento = (nuevoProcedimiento) => {
+    const updatedProcedimientos = [...formData.procedimientos, nuevoProcedimiento];
+    setFormData({ ...formData, procedimientos: updatedProcedimientos });
+  };
+
+  useEffect(() => {
+    console.log("Procedimientos actualizados:", procedimientos);
+  }, [procedimientos]);
+
+
+  // Para hacer uso del modal
+  const [showModal, setShowModal] = useState(false);
+  const [contentModal, setContentModal] = useState(null);
+  const [titulosModal, setTitulosModal] = useState(null);
+
+  const activacionModal = (content) => {
+    setTitulosModal("Añadir procedimientos");
+    setContentModal(content);
+    setShowModal(true);
+  }
+
+  return (
+    <div>
+      <h2 className="titulosMultiStep">
+        Procedimientos
+      </h2>
+      <div className="container mt-5">
         <table className="table">
           <thead>
             <tr>
@@ -1536,8 +1555,6 @@ function StepNine() {
           >
             Añadir otro registro
           </button>
-          <button onClick={ejecutarCapturasYMostrarLogs}>Capture Image</button>
-
           <BasicModal show={showModal} setShow={setShowModal} title={titulosModal}>
             {contentModal}
           </BasicModal>
@@ -1631,8 +1648,9 @@ const Registro = () => {
 
       registraHistoriaClinica(dataTemp).then((response) => {
         const { data } = response;
+        window.location.reload();
         //cancelarRegistro()
-        alert("Historia clinica registrada correctamente")
+        toast.success("Historia clinica registrada correctamente");
       })
     } catch (e) {
       console.log(e);

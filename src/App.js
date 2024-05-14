@@ -5,6 +5,7 @@ import Routing from "./routers/Routing";
 import { AuthContext } from "./utils/contexts";
 import { isUserLogedApi } from "./api/auth";
 import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
     const [user, setUser] = useState(null);

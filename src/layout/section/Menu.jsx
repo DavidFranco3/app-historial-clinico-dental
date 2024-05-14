@@ -63,7 +63,7 @@ const Menu = () => {
                 <a href="/registro" className="nav-link">
                   <FontAwesomeIcon icon={faPenToSquare} className="nav-icon" />
                   <p>
-                    Registro
+                    Alta de expediente
                   </p>
                 </a>
               </li>
@@ -71,7 +71,7 @@ const Menu = () => {
                 <a href="/tablaRegistros" className="nav-link">
                   <FontAwesomeIcon icon={faTable} className="nav-icon" />
                   <p>
-                    Tabla
+                    Mis expedientes clinicos
                   </p>
                 </a>
               </li>
