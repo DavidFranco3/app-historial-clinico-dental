@@ -803,22 +803,18 @@ function StepSix() {
   console.log(formData)
 
   const onChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    const dataPath = name.split('.');
-    const lastKey = dataPath.pop();
-
-    setFormData((prev) => {
+    const { name, value } = e.target;
+    setFormData(prev => {
+      const dataPath = name.split('.');
+      const lastKey = dataPath.pop();
       let ref = prev;
+
       for (let key of dataPath) {
         if (!ref[key]) ref[key] = {};
         ref = ref[key];
       }
-      if (type === 'checkbox') {
-        // Asigna 'Si' si está marcado, 'No' si no está marcado
-        ref[lastKey] = checked ? 'Si' : 'No';
-      } else {
-        ref[lastKey] = value;
-      }
+
+      ref[lastKey] = value;
       return { ...prev };
     });
   };
@@ -830,71 +826,78 @@ function StepSix() {
       <div>
         <Form onChange={onChange}>
           <Row className="mb-2 mb-md-4 mb-lg-7 justify-content-center">
-            <Col sm={6} md={3} lg={3} className="d-flex justify-content-center">
-              <Form.Check
-                type="checkbox"
+            <Col sm={6} md={3} lg={3} className="d-flex align-items-center justify-content-center">
+              <span className="label-formControl">TA: </span>
+              <Form.Control
+                type="text"
                 name="signosVitales.TA"
                 defaultValue={formData.signosVitales.TA}
-                value="Si"
-                label={"TA"}
+                className="form-control-small"
+                placeholder={"TA"}
               />
             </Col>
-            <Col sm={6} md={3} lg={3} className="d-flex justify-content-center" >
-              <Form.Check
-                type="checkbox"
+            <Col sm={6} md={3} lg={3} className="d-flex align-items-center justify-content-center" >
+              <span className="label-formControl">Temperatura: </span>
+              <Form.Control
+                type="text"
                 name="signosVitales.temperatura"
                 defaultValue={formData.signosVitales.temperatura}
-                value="Si"
-                label={"Temperatura"}
+                className="form-control-small"
+                placeholder={"Temp"}
               />
             </Col>
-            <Col sm={6} md={3} lg={3} className="d-flex justify-content-center" >
-              <Form.Check
-                type="checkbox"
+            <Col sm={6} md={3} lg={3} className="d-flex align-items-center justify-content-center" >
+              <span className="label-formControl">FR: </span>
+              <Form.Control
+                type="text"
                 name="signosVitales.FR"
                 defaultValue={formData.signosVitales.FR}
-                value="Si"
-                label={"FR"}
+                className="form-control-small"
+                placeholder={"FR"}
               />
             </Col>
-            <Col sm={6} md={3} lg={3} className="d-flex justify-content-center" >
-              <Form.Check
-                type="checkbox"
+            <Col sm={6} md={3} lg={3} className="d-flex align-items-center justify-content-center" >
+              <span className="label-formControl">Peso: </span>
+              <Form.Control
+                type="text"
                 name="signosVitales.peso"
                 defaultValue={formData.signosVitales.peso}
-                value="Si"
-                label={"Peso"}
+                className="form-control-small"
+                placeholder={"Peso"}
               />
             </Col>
           </Row>
 
           {/*2da fila */}
           <Row className="mb-2 mb-md-4 mb-lg-7 justify-content-center">
-            <Col sm={6} md={3} lg={3} className="d-flex justify-content-center">
-              <Form.Check
-                type="checkbox"
+            <Col sm={6} md={3} lg={3} className="d-flex align-items-center justify-content-center">
+              <span className="label-formControl">Talla: </span>
+              <Form.Control
+                type="text"
                 name="signosVitales.talla"
                 defaultValue={formData.signosVitales.talla}
-                value="Si"
-                label={"Talla"}
+                className="form-control-small"
+                placeholder={"talla"}
               />
             </Col>
-            <Col sm={6} md={3} lg={3} className="d-flex justify-content-center" >
-              <Form.Check
-                type="checkbox"
+            <Col sm={6} md={3} lg={3} className="d-flex align-items-center justify-content-center" >
+              <span className="label-formControl">Glucosa capilar: </span>
+              <Form.Control
+                type="text"
                 name="signosVitales.glucosaCapilar"
                 defaultValue={formData.signosVitales.glucosaCapilar}
-                value="Si"
-                label={"Glucosa capilar"}
+                className="form-control-small"
+                placeholder={"glucosaCapilar"}
               />
             </Col>
-            <Col sm={6} md={3} lg={3} className="d-flex justify-content-center" >
-              <Form.Check
-                type="checkbox"
+            <Col sm={6} md={3} lg={3} className="d-flex align-items-center justify-content-center" >
+              <span className="label-formControl">FC: </span>
+              <Form.Control
+                type="text"
                 name="signosVitales.FC"
                 defaultValue={formData.signosVitales.FC}
-                value="Si"
-                label={"FC"}
+                className="form-control-small"
+                placeholder={"FC"}
               />
             </Col>
           </Row>
@@ -1840,13 +1843,13 @@ function initialFormData() {
       vacunas: "No",
     },
     signosVitales: {
-      TA: "No",
-      glucosaCapilar: "No",
-      temperatura: "No",
-      FC: "No",
-      FR: "No",
-      talla: "No",
-      peso: "No"
+      TA: "",
+      glucosaCapilar: "",
+      temperatura: "",
+      FC: "",
+      FR: "",
+      talla: "",
+      peso: ""
     },
     estudios: {
       estudiosGabinete: {

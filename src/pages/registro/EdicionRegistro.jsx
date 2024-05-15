@@ -863,14 +863,14 @@ function StepSix() {
 
   // Manejador de cambios para actualizar el estado de formData
   const onChange = (e) => {
-    const { name, checked } = e.target;
+    const { name, value } = e.target;
     const [mainCategory, subCategory] = name.split('.');
   
     setFormData(prevFormData => ({
       ...prevFormData,
       [mainCategory]: {
         ...prevFormData[mainCategory],
-        [subCategory]: checked ? "Si" : "No"
+        [subCategory]: value
       }
     }));
   };
@@ -881,73 +881,80 @@ function StepSix() {
       <hr />
       <div>
         <Form onChange={onChange}>
-          <Row className="d-flex mb-2 mb-md-4 mb-lg-7 justify-content-center">
+          <Row className="d-flex mb-2 mb-md-4 mb-lg-7  justify-content-center">
             {/* TA */}
-            <Col sm={6} md={3} lg={3} className="d-flex justify-content-center">
-              <Form.Check
-                type="checkbox"
+            <Col sm={6} md={3} lg={3} className="d-flex align-items-center justify-content-center">
+              <span className="label-formControl" >TA: </span>
+              <Form.Control
+                type="text"
                 name="signosVitales.TA"
-                checked={formData?.signosVitales?.TA === "Si"}
+                defaultValue={formData?.signosVitales?.TA}
                 onChange={onChange}
-                label={"TA"}
+                placeholder={"TA"}
               />
             </Col>
-            <Col sm={6} md={3} lg={3} className="d-flex justify-content-center">
-              <Form.Check
-                type="checkbox"
+            <Col sm={6} md={3} lg={3} className="d-flex align-items-center justify-content-center">
+              <span className="label-formControl" >Temperatura: </span>
+              <Form.Control
+                type="text"
                 name="signosVitales.temperatura"
-                checked={formData?.signosVitales?.temperatura === "Si"}
+                defaultValue={formData?.signosVitales?.temperatura}
                 onChange={onChange}
-                label={"Temperatura"}
+                placeholder={"Temp"}
               />
             </Col>
-            <Col sm={6} md={3} lg={3} className="d-flex justify-content-center">
-              <Form.Check
-                type="checkbox"
+            <Col sm={6} md={3} lg={3} className="d-flex align-items-center justify-content-center">
+              <span className="label-formControl" >FR: </span>
+              <Form.Control
+                type="text"
                 name="signosVitales.FR"
-                checked={formData?.signosVitales?.FR === "Si"}
+                defaultValue={formData?.signosVitales?.FR}
                 onChange={onChange}
-                label={"FR"}
+                placeholder={"FR"}
               />
             </Col>
-            <Col sm={6} md={3} lg={3} className="d-flex justify-content-center">
-              <Form.Check
-                type="checkbox"
+            <Col sm={6} md={3} lg={3} className="d-flex align-items-center justify-content-center">
+              <span className="label-formControl" >Peso: </span>
+              <Form.Control
+                type="text"
                 name="signosVitales.peso"
-                checked={formData?.signosVitales?.peso === "Si"}
+                defaultValue={formData?.signosVitales?.peso}
                 onChange={onChange}
-                label={"Peso"}
+                placeholder={"Peso"}
               />
             </Col>
           </Row>
 
           <Row className="d-flex mb-2 mb-md-4 mb-lg-7 justify-content-center">
             {/* TA */}
-            <Col sm={6} md={3} lg={3} className="d-flex justify-content-center">
-              <Form.Check
-                type="checkbox"
+            <Col sm={6} md={3} lg={3} className="d-flex align-items-center justify-content-center">
+              <span className="label-formControl" >Talla: </span>
+              <Form.Control
+                type="text"
                 name="signosVitales.talla"
-                checked={formData?.signosVitales?.talla === "Si"}
+                defaultValue={formData?.signosVitales?.talla}
                 onChange={onChange}
-                label={"Talla"}
+                placeholder={"Talla"}
               />
             </Col>
-            <Col sm={6} md={3} lg={3} className="d-flex justify-content-center">
-              <Form.Check
-                type="checkbox"
+            <Col sm={6} md={3} lg={3} className="d-flex align-items-center justify-content-center">
+              <span className="label-formControl" >Glucosa capilar: </span>
+              <Form.Control
+                type="text"
                 name="signosVitales.glucosaCapilar"
-                checked={formData?.signosVitales?.glucosaCapilar === "Si"}
+                defaultValue={formData?.signosVitales?.glucosaCapilar}
                 onChange={onChange}
-                label={"Glucosa Capilar"}
+                placeholder={"Glucosa capilar"}
               />
             </Col>
-            <Col sm={6} md={3} lg={3} className="d-flex justify-content-center">
-              <Form.Check
-                type="checkbox"
+            <Col sm={6} md={3} lg={3} className="d-flex align-items-center justify-content-center">
+              <span className="label-formControl" >FC: </span>
+              <Form.Control
+                type="text"
                 name="signosVitales.FC"
-                checked={formData?.signosVitales?.FC === "Si"}
+                defaultValue={formData?.signosVitales?.FC}
                 onChange={onChange}
-                label={"FC"}
+                placeholder={"FC"}
               />
             </Col>
           </Row>

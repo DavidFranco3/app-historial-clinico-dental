@@ -1020,29 +1020,43 @@ const TablaRegistros = ({ history, location }) => {
           fontSize: 12,
           bold: true,
           alignment: 'center',
-          text: ' ODONTOGRAMA INICIAL ', // Espacio en blanco
-          margin: [0, 10, 0, 5], // márgenes: [izquierda, arriba, derecha, abajo]
+          text: ' ODONTOGRAMA INICIAL ',
+          margin: [0, 10, 0, 5],
         },
         {
           alignment: 'center',
           style: 'header',
-          image: odontogramaInicial,
-          width: 500,
-          height: 300,
+          stack: [
+              formData.odontogramaInicial ? {
+              image: odontogramaInicial,
+              width: 500,
+              height: 300
+            } : {
+              text: 'SIN ODONTOGRAMA',
+              style: { bold: true, fontSize: 16 }
+            }
+          ]
         },
         {
           fontSize: 12,
           bold: true,
           alignment: 'center',
-          text: ' ODONTOGRAMA FINAL ', // Espacio en blanco
-          margin: [0, 50, 0, 5], // márgenes: [izquierda, arriba, derecha, abajo]
+          text: ' ODONTOGRAMA FINAL ',
+          margin: [0, 50, 0, 5],
         },
         {
           alignment: 'center',
           style: 'header',
-          image: odontogramaFinal,
-          width: 500,
-          height: 300,
+          stack: [
+              formData.odontogramaFinal ? {
+              image: odontogramaFinal,
+              width: 500,
+              height: 300
+            } : {
+              text: 'SIN ODONTOGRAMA',
+              style: { bold: true, fontSize: 16 }
+            }
+          ]
         },
       ],
     };

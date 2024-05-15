@@ -48,3 +48,11 @@ z-index: 9999;
     margin-right: 0;
   }
 }
+
+.form-control-small {
+  width: 70px;
+}
+
+.label-formControl {
+  margin-right: 10px;
+}
