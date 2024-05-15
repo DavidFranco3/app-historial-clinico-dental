@@ -223,6 +223,7 @@ const TablaRegistros = ({ history, location }) => {
   const GenerarPDF = async (formData, procedimientos) => {
 
     const odontogramaInicial = await ImageToBase64Converter({ imageUrl: formData.odontograma });
+    console.log(odontogramaInicial)
     const odontogramaFinal = await ImageToBase64Converter({ imageUrl: formData.odontogramaFinal });
 
     // Aquí puedes seguir con la lógica para generar el PDF utilizando la imagen en base64
@@ -1027,7 +1028,7 @@ const TablaRegistros = ({ history, location }) => {
           alignment: 'center',
           style: 'header',
           stack: [
-              formData.odontogramaInicial ? {
+              formData.odontograma ? {
               image: odontogramaInicial,
               width: 500,
               height: 300
@@ -1086,10 +1087,6 @@ const TablaRegistros = ({ history, location }) => {
       </BasicModal>
     </div>
   );
-
-
-
-
 };
 
 
