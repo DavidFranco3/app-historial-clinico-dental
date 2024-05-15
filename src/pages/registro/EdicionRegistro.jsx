@@ -8,7 +8,7 @@ import Container from "../../components/presentational/Container";
 import MultiStep from "react-multistep";
 import { FabricJSCanvas, useFabricJSEditor } from "fabricjs-react";
 import "./style.css";
-import imagenFondo from "../../assets/img/fondo.jpeg"
+import imagenFondo from "../../assets/img/fondo.png"
 import imgLesionCariosa from "../../assets/img/simbologia/LesionCariosa.png"
 import imgIndExt from "../../assets/img/simbologia/Indicadoparaextraerse.png"
 import imgObturado from "../../assets/img/simbologia/Obturado.png"
