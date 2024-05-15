@@ -1485,8 +1485,8 @@ function StepTen() {
         subeArchivosCloudinary(imgData, "odontogramas")
           .then((response) => {
             console.log(response)
-            setOdontogramaFinal(response);
-            resolve(response); // Resuelve la promesa después de establecer el enlace de la imagen
+            setOdontogramaFinal(response.data.secure_url);
+            resolve(); // Resuelve la promesa después de establecer el enlace de la imagen
           })
           .catch((e) => {
             console.log(e);
