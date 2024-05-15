@@ -1300,7 +1300,7 @@ function StepNine() {
         subeArchivosCloudinary(imgData, "odontogramas")
           .then((response) => {
             console.log(response)
-            setOdontograma(url.data.secure_url);
+            setOdontograma(response);
             resolve(); // Resuelve la promesa después de establecer el enlace de la imagen
           })
           .catch((e) => {
@@ -1614,8 +1614,8 @@ const Registro = () => {
       if (formData.estudios.estudiosGabinete.imagen) {
         const uploadPromise = subeArchivosCloudinary(formData.estudios.estudiosGabinete.imagen, 'estudiosGabinete')
           .then(url => {
-            formData.estudios.estudiosGabinete.imagen = url.data.secure_url; // Actualiza la propiedad con la URL
-            return url.data.secure_url; // Opcionalmente puedes devolver la URL si es necesario para algo más
+            formData.estudios.estudiosGabinete.imagen = url; // Actualiza la propiedad con la URL
+            return url; // Opcionalmente puedes devolver la URL si es necesario para algo más
           });
         uploads.push(uploadPromise);
       }
@@ -1623,8 +1623,8 @@ const Registro = () => {
       if (formData.estudios.estudiosLaboratorio.imagen) {
         const uploadPromise = subeArchivosCloudinary(formData.estudios.estudiosLaboratorio.imagen, 'estudiosLaboratorio')
           .then(url => {
-            formData.estudios.estudiosLaboratorio.imagen = url.data.secure_url; // Actualiza la propiedad con la URL
-            return url.data.secure_url; // Opcionalmente puedes devolver la URL si es necesario para algo más
+            formData.estudios.estudiosLaboratorio.imagen = url; // Actualiza la propiedad con la URL
+            return url; // Opcionalmente puedes devolver la URL si es necesario para algo más
           });
         uploads.push(uploadPromise);
       }
