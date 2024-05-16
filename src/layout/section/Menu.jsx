@@ -1,11 +1,11 @@
-import { faPenToSquare, faTable } from "@fortawesome/free-solid-svg-icons";
+import { faPenToSquare, faTable, faArrowLeftLong } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 
 const Menu = () => {
   return (
     <div>
-      <aside className="main-sidebar sidebar-dark-primary elevation-4">
+      <aside className="main-sidebar sidebar-dark-primary elevation-4 d-flex flex-column">
         {/* Brand Logo */}
         <a href="" className="brand-link">
           <img
@@ -17,7 +17,7 @@ const Menu = () => {
           <span className="brand-text font-weight-light">Rehabilitación Bucal</span>
         </a>
         {/* Sidebar */}
-        <div className="sidebar">
+        <div className="sidebar flex-grow-1">
           {/* Sidebar user panel (optional) */}
           <div className="user-panel mt-3 pb-3 mb-3 d-flex">
             <div className="image">
@@ -57,8 +57,6 @@ const Menu = () => {
               role="menu"
               data-accordion="false"
             >
-              {/* Add icons to the links using the .nav-icon class
-         with font-awesome or any other icon font library */}
               <li className="nav-item">
                 <a href="/registro" className="nav-link">
                   <FontAwesomeIcon icon={faPenToSquare} className="nav-icon" />
@@ -77,6 +75,13 @@ const Menu = () => {
               </li>
             </ul>
           </nav>
+        </div>
+        {/* Botón de Cerrar sesión */}
+        <div className="d-flex justify-content-center mb-2">
+          <button className="btn btn-danger">
+            <FontAwesomeIcon icon={faArrowLeftLong} className="nav-icon" />
+            &nbsp; Cerrar sesión
+          </button>
         </div>
       </aside>
     </div>
