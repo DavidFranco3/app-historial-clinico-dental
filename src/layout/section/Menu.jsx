@@ -1,8 +1,28 @@
 import { faPenToSquare, faTable, faArrowLeftLong } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  getTokenApi,
+  isExpiredToken,
+  logoutApi,
+  obtenidusuarioLogueado,
+} from "../../api/auth";
 import React from "react";
+import {
+  useNavigate
+} from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Menu = () => {
+
+  const redirecciona = useNavigate();
+
+  //Para cerrar la sesion
+  const cerrarSesion = () => {
+    toast.success("Sesión cerrada");
+    redirecciona("/login")
+    logoutApi();
+  }
+
   return (
     <div>
       <aside className="main-sidebar sidebar-dark-primary elevation-4 d-flex flex-column">
@@ -78,7 +98,7 @@ const Menu = () => {
         </div>
         {/* Botón de Cerrar sesión */}
         <div className="d-flex justify-content-center mb-2">
-          <button className="btn btn-danger">
+          <button onClick={() => { cerrarSesion() }} className="btn btn-danger">
             <FontAwesomeIcon icon={faArrowLeftLong} className="nav-icon" />
             &nbsp; Cerrar sesión
           </button>
