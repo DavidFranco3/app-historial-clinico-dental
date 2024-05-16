@@ -1444,24 +1444,44 @@ function StepTen() {
   const [pointsRG, setPointsRG] = useState([]);
   const [pointsMD, setPointsMD] = useState([]);
 
+  const [points, setPoints] = useState([]);
+
   const handleClick = (event) => {
     const rect = event.target.getBoundingClientRect();
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
-    if (identificador === "LC") {
-      setPointsLC([...pointsLC, { x, y }]);
-    } else if (identificador === "IE") {
-      setPointsIE([...pointsIE, { x, y }]);
-    } else if (identificador === "OB") {
-      setPointsOB([...pointsOB, { x, y }]);
-    } else if (identificador === "EV") {
-      setPointsEV([...pointsEV, { x, y }]);
-    } else if (identificador === "DSN") {
-      setPointsDSN([...pointsDSN, { x, y }]);
-    } else if (identificador === "RG") {
-      setPointsRG([...pointsRG, { x, y }]);
-    } else if (identificador === "MD") {
-      setPointsMD([...pointsMD, { x, y }]);
+    const newPoint = {
+      x, y,
+      category: identificador,
+      timestamp: new Date().getTime() // O usa un contador incremental
+    };
+    setPoints([...points, newPoint]);
+  };
+
+  const removeLastPoint = () => {
+    if (points.length > 0) {
+      // Encuentra el índice del punto con el timestamp más reciente
+      const lastIndex = points.reduce((latest, point, index) => {
+        return point.timestamp > points[latest].timestamp ? index : latest;
+      }, 0);
+      
+      // Crea una copia del arreglo de puntos excepto el último añadido
+      const newPoints = [...points];
+      newPoints.splice(lastIndex, 1);
+      setPoints(newPoints);
+    }
+  };
+
+  const getImageForCategory = (category) => {
+    switch (category) {
+      case 'LC': return imgLesionCariosa;
+      case 'IE': return imgIndExt;
+      case 'OB': return imgObturado;
+      case 'EV': return imgEspacioVacio;
+      case 'DSN': return imgDiSupNum;
+      case 'RG': return imgRetGin;
+      case 'MD': return imgMovDent;
+      default: return undefined;
     }
   };
 
@@ -1566,7 +1586,7 @@ function StepTen() {
             }}
             onClick={handleClick}
           >
-            {pointsLC.map((point, index) => (
+            {points.map((point, index) => (
               <div
                 key={index}
                 style={{
@@ -1578,98 +1598,24 @@ function StepTen() {
                   borderRadius: "50%",
                 }}
               >
-                <img src={imgLesionCariosa} width="100%" height="100%" />
+                <img src={getImageForCategory(point.category)} width="100%" height="100%" />
               </div>
-            ))}
-            {pointsIE.map((point, index) => (
-              <div
-                key={index}
-                style={{
-                  position: "absolute",
-                  left: `${point.x}px`,
-                  top: `${point.y}px`,
-                  width: "20px",
-                  height: "20px",
-                  borderRadius: "50%",
-                }}
-              >
-                <img src={imgIndExt} width="100%" height="100%" />
-              </div>
-            ))}
-            {pointsOB.map((point, index) => (
-              <div
-                key={index}
-                style={{
-                  position: "absolute",
-                  left: `${point.x}px`,
-                  top: `${point.y}px`,
-                  width: "20px",
-                  height: "20px",
-                  borderRadius: "50%",
-                }}
-              ><img src={imgObturado} width="100%" height="100%" /></div>
-            ))}
-            {pointsEV.map((point, index) => (
-              <div
-                key={index}
-                style={{
-                  position: "absolute",
-                  left: `${point.x}px`,
-                  top: `${point.y}px`,
-                  width: "20px",
-                  height: "20px",
-                  borderRadius: "50%",
-                }}
-              ><img src={imgEspacioVacio} width="100%" height="100%" /></div>
-            ))}
-            {pointsDSN.map((point, index) => (
-              <div
-                key={index}
-                style={{
-                  position: "absolute",
-                  left: `${point.x}px`,
-                  top: `${point.y}px`,
-                  width: "20px",
-                  height: "20px",
-                  borderRadius: "50%",
-                }}
-              ><img src={imgDiSupNum} width="100%" height="100%" /></div>
-            ))}
-            {pointsRG.map((point, index) => (
-              <div
-                key={index}
-                style={{
-                  position: "absolute",
-                  left: `${point.x}px`,
-                  top: `${point.y}px`,
-                  width: "20px",
-                  height: "20px",
-                  borderRadius: "50%",
-                }}
-              ><img src={imgRetGin} width="100%" height="100%" /></div>
-            ))}
-            {pointsMD.map((point, index) => (
-              <div
-                key={index}
-                style={{
-                  position: "absolute",
-                  left: `${point.x}px`,
-                  top: `${point.y}px`,
-                  width: "20px",
-                  height: "20px",
-                  borderRadius: "50%",
-                }}
-              ><img src={imgMovDent} width="100%" height="100%" /></div>
             ))}
           </div>
+
         </div>
       </div>
-      <button onClick={ejecutarCapturasYMostrarLogs}>Capture Image</button>
+      <div className="btnsSimbologia">
+
+          <div className="me-2">
+            <button  className="btn btn-primary" onClick={ejecutarCapturasYMostrarLogs}>Capture Image</button>
+          </div>
+          <Button className="ms-2" onClick={removeLastPoint} variant="warning">Borrar último punto</Button>
         {/* ESPACIO EN BLANCO */}
-        <div className="container mt-5">
         
-        </div>
       </div>
+      <div className="container mt-5"></div>
+    </div>
   );
 }
 
