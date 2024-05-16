@@ -1591,8 +1591,8 @@ function StepTen() {
                 key={index}
                 style={{
                   position: "absolute",
-                  left: `${point.x}px`,
-                  top: `${point.y}px`,
+                  left: `${point.x - 10}px`,
+                  top: `${point.y - 10}px`,
                   width: "20px",
                   height: "20px",
                   borderRadius: "50%",
