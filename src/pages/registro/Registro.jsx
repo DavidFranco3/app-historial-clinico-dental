@@ -1514,6 +1514,22 @@ function StepTen() {
 }
 
 const Registro = () => {
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Define estilos condicionales basados en si es móvil o no
+  const stepStyles = isMobile ? {
+    width: '100%', // Usa el 100% del contenedor en móviles
+    overflowX: 'auto' // Añade scroll horizontal si es necesario en móviles
+  } : {
+    maxWidth: '100%', // Tamaño máximo para no-móviles
+  };
+
   // Para almacenar los datos del formulario
   const [formData, setFormData] = useState(initialFormData());
   const [odontograma, setOdontograma] = useState("");
@@ -1606,12 +1622,12 @@ const Registro = () => {
 
   return (
     <Autenticate>
-      <Container titulo="Registrar">
+      <Container  className="p-3" fluid="md" titulo="Registrar">
         <div>
           <div>
-            <h1 className="textoCentrado">Historia Clínica Estomatológica</h1>
+            <h1 className="text-center">Historia Clínica Estomatológica</h1>
             <div>
-              <div className="textoCentrado">
+              <div className="text-center">
                 <label htmlFor="unidadMedica">
                   Unidad Médica: Consultorio Dental RH
                 </label>
@@ -1631,11 +1647,11 @@ const Registro = () => {
                 <br />
               </div>
             </div>
-            <div >
+            <div className="container-fluid">
               <SharedStateContext.Provider value={{ formData, setFormData, odontograma, setOdontograma }}>
-                <div className="container justify-content-center">
-                  <div className="d-flex justify-content-center">
-                    <MultiStep
+                <div className="container-fuid">
+                  <div style={stepStyles}>
+                    <MultiStep 
                       steps={steps}
                       prevButton={{
                         title: "Atrás",
@@ -1667,7 +1683,7 @@ const Registro = () => {
 
                   </div>
 
-                  <div className="button-container" style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+                  <div className="d-flex justify-content-center mt-4" >
                     <Button variant="success" onClick={onSubmit}>
                       <FontAwesomeIcon icon={faCloudArrowUp} />
                       &nbsp; Enviar

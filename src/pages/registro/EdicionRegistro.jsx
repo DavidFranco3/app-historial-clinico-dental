@@ -1622,6 +1622,23 @@ function StepTen() {
 
 const EditarHistoriaClinica = () => {
 
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Define estilos condicionales basados en si es móvil o no
+  const stepStyles = isMobile ? {
+    width: '100%', // Usa el 100% del contenedor en móviles
+    overflowX: 'auto' // Añade scroll horizontal si es necesario en móviles
+  } : {
+    maxWidth: '100%', // Tamaño máximo para no-móviles
+  };
+
+
   const { id } = useParams(); // Obtiene el ID del paciente desde la URL
 
   const [formData, setFormData] = useState({
@@ -1907,8 +1924,8 @@ const EditarHistoriaClinica = () => {
             </div>
             <div >
               <SharedStateContext.Provider value={{ formData, setFormData, odontogramaFinal, setOdontogramaFinal}}>
-                <div className="container justify-content-center">
-                  <div className="d-flex justify-content-center">
+                <div className="container-fluid">
+                  <div style={stepStyles}>
                     <MultiStep
                       steps={steps}
                       prevButton={{
