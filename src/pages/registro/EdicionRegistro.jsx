@@ -766,17 +766,19 @@ function StepFive() {
 
   // Manejador de cambios para actualizar el estado de formData
   const onChange = (e) => {
-    const { name, checked } = e.target;
-    const [mainCategory, subCategory] = name.split('.');
-  
+    const { name, value, type, checked } = e.target;
+    const path = name.split('.');
+    const mainCategory = path[0];
+    const subCategory = path[1];
+
     setFormData(prevFormData => ({
-      ...prevFormData,
-      [mainCategory]: {
-        ...prevFormData[mainCategory],
-        [subCategory]: checked ? "Si" : "No"
-      }
+        ...prevFormData,
+        [mainCategory]: {
+            ...prevFormData[mainCategory],
+            [subCategory]: type === 'checkbox' ? (checked ? 'Si' : 'No') : value
+        }
     }));
-  };
+};
 
   return (
     <div>
@@ -789,64 +791,100 @@ function StepFive() {
           <Row className="mb-2 mb-md-4 mb-lg-7 justify-content-center">
             <Col sm={12} md={4} lg={4} className="d-flex justify-content-center">
               <Form.Check
-                checked={formData?.antecedentesPersonalesNoPatologicos?.alimentacion === "Si"} // Esta propiedad refleja el estado actual del checkbox
+                checked={formData?.antecedentesPersonalesNoPatologicos?.alimentacion.estado === "Si"} // Esta propiedad refleja el estado actual del checkbox
                 onChange={onChange} // Añadir el onChange que maneja la actualización del estado
                 name="antecedentesPersonalesNoPatologicos.alimentacion"
                 value="Si"
                 type="checkbox"
                 label={"Alimentación"}
               />
+              <Form.Control
+                as='textarea'
+                name="antecedentesPersonalesNoPatologicos.alimentacion.descripcion"
+                defaultValue={formData.antecedentesPersonalesNoPatologicos.alimentacion.descripcion}
+                onChange={onChange}
+              />
             </Col>
             <Col sm={12} md={4} lg={4} className="d-flex justify-content-center">
               <Form.Check
-                checked={formData?.antecedentesPersonalesNoPatologicos?.higiene === "Si"} // Esta propiedad refleja el estado actual del checkbox
+                checked={formData?.antecedentesPersonalesNoPatologicos?.higiene.estado === "Si"} // Esta propiedad refleja el estado actual del checkbox
                 onChange={onChange} // Añadir el onChange que maneja la actualización del estado
                 name="antecedentesPersonalesNoPatologicos.higiene"
                 value="Si"
                 type="checkbox"
                 label={"Higiene"}
               />
+              <Form.Control
+                as='textarea'
+                name="antecedentesPersonalesNoPatologicos.higiene.descripcion"
+                defaultValue={formData.antecedentesPersonalesNoPatologicos.higiene.descripcion}
+                onChange={onChange}
+              />
             </Col>
             <Col sm={12} md={4} lg={4} className="d-flex justify-content-center">
               <Form.Check
-                checked={formData?.antecedentesPersonalesNoPatologicos?.convivenciaConAnimales === "Si"} // Esta propiedad refleja el estado actual del checkbox
+                checked={formData?.antecedentesPersonalesNoPatologicos?.convivenciaConAnimales.estado === "Si"} // Esta propiedad refleja el estado actual del checkbox
                 onChange={onChange} // Añadir el onChange que maneja la actualización del estado
                 name="antecedentesPersonalesNoPatologicos.convivenciaConAnimales"
                 value="Si"
                 type="checkbox"
                 label={"Convivencia con animales"}
               />
+              <Form.Control
+                as='textarea'
+                name="antecedentesPersonalesNoPatologicos.convivenciaConAnimales.descripcion"
+                defaultValue={formData.antecedentesPersonalesNoPatologicos.convivenciaConAnimale.descripcion}
+                onChange={onChange}
+              />
             </Col>
           </Row>
           <Row className="mb-2 mb-md-4 mb-lg-7 justify-content-center">
             <Col sm={12} md={4} lg={4} className="d-flex justify-content-center" >
               <Form.Check
-                checked={formData?.antecedentesPersonalesNoPatologicos?.tatuajes === "Si"} // Esta propiedad refleja el estado actual del checkbox
+                checked={formData?.antecedentesPersonalesNoPatologicos?.tatuajes.estado === "Si"} // Esta propiedad refleja el estado actual del checkbox
                 onChange={onChange} // Añadir el onChange que maneja la actualización del estado
                 name="antecedentesPersonalesNoPatologicos.tatuajes"
                 value="Si"
                 type="checkbox"
                 label={"Tatuajes"}
               />
+              <Form.Control
+                as='textarea'
+                name="antecedentesPersonalesNoPatologicos.tatuajes.descripcion"
+                defaultValue={formData.antecedentesPersonalesNoPatologicos.tatuajes.descripcion}
+                onChange={onChange}
+              />
             </Col>
             <Col sm={12} md={4} lg={4} className="d-flex justify-content-center" >
               <Form.Check
-                checked={formData?.antecedentesPersonalesNoPatologicos?.deportes === "Si"} // Esta propiedad refleja el estado actual del checkbox
+                checked={formData?.antecedentesPersonalesNoPatologicos?.deportes.estado === "Si"} // Esta propiedad refleja el estado actual del checkbox
                 onChange={onChange} // Añadir el onChange que maneja la actualización del estado
                 name="antecedentesPersonalesNoPatologicos.deportes"
                 value="Si"
                 type="checkbox"
                 label={"Deportes"}
               />
+              <Form.Control
+                as='textarea'
+                name="antecedentesPersonalesNoPatologicos.deportes.descripcion"
+                defaultValue={formData.antecedentesPersonalesNoPatologicos.deportes.descripcion}
+                onChange={onChange}
+              />
             </Col>
             <Col sm={12} md={4} lg={4} className="d-flex justify-content-center" >
               <Form.Check
-                checked={formData?.antecedentesPersonalesNoPatologicos?.vacunas === "Si"} // Esta propiedad refleja el estado actual del checkbox
+                checked={formData?.antecedentesPersonalesNoPatologicos?.vacunas.estado === "Si"} // Esta propiedad refleja el estado actual del checkbox
                 onChange={onChange} // Añadir el onChange que maneja la actualización del estado
                 name="antecedentesPersonalesNoPatologicos.vacunas"
                 value="Si"
                 type="checkbox"
                 label={"Vacunas"}
+              />
+              <Form.Control
+                as='textarea'
+                name="antecedentesPersonalesNoPatologicos.vacunas.descripcion"
+                defaultValue={formData.antecedentesPersonalesNoPatologicos.vacunas.descripcion}
+                onChange={onChange}
               />
             </Col>
           </Row>

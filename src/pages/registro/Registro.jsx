@@ -734,60 +734,90 @@ function StepFive() {
       <div>
         <Form onChange={onChange}>
           <Row className="mb-2 mb-md-4 mb-lg-7 justify-content-center">
-            <Col sm={12} md={4} lg={4} className="d-flex justify-content-center">
+            <Col sm={12} md={4} lg={4} className="d-flex flex-column align-items-center justify-content-center">
               <Form.Check
-                defaultValue={formData.antecedentesPersonalesNoPatologicos.alimentacion}
-                name="antecedentesPersonalesNoPatologicos.alimentacion"
+                defaultValue={formData.antecedentesPersonalesNoPatologicos.alimentacion.estado}
+                name="antecedentesPersonalesNoPatologicos.alimentacion.estado"
                 value="Si"
                 type="checkbox"
                 label={"Alimentación"}
               />
+              <Form.Control
+                as='textarea'
+                name="antecedentesPersonalesNoPatologicos.alimentacion.descripcion"
+                defaultValue={formData.antecedentesPersonalesNoPatologicos.alimentacion.descripcion}
+              />
             </Col>
-            <Col sm={12} md={4} lg={4} className="d-flex justify-content-center">
+            <Col sm={12} md={4} lg={4} className="d-flex flex-column align-items-center justify-content-center">
               <Form.Check
                 type="checkbox"
-                defaultValue={formData.antecedentesPersonalesNoPatologicos.higiene}
-                name="antecedentesPersonalesNoPatologicos.higiene"
+                defaultValue={formData.antecedentesPersonalesNoPatologicos.higiene.estado}
+                name="antecedentesPersonalesNoPatologicos.higiene.estado"
                 value="Si"
                 label={"Higiene"}
               />
+              <Form.Control
+                as='textarea'
+                name="antecedentesPersonalesNoPatologicos.higiene.descripcion"
+                defaultValue={formData.antecedentesPersonalesNoPatologicos.higiene.descripcion}
+              />
             </Col>
-            <Col sm={12} md={4} lg={4} className="d-flex justify-content-center">
+            <Col sm={12} md={4} lg={4} className="d-flex flex-column align-items-center justify-content-center">
               <Form.Check
                 type="checkbox"
-                defaultValue={formData.antecedentesPersonalesNoPatologicos.convivenciaConAnimales}
-                name="antecedentesPersonalesNoPatologicos.convivenciaConAnimales"
+                defaultValue={formData.antecedentesPersonalesNoPatologicos.convivenciaConAnimales.estado}
+                name="antecedentesPersonalesNoPatologicos.convivenciaConAnimales.estado"
                 value="Si"
                 label={"Convivencia con Animales"}
+              />
+              <Form.Control
+                as='textarea'
+                name="antecedentesPersonalesNoPatologicos.convivenciaConAnimales.descripcion"
+                defaultValue={formData.antecedentesPersonalesNoPatologicos.convivenciaConAnimales.descripcion}
               />
             </Col>
           </Row>
           <Row className="mb-2 mb-md-4 mb-lg-7 justify-content-center">
-            <Col sm={12} md={4} lg={4} className="d-flex justify-content-center" >
+            <Col sm={12} md={4} lg={4} className="d-flex flex-column align-items-center justify-content-center" >
               <Form.Check
                 type="checkbox"
-                defaultValue={formData.antecedentesPersonalesNoPatologicos.tatuajes}
-                name="antecedentesPersonalesNoPatologicos.tatuajes"
+                defaultValue={formData.antecedentesPersonalesNoPatologicos.tatuajes.estado}
+                name="antecedentesPersonalesNoPatologicos.tatuajes.estado"
                 value="Si"
                 label={"Tatuajes"}
               />
+              <Form.Control
+                as='textarea'
+                name="antecedentesPersonalesNoPatologicos.tatuajes.descripcion"
+                defaultValue={formData.antecedentesPersonalesNoPatologicos.tatuajes.descripcion}
+              />
             </Col>
-            <Col sm={12} md={4} lg={4} className="d-flex justify-content-center" >
+            <Col sm={12} md={4} lg={4} className="d-flex flex-column align-items-center justify-content-center" >
               <Form.Check
                 type="checkbox"
                 label={"Deportes"}
-                defaultValue={formData.antecedentesPersonalesNoPatologicos.deportes}
-                name="antecedentesPersonalesNoPatologicos.deportes"
+                defaultValue={formData.antecedentesPersonalesNoPatologicos.deportes.estado}
+                name="antecedentesPersonalesNoPatologicos.deportes.estado"
                 value="Si"
               />
+              <Form.Control
+                as='textarea'
+                name="antecedentesPersonalesNoPatologicos.deportes.descripcion"
+                defaultValue={formData.antecedentesPersonalesNoPatologicos.deportes.descripcion}
+              />
             </Col>
-            <Col sm={12} md={4} lg={4} className="d-flex justify-content-center" >
+            <Col sm={12} md={4} lg={4} className="d-flex flex-column align-items-center justify-content-center" >
               <Form.Check
                 type="checkbox"
                 label={"Vacunas"}
-                defaultValue={formData.antecedentesPersonalesNoPatologicos.vacunas}
-                name="antecedentesPersonalesNoPatologicos.vacunas"
+                defaultValue={formData.antecedentesPersonalesNoPatologicos.vacunas.estado}
+                name="antecedentesPersonalesNoPatologicos.vacunas.estado"
                 value="Si"
+              />
+              <Form.Control
+                as='textarea'
+                name="antecedentesPersonalesNoPatologicos.vacunas.descripcion"
+                defaultValue={formData.antecedentesPersonalesNoPatologicos.vacunas.descripcion}
               />
             </Col>
           </Row>
@@ -1795,12 +1825,30 @@ function initialFormData() {
       },
     },
     antecedentesPersonalesNoPatologicos: {
-      alimentacion: "No",
-      higiene: "No",
-      convivenciaConAnimales: "No",
-      tatuajes: "No",
-      deportes: "No",
-      vacunas: "No",
+      alimentacion: {
+        estado: "No",
+        descripcion: "",
+      },
+      higiene: {
+        estado: "No",
+        descripcion: "",
+      },
+      convivenciaConAnimales: {
+        estado: "No",
+        descripcion: "",
+      },
+      tatuajes: {
+        estado: "No",
+        descripcion: "",
+      },
+      deportes: {
+        estado: "No",
+        descripcion: "",
+      },
+      vacunas: {
+        estado: "No",
+        descripcion: "",
+      },
     },
     signosVitales: {
       TA: "",

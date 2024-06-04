@@ -11,6 +11,7 @@ import {
   useNavigate
 } from "react-router-dom";
 import { toast } from "react-toastify";
+import { faFolderClosed } from "@fortawesome/free-solid-svg-icons/faFolderClosed";
 
 const Menu = () => {
 
@@ -44,7 +45,7 @@ const Menu = () => {
               <img
                 src="/dist/img/icon.png"
                 className="img-circle elevation-2"
-                alt="User Image"
+                alt="User"
               />
             </div>
             <div className="info">
@@ -90,6 +91,14 @@ const Menu = () => {
                   <FontAwesomeIcon icon={faTable} className="nav-icon" />
                   <p>
                     Mis expedientes clinicos
+                  </p>
+                </a>
+              </li>
+              <li className="nav-item">
+                <a href="/formatos" className="nav-link">
+                  <FontAwesomeIcon icon={faFolderClosed} className="nav-icon" />
+                  <p>
+                    Mis formatos
                   </p>
                 </a>
               </li>
