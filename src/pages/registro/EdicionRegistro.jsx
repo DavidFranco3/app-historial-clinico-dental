@@ -8,6 +8,7 @@ import Container from "../../components/presentational/Container";
 import MultiStep from "react-multistep";
 import { FabricJSCanvas, useFabricJSEditor } from "fabricjs-react";
 import "./style.css";
+import noImage from "../../assets/img/noImage.png"
 import imagenFondo from "../../assets/img/fondo.png"
 import imgLesionCariosa from "../../assets/img/simbologia/LesionCariosa.png"
 import imgIndExt from "../../assets/img/simbologia/Indicadoparaextraerse.png"
@@ -789,7 +790,7 @@ function StepFive() {
       <div>
         <Form onChange={onChange}>
           <Row className="mb-2 mb-md-4 mb-lg-7 justify-content-center">
-            <Col sm={12} md={4} lg={4} className="d-flex justify-content-center">
+            <Col sm={12} md={4} lg={4} className="d-flex flex-column align-items-center justify-content-center">
               <Form.Check
                 checked={formData?.antecedentesPersonalesNoPatologicos?.alimentacion.estado === "Si"} // Esta propiedad refleja el estado actual del checkbox
                 onChange={onChange} // Añadir el onChange que maneja la actualización del estado
@@ -805,7 +806,7 @@ function StepFive() {
                 onChange={onChange}
               />
             </Col>
-            <Col sm={12} md={4} lg={4} className="d-flex justify-content-center">
+            <Col sm={12} md={4} lg={4} className="d-flex flex-column align-items-center justify-content-center">
               <Form.Check
                 checked={formData?.antecedentesPersonalesNoPatologicos?.higiene.estado === "Si"} // Esta propiedad refleja el estado actual del checkbox
                 onChange={onChange} // Añadir el onChange que maneja la actualización del estado
@@ -821,7 +822,7 @@ function StepFive() {
                 onChange={onChange}
               />
             </Col>
-            <Col sm={12} md={4} lg={4} className="d-flex justify-content-center">
+            <Col sm={12} md={4} lg={4} className="d-flex flex-column align-items-center justify-content-center">
               <Form.Check
                 checked={formData?.antecedentesPersonalesNoPatologicos?.convivenciaConAnimales.estado === "Si"} // Esta propiedad refleja el estado actual del checkbox
                 onChange={onChange} // Añadir el onChange que maneja la actualización del estado
@@ -833,13 +834,13 @@ function StepFive() {
               <Form.Control
                 as='textarea'
                 name="antecedentesPersonalesNoPatologicos.convivenciaConAnimales.descripcion"
-                defaultValue={formData.antecedentesPersonalesNoPatologicos.convivenciaConAnimale.descripcion}
+                defaultValue={formData.antecedentesPersonalesNoPatologicos.convivenciaConAnimales.descripcion}
                 onChange={onChange}
               />
             </Col>
           </Row>
           <Row className="mb-2 mb-md-4 mb-lg-7 justify-content-center">
-            <Col sm={12} md={4} lg={4} className="d-flex justify-content-center" >
+            <Col sm={12} md={4} lg={4} className="d-flex flex-column align-items-center justify-content-center" >
               <Form.Check
                 checked={formData?.antecedentesPersonalesNoPatologicos?.tatuajes.estado === "Si"} // Esta propiedad refleja el estado actual del checkbox
                 onChange={onChange} // Añadir el onChange que maneja la actualización del estado
@@ -855,7 +856,7 @@ function StepFive() {
                 onChange={onChange}
               />
             </Col>
-            <Col sm={12} md={4} lg={4} className="d-flex justify-content-center" >
+            <Col sm={12} md={4} lg={4} className="d-flex flex-column align-items-center justify-content-center" >
               <Form.Check
                 checked={formData?.antecedentesPersonalesNoPatologicos?.deportes.estado === "Si"} // Esta propiedad refleja el estado actual del checkbox
                 onChange={onChange} // Añadir el onChange que maneja la actualización del estado
@@ -871,7 +872,7 @@ function StepFive() {
                 onChange={onChange}
               />
             </Col>
-            <Col sm={12} md={4} lg={4} className="d-flex justify-content-center" >
+            <Col sm={12} md={4} lg={4} className="d-flex flex-column align-items-center justify-content-center" >
               <Form.Check
                 checked={formData?.antecedentesPersonalesNoPatologicos?.vacunas.estado === "Si"} // Esta propiedad refleja el estado actual del checkbox
                 onChange={onChange} // Añadir el onChange que maneja la actualización del estado
@@ -1029,15 +1030,14 @@ function StepSeven() {
     });
   };
 
-  const imgDefault = '../../assets/img/noImage.png';
   var imgSrcEstudiosGab = formData.estudios.estudiosGabinete.imagen;
   if (imgSrcEstudiosGab == null || imgSrcEstudiosGab === "" || imgSrcEstudiosGab === undefined) {
-    imgSrcEstudiosGab = imgDefault; 
+    imgSrcEstudiosGab = noImage; 
   }
 
   var imgSrcEstudiosLab = formData.estudios.estudiosLaboratorio.imagen;
   if (imgSrcEstudiosLab === null || imgSrcEstudiosLab === "" || imgSrcEstudiosLab === undefined) {
-    imgSrcEstudiosLab = imgDefault; 
+    imgSrcEstudiosLab = noImage; 
   }
 
   return (
@@ -1048,11 +1048,14 @@ function StepSeven() {
         <Row className="mb-2 mb-md-4 mb-lg-7">
           {/* Estudios de gabinete */}
           <Col sm={12} md={6} lg={6} className="d-flex flex-column align-items-center">
-            <div className="mb-2">
+            <div className="mb-2 d-flex flex-column align-items-center">
               <img 
                 src={imgSrcEstudiosGab} 
                 alt="Estudios gabinete" 
-                />
+                className="img-thumbnail"
+                height="300px"
+                width="300px"
+              />
               <Form.Check
                 type="checkbox"
                 checked={formData?.estudios?.estudiosGabinete?.estado === "Si"}
@@ -1078,10 +1081,13 @@ function StepSeven() {
           </Col>
           {/* Estudios de laboratorio */}
           <Col sm={12} md={6} lg={6} className="d-flex flex-column align-items-center">
-            <div className="mb-2">
+            <div className="mb-2 d-flex flex-column align-items-center">
               <img 
                 src={imgSrcEstudiosLab} 
-                alt="Estudios gabinete"   
+                alt="Estudios gabinete"
+                className="img-thumbnail"
+                height="300px"
+                width="300px"
               />
               <Form.Check
                 type="checkbox"
