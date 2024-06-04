@@ -1029,6 +1029,17 @@ function StepSeven() {
     });
   };
 
+  const imgDefault = '../../assets/img/noImage.png';
+  var imgSrcEstudiosGab = formData.estudios.estudiosGabinete.imagen;
+  if (imgSrcEstudiosGab == null || imgSrcEstudiosGab === "" || imgSrcEstudiosGab === undefined) {
+    imgSrcEstudiosGab = imgDefault; 
+  }
+
+  var imgSrcEstudiosLab = formData.estudios.estudiosLaboratorio.imagen;
+  if (imgSrcEstudiosLab === null || imgSrcEstudiosLab === "" || imgSrcEstudiosLab === undefined) {
+    imgSrcEstudiosLab = imgDefault; 
+  }
+
   return (
     <div>
       <h2 className="titulosMultiStep">Estudios</h2>
@@ -1038,6 +1049,10 @@ function StepSeven() {
           {/* Estudios de gabinete */}
           <Col sm={12} md={6} lg={6} className="d-flex flex-column align-items-center">
             <div className="mb-2">
+              <img 
+                src={imgSrcEstudiosGab} 
+                alt="Estudios gabinete" 
+                />
               <Form.Check
                 type="checkbox"
                 checked={formData?.estudios?.estudiosGabinete?.estado === "Si"}
@@ -1064,6 +1079,10 @@ function StepSeven() {
           {/* Estudios de laboratorio */}
           <Col sm={12} md={6} lg={6} className="d-flex flex-column align-items-center">
             <div className="mb-2">
+              <img 
+                src={imgSrcEstudiosLab} 
+                alt="Estudios gabinete"   
+              />
               <Form.Check
                 type="checkbox"
                 checked={formData?.estudios?.estudiosLaboratorio?.estado === "Si"}
