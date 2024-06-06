@@ -1,20 +1,19 @@
 import { Modal } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import ModalHeader from "react-bootstrap";
 import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
-import ModalHeader from "react-bootstrap/ModalHeader";
-import "../BasicModal/BasicModal.css"
 
-function procedimientoModal(params) {
+function formatoResponsivaModal(params) {
     const {show, setShow, title, children, size} = params;
 
     return (
         <Modal
             className="basic-modal"
-            show = {show}
+            show={show}
             onHide={() => setShow(false)}
-            size= {size !== undefined ? size : "xl"}
-            backdrop = "static"
-            keyboard = {false}
+            size={size !== undefined ? size : "xl"}
+            backdrop="static"
+            keyboard={false}
         >
             <ModalHeader>
                 <h2>{title}</h2>
@@ -33,4 +32,4 @@ function procedimientoModal(params) {
     );
 }
 
-export default procedimientoModal;
+export default formatoResponsivaModal;

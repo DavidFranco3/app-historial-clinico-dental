@@ -13,15 +13,13 @@ import {
   faPlus,
   faBars,
   faArrowDownLong,
-  faTrashCan
+  faTrashCan,
+  faFileContract
 } from "@fortawesome/free-solid-svg-icons";
 import { withRouter } from "../../utils/withRouter";
 import Eliminar from "./Eliminar";
 import BasicModal from "../../components/Modal/BasicModal";
-import { text } from '@fortawesome/fontawesome-svg-core';
-//import { image } from 'html2canvas/dist/types/css/types/image';
-import { height, width } from '@fortawesome/free-solid-svg-icons/fa0';
-//import { content } from 'html2canvas/dist/types/css/property-descriptors/content';
+import AnadirResponsiva from '../formatos/AnadirFormatResponsiva';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 const TablaRegistros = ({ history, location }) => {
@@ -68,7 +66,11 @@ const TablaRegistros = ({ history, location }) => {
     setShowModal(true);
   }
 
-
+  const anadirFormatoResponsiva = (content) => {
+    setTitulosModal("Consultar forma responsiva del paciente");
+    setContentModal(content);
+    setShowModal(true);
+  }
 
   const columns = [
     {
@@ -157,6 +159,27 @@ const TablaRegistros = ({ history, location }) => {
           <span className='mx-1'></span>
 
           <Badge
+            bg="info"
+            className="eliminarProveedor"
+            title="Formato responsiva"
+            style={{ cursor: 'pointer' }}
+            onClick={() => {
+              anadirFormatoResponsiva(
+                <AnadirResponsiva
+                  data={row}
+                  history={history}
+                  setShowModal={setShowModal}
+                  
+                />
+              )
+            }}
+          >
+            <FontAwesomeIcon icon={faFileContract} className="text-lg" />
+          </Badge>
+
+          <span className='mx-1'></span>
+
+          <Badge
             bg="danger"
             className="eliminarProveedor"
             title="Eliminar"
@@ -171,7 +194,6 @@ const TablaRegistros = ({ history, location }) => {
               )
             }}
           >
-
             <FontAwesomeIcon icon={faTrashCan} className="text-lg" />
           </Badge>
 

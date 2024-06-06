@@ -1716,7 +1716,8 @@ const EditarHistoriaClinica = () => {
     cavidadBucal: {},
     procedimientos: [],
     odontograma: "",
-    odontogramaFinal: ""
+    odontogramaFinal: "",
+    cartaResponsiva: "",
   })
 
   const [ odontogramaFinal, setOdontogramaFinal ] = useState("");
@@ -1739,7 +1740,8 @@ const EditarHistoriaClinica = () => {
           cavidadBucal: response.data.cavidadBucal || {},
           procedimientos: response.data.procedimientos || [],
           odontograma: response.data.odontograma || "",
-          odontogramaFinal: response.data.odontogramaFinal || ""
+          odontogramaFinal: response.data.odontogramaFinal || "",
+          cartaResponsiva: response.data.cartaResponsiva || "",
           // Repite para cada categoría según tu estructura de datos
         });
       } catch (error) {

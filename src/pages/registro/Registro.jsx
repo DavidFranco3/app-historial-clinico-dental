@@ -1,12 +1,11 @@
-import { useEffect, useState, useContext, createContext, useRef } from "react";
+import { useEffect, useState, useContext, createContext } from "react";
 import Dropzone from "../../components/dropzone/Dropzone";
 import Autenticate from "../../layout/Autenticate";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck, faCloudArrowUp } from "@fortawesome/free-solid-svg-icons";
+import { faCloudArrowUp } from "@fortawesome/free-solid-svg-icons";
 import Container from "../../components/presentational/Container";
 import MultiStep from "react-multistep";
-import { FabricJSCanvas, useFabricJSEditor } from "fabricjs-react";
 import "./style.css";
 import imagenFondo from "../../assets/img/fondo.png"
 import imgLesionCariosa from "../../assets/img/simbologia/LesionCariosa.png"
@@ -19,8 +18,6 @@ import imgMovDent from "../../assets/img/simbologia/MovilidadDentaria.png"
 import { registraHistoriaClinica } from "../../api/historiaClinica";
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
-import { height, width } from "@fortawesome/free-solid-svg-icons/fa0";
-import { text } from "@fortawesome/fontawesome-svg-core";
 import BasicModal from "../../components/Modal/BasicModal";
 import RegistroProcedimiento from "./AnadirRegistro";
 import { toast } from "react-toastify";
@@ -46,7 +43,6 @@ const steps = [
 function StepOne() {
   // Para almacenar los datos del formulario
   const { formData, setFormData } = useContext(SharedStateContext);
-  const { odontograma, setOdontograma } = useContext(SharedStateContext);
 
   console.log(formData)
 
@@ -1276,18 +1272,9 @@ function StepEight() {
 }
 
 function StepNine() {
-  const { formData, setFormData } = useContext(SharedStateContext);
   const { odontograma, setOdontograma } = useContext(SharedStateContext);
 
   const [identificador, setIdentificador] = useState("");
-
-  const [pointsLC, setPointsLC] = useState([]);
-  const [pointsIE, setPointsIE] = useState([]);
-  const [pointsOB, setPointsOB] = useState([]);
-  const [pointsEV, setPointsEV] = useState([]);
-  const [pointsDSN, setPointsDSN] = useState([]);
-  const [pointsRG, setPointsRG] = useState([]);
-  const [pointsMD, setPointsMD] = useState([]);
 
   const [points, setPoints] = useState([]);
 
@@ -1407,7 +1394,7 @@ function StepNine() {
       </div>
       <div className="divFig" id="divFig">
         <div className="divImageFig">
-          <img src={imagenFondo} className="imagenFondoFig" />
+          <img src={imagenFondo} className="imagenFondoFig" alt=""/>
         </div>
         <div className="divFigCa">
           <div
@@ -1430,7 +1417,7 @@ function StepNine() {
                   borderRadius: "50%",
                 }}
               >
-                <img src={getImageForCategory(point.category)} width="100%" height="100%" />
+                <img src={getImageForCategory(point.category)} width="100%" height="100%" alt="" />
               </div>
             ))}
           </div>
@@ -1636,6 +1623,7 @@ const Registro = () => {
         procedimientos: formData.procedimientos,
         odontograma: odontograma,
         odontogramaFinal: "",
+        cartaResponsiva: formData.cartaResponsiva,
         estado: "true",
       };
 
@@ -1909,7 +1897,8 @@ function initialFormData() {
     },
     procedimientos: [],
     odontograma: "",
-    odontogramaFinal: ""
+    odontogramaFinal: "",
+    cartaResponsiva: "",
   }
 }
 
