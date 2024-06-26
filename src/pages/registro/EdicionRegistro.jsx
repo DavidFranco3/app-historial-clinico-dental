@@ -3,21 +3,28 @@ import { useNavigate, useParams } from "react-router-dom";
 import Autenticate from "../../layout/Autenticate";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck, faCloudArrowUp, faPen } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCheck,
+  faCloudArrowUp,
+  faPen,
+} from "@fortawesome/free-solid-svg-icons";
 import Container from "../../components/presentational/Container";
 import MultiStep from "react-multistep";
 import { FabricJSCanvas, useFabricJSEditor } from "fabricjs-react";
 import "./style.css";
-import noImage from "../../assets/img/noImage.png"
-import imagenFondo from "../../assets/img/fondo.png"
-import imgLesionCariosa from "../../assets/img/simbologia/LesionCariosa.png"
-import imgIndExt from "../../assets/img/simbologia/Indicadoparaextraerse.png"
-import imgObturado from "../../assets/img/simbologia/Obturado.png"
-import imgEspacioVacio from "../../assets/img/simbologia/EspacioVacio.png"
-import imgDiSupNum from "../../assets/img/simbologia/DienteSuperiorNumerado.png"
-import imgRetGin from "../../assets/img/simbologia/RetraccionGingival.png"
-import imgMovDent from "../../assets/img/simbologia/MovilidadDentaria.png"
-import { obtenerHistoriaClinica, actualizarHistoriaClinica } from "../../api/historiaClinica";
+import noImage from "../../assets/img/noImage.png";
+import imagenFondo from "../../assets/img/fondo.png";
+import imgLesionCariosa from "../../assets/img/simbologia/LesionCariosa.png";
+import imgIndExt from "../../assets/img/simbologia/Indicadoparaextraerse.png";
+import imgObturado from "../../assets/img/simbologia/Obturado.png";
+import imgEspacioVacio from "../../assets/img/simbologia/EspacioVacio.png";
+import imgDiSupNum from "../../assets/img/simbologia/DienteSuperiorNumerado.png";
+import imgRetGin from "../../assets/img/simbologia/RetraccionGingival.png";
+import imgMovDent from "../../assets/img/simbologia/MovilidadDentaria.png";
+import {
+  obtenerHistoriaClinica,
+  actualizarHistoriaClinica,
+} from "../../api/historiaClinica";
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 import { toast } from "react-toastify";
@@ -39,7 +46,7 @@ const steps = [
   { component: <StepSeven /> },
   { component: <StepEight /> },
   { component: <StepNine /> },
-  { component: <StepTen /> }
+  { component: <StepTen /> },
 ];
 
 function StepOne() {
@@ -48,7 +55,7 @@ function StepOne() {
   //console.log(formData)
   const onChange = (e) => {
     const { name, value, checked, type } = e.target;
-    const keys = name.split('.');
+    const keys = name.split(".");
     const level1 = keys[0];
     const level2 = keys[1];
 
@@ -56,8 +63,8 @@ function StepOne() {
       ...prev,
       [level1]: {
         ...prev[level1],
-        [level2]: type === 'checkbox' ? checked : value
-      }
+        [level2]: type === "checkbox" ? checked : value,
+      },
     }));
   };
 
@@ -66,19 +73,27 @@ function StepOne() {
       <div>
         <h2 className="titulosMultiStep">Datos personales</h2>
         <div>
-
           {/*NOMBRE Y EDAD*/}
           <Row className="justify-content-center mb-2 mb-md-4 mb-lg-7">
             <Col sm={12} md={4} lg={4}>
               <div className="d-flex flex-column align-items-center">
                 <Form.Label>Nombre del paciente:</Form.Label>
-                <Form.Control name="datosPaciente.nombre" defaultValue={formData?.datosPaciente?.nombre } onChange={onChange} type="text" />
+                <Form.Control
+                  name="datosPaciente.nombre"
+                  defaultValue={formData?.datosPaciente?.nombre}
+                  onChange={onChange}
+                  type="text"
+                />
               </div>
             </Col>
             <Col sm={12} md={4} lg={4}>
               <div className="d-flex flex-column align-items-center">
                 <Form.Label>Edad (Años):</Form.Label>
-                <Form.Control name="datosPaciente.edad" defaultValue={formData?.datosPaciente?.edad} type="number" />
+                <Form.Control
+                  name="datosPaciente.edad"
+                  defaultValue={formData?.datosPaciente?.edad}
+                  type="number"
+                />
               </div>
             </Col>
           </Row>
@@ -88,7 +103,7 @@ function StepOne() {
             <Col sm={12} md={4} lg={4}>
               <div className="d-flex flex-column align-items-center">
                 <Form.Label>Sexo:</Form.Label>
-                <div className="d-flex flex-column align-items-center" >
+                <div className="d-flex flex-column align-items-center">
                   <div>
                     <Form.Check
                       type="radio"
@@ -124,7 +139,6 @@ function StepOne() {
             </Col>
           </Row>
 
-
           {/*EXPEDIENTE Y ESCOLARIDAD*/}
           <Row className="justify-content-center mb-2 mb-md-4 mb-lg-7">
             <Col sm={12} md={4} lg={4}>
@@ -157,7 +171,8 @@ function StepOne() {
                 <Form.Control
                   name="datosPaciente.telefono"
                   defaultValue={formData?.datosPaciente?.telefono}
-                  type="tel" />
+                  type="tel"
+                />
               </div>
             </Col>
             <Col sm={12} md={4} lg={4}>
@@ -165,14 +180,13 @@ function StepOne() {
                 <Form.Label>Correo electronico:</Form.Label>
                 <Form.Control
                   name="datosPaciente.email"
-                  defaultValue={formData?.datosPaciente?.email || ''}
+                  defaultValue={formData?.datosPaciente?.email || ""}
                   onChange={onChange}
                   type="email"
                 />
               </div>
             </Col>
           </Row>
-
         </div>
       </div>
     </Form>
@@ -182,12 +196,13 @@ function StepOne() {
 function StepTwo() {
   // Para almacenar los datos del formulario
   const { formData, setFormData } = useContext(SharedStateContext);
-  const { odontogramaFinal, setOdontogramaFinal } = useContext(SharedStateContext);
-  console.log(formData)
-  
+  const { odontogramaFinal, setOdontogramaFinal } =
+    useContext(SharedStateContext);
+  console.log(formData);
+
   const onChange = (e) => {
     const { name, value, checked, type } = e.target;
-    const keys = name.split('.');
+    const keys = name.split(".");
     const level1 = keys[0];
     const level2 = keys[1];
 
@@ -195,8 +210,8 @@ function StepTwo() {
       ...prev,
       [level1]: {
         ...prev[level1],
-        [level2]: type === 'checkbox' ? checked : value
-      }
+        [level2]: type === "checkbox" ? checked : value,
+      },
     }));
   };
 
@@ -206,7 +221,7 @@ function StepTwo() {
       ...formData,
       interrogatorio: {
         ...formData.interrogatorio,
-        [e.target.name]: e.target.checked ? e.target.value : '',
+        [e.target.name]: e.target.checked ? e.target.value : "",
       },
     });
   };
@@ -219,11 +234,7 @@ function StepTwo() {
         <Form onChange={onChange}>
           {/*MOTIVO DE CONSULTA*/}
           <Row className="justify-content-center mb-2 mb-md-4 mb-lg-7">
-            <Col
-              sm={12}
-              md={4}
-              lg={4}
-            >
+            <Col sm={12} md={4} lg={4}>
               <div className="d-flex flex-column align-items-center">
                 <Form.Label>Motivo de la consulta:</Form.Label>
                 <Form.Control
@@ -238,11 +249,7 @@ function StepTwo() {
 
           {/*PADECIMIENTO ACTUAL*/}
           <Row className="justify-content-center mb-2 mb-md-4 mb-lg-7">
-            <Col
-              sm={12}
-              md={4}
-              lg={4}
-            >
+            <Col sm={12} md={4} lg={4}>
               <div className="d-flex flex-column align-items-center">
                 <Form.Label>Padecimiento actual:</Form.Label>
                 <Form.Control
@@ -257,16 +264,16 @@ function StepTwo() {
 
           {/*PADECIMIENTOS SISTEMICOS*/}
           <Row className="justify-content-center mb-2 mb-md-4 mb-lg-7">
-            <Col
-              sm={12}
-              md={4}
-              lg={4}
-            >
+            <Col sm={12} md={4} lg={4}>
               <div className="d-flex flex-column align-items-center">
-                <Form.Label>Padecimientos sistémicos de interés para el caso:</Form.Label>
+                <Form.Label>
+                  Padecimientos sistémicos de interés para el caso:
+                </Form.Label>
                 <Form.Control
                   name="interrogatorio.padecimientosSistemticos"
-                  defaultValue={formData?.interrogatorio?.padecimientosSistemticos}
+                  defaultValue={
+                    formData?.interrogatorio?.padecimientosSistemticos
+                  }
                   as="textarea"
                   placeholder="Describe los padecimientos sistémicos que sufre el paciente"
                 />
@@ -276,39 +283,38 @@ function StepTwo() {
 
           {/*¿MEDICAMENTOS?*/}
           <Row className="justify-content-center mb-2 mb-md-4 mb-lg-7">
-            <Col
-              sm={12}
-              md={4}
-              lg={4}
-            >
+            <Col sm={12} md={4} lg={4}>
               <div className="d-flex flex-column align-items-center">
                 <Form.Label>¿Está tomando algún medicamento?:</Form.Label>
                 <div className="d-flex flex-column align-items-center">
                   <div>
-                      <Form.Check
-                        type="radio"
-                        name="interrogatorio.tomandoMedicamento"
-                        label="No"
-                        value="No"
-                        checked={formData?.interrogatorio?.tomandoMedicamento === "No"}
-                        onChange={onChange}
-                        inline
-                      />
-                      <Form.Check
-                        type="radio"
-                        name="interrogatorio.tomandoMedicamento"
-                        label="Si"
-                        value="Si"
-                        checked={formData?.interrogatorio?.tomandoMedicamento === "Si"}
-                        onChange={onChange}
-                        inline
-                      />
-                    </div>
+                    <Form.Check
+                      type="radio"
+                      name="interrogatorio.tomandoMedicamento"
+                      label="No"
+                      value="No"
+                      checked={
+                        formData?.interrogatorio?.tomandoMedicamento === "No"
+                      }
+                      onChange={onChange}
+                      inline
+                    />
+                    <Form.Check
+                      type="radio"
+                      name="interrogatorio.tomandoMedicamento"
+                      label="Si"
+                      value="Si"
+                      checked={
+                        formData?.interrogatorio?.tomandoMedicamento === "Si"
+                      }
+                      onChange={onChange}
+                      inline
+                    />
+                  </div>
                 </div>
               </div>
             </Col>
           </Row>
-
         </Form>
       </div>
     </div>
@@ -318,16 +324,16 @@ function StepTwo() {
 function StepThree() {
   // Para almacenar los datos del formulario
   const { formData, setFormData } = useContext(SharedStateContext);
-  console.log(formData)
+  console.log(formData);
   // Función para manejar cambios en los inputs del formulario
   const onChange = (e) => {
     const { name, value, checked, type } = e.target;
-    const [mainCategory, subCategory, property] = name.split('.');
-  
-    setFormData(prev => {
+    const [mainCategory, subCategory, property] = name.split(".");
+
+    setFormData((prev) => {
       // Copia del estado anterior
       const newFormData = { ...prev };
-  
+
       // Aseguramos que mainCategory y subCategory existen en el estado
       if (!newFormData[mainCategory]) {
         newFormData[mainCategory] = {};
@@ -335,10 +341,11 @@ function StepThree() {
       if (!newFormData[mainCategory][subCategory]) {
         newFormData[mainCategory][subCategory] = {};
       }
-  
+
       // Asignamos el valor dependiendo si es checkbox o no
-      newFormData[mainCategory][subCategory][property] = type === 'checkbox' ? (checked ? "Si" : "No") : value;
-  
+      newFormData[mainCategory][subCategory][property] =
+        type === "checkbox" ? (checked ? "Si" : "No") : value;
+
       return newFormData;
     });
   };
@@ -349,23 +356,28 @@ function StepThree() {
       <hr />
       <div>
         <Form>
-
           {/*DIABETES E HIPERTENSIÓN*/}
           <Row className="justify-content-center mb-2 mb-md-4 mb-lg-7">
             <Col sm={12} md={6} lg={6}>
               <div className="d-flex flex-column align-items-center">
-              <Form.Check
-                type="checkbox"
-                label="Diabetes"
-                name="antecedentesHeredofamiliares.diabetes.estado"
-                checked={formData?.antecedentesHeredofamiliares?.diabetes?.estado === "Si"}
-                onChange={onChange}
-              />
+                <Form.Check
+                  type="checkbox"
+                  label="Diabetes"
+                  name="antecedentesHeredofamiliares.diabetes.estado"
+                  checked={
+                    formData?.antecedentesHeredofamiliares?.diabetes?.estado ===
+                    "Si"
+                  }
+                  onChange={onChange}
+                />
                 <Form.Control
                   as="textarea"
                   placeholder="Añade descripción"
                   name="antecedentesHeredofamiliares.diabetes.descripcion"
-                  value={formData?.antecedentesHeredofamiliares?.diabetes?.descripcion || ''}
+                  value={
+                    formData?.antecedentesHeredofamiliares?.diabetes
+                      ?.descripcion || ""
+                  }
                   onChange={onChange}
                 />
               </div>
@@ -376,7 +388,10 @@ function StepThree() {
                   type="checkbox"
                   label="Hipertensión"
                   name="antecedentesHeredofamiliares.hipertension.estado"
-                  checked={formData?.antecedentesHeredofamiliares?.hipertension?.estado === "Si"}
+                  checked={
+                    formData?.antecedentesHeredofamiliares?.hipertension
+                      ?.estado === "Si"
+                  }
                   onChange={onChange}
                 />
 
@@ -384,13 +399,15 @@ function StepThree() {
                   as="textarea"
                   placeholder="Añade descripción"
                   name="antecedentesHeredofamiliares.hipertension.descripcion"
-                  value={formData?.antecedentesHeredofamiliares?.hipertension?.descripcion || ''}
+                  value={
+                    formData?.antecedentesHeredofamiliares?.hipertension
+                      ?.descripcion || ""
+                  }
                   onChange={onChange}
                 />
               </div>
             </Col>
           </Row>
-
 
           {/*NEFROPATÍAS Y TUBERCULOSIS*/}
           <Row className=" justify-content-center mb-2 mb-md-4 mb-lg-7">
@@ -400,19 +417,23 @@ function StepThree() {
                   type="checkbox"
                   label="Nefropatías"
                   name="antecedentesHeredofamiliares.nefropatias.estado"
-                  checked={formData?.antecedentesHeredofamiliares?.nefropatias?.estado === "Si"}
+                  checked={
+                    formData?.antecedentesHeredofamiliares?.nefropatias
+                      ?.estado === "Si"
+                  }
                   onChange={onChange}
                 />
                 <Form.Control
                   as="textarea"
                   placeholder="Añade descripción"
                   name="antecedentesHeredofamiliares.nefropatias.descripcion"
-                  value={formData?.antecedentesHeredofamiliares?.nefropatias?.descripcion || ''}
+                  value={
+                    formData?.antecedentesHeredofamiliares?.nefropatias
+                      ?.descripcion || ""
+                  }
                   onChange={onChange}
                 />
-
               </div>
-
             </Col>
             <Col sm={12} md={6} lg={6}>
               <div className="d-flex flex-column align-items-center">
@@ -420,14 +441,20 @@ function StepThree() {
                   type="checkbox"
                   label="Tuberculosis"
                   name="antecedentesHeredofamiliares.tuberculosis.estado"
-                  checked={formData?.antecedentesHeredofamiliares?.tuberculosis?.estado === "Si"}
+                  checked={
+                    formData?.antecedentesHeredofamiliares?.tuberculosis
+                      ?.estado === "Si"
+                  }
                   onChange={onChange}
                 />
                 <Form.Control
                   as="textarea"
                   placeholder="Añade descripción"
                   name="antecedentesHeredofamiliares.tuberculosis.descripcion"
-                  value={formData?.antecedentesHeredofamiliares?.tuberculosis?.descripcion || ''}
+                  value={
+                    formData?.antecedentesHeredofamiliares?.tuberculosis
+                      ?.descripcion || ""
+                  }
                   onChange={onChange}
                 />
               </div>
@@ -442,14 +469,20 @@ function StepThree() {
                   type="checkbox"
                   label="Cáncer"
                   name="antecedentesHeredofamiliares.cancer.estado"
-                  checked={formData?.antecedentesHeredofamiliares?.cancer?.estado === "Si"}
+                  checked={
+                    formData?.antecedentesHeredofamiliares?.cancer?.estado ===
+                    "Si"
+                  }
                   onChange={onChange}
                 />
                 <Form.Control
                   as="textarea"
                   placeholder="Añade descripción"
                   name="antecedentesHeredofamiliares.cancer.descripcion"
-                  value={formData?.antecedentesHeredofamiliares?.cancer?.descripcion || ''}
+                  value={
+                    formData?.antecedentesHeredofamiliares?.cancer
+                      ?.descripcion || ""
+                  }
                   onChange={onChange}
                 />
               </div>
@@ -460,14 +493,20 @@ function StepThree() {
                   type="checkbox"
                   label="Cardiopatías"
                   name="antecedentesHeredofamiliares.cardiopatias.estado"
-                  checked={formData?.antecedentesHeredofamiliares?.cardiopatias?.estado === "Si"}
+                  checked={
+                    formData?.antecedentesHeredofamiliares?.cardiopatias
+                      ?.estado === "Si"
+                  }
                   onChange={onChange}
                 />
                 <Form.Control
                   as="textarea"
                   placeholder="Añade descripción"
                   name="antecedentesHeredofamiliares.cardiopatias.descripcion"
-                  value={formData?.antecedentesHeredofamiliares?.cardiopatias?.descripcion || ''}
+                  value={
+                    formData?.antecedentesHeredofamiliares?.cardiopatias
+                      ?.descripcion || ""
+                  }
                   onChange={onChange}
                 />
               </div>
@@ -482,14 +521,20 @@ function StepThree() {
                   type="checkbox"
                   label="Alergias"
                   name="antecedentesHeredofamiliares.alergias.estado"
-                  checked={formData?.antecedentesHeredofamiliares?.alergias?.estado === "Si"}
+                  checked={
+                    formData?.antecedentesHeredofamiliares?.alergias?.estado ===
+                    "Si"
+                  }
                   onChange={onChange}
                 />
                 <Form.Control
                   as="textarea"
                   placeholder="Añade descripción"
                   name="antecedentesHeredofamiliares.alergias.descripcion"
-                  value={formData?.antecedentesHeredofamiliares?.alergias?.descripcion || ''}
+                  value={
+                    formData?.antecedentesHeredofamiliares?.alergias
+                      ?.descripcion || ""
+                  }
                   onChange={onChange}
                 />
               </div>
@@ -500,14 +545,20 @@ function StepThree() {
                   type="checkbox"
                   label="Otros"
                   name="antecedentesHeredofamiliares.otros.estado"
-                  checked={formData?.antecedentesHeredofamiliares?.otros?.estado === "Si"}
+                  checked={
+                    formData?.antecedentesHeredofamiliares?.otros?.estado ===
+                    "Si"
+                  }
                   onChange={onChange}
                 />
                 <Form.Control
                   as="textarea"
                   placeholder="Añade descripción"
                   name="antecedentesHeredofamiliares.otros.descripcion"
-                  defaultValue={formData?.antecedentesHeredofamiliares?.otros?.descripcion || ''}
+                  defaultValue={
+                    formData?.antecedentesHeredofamiliares?.otros
+                      ?.descripcion || ""
+                  }
                   onChange={onChange}
                 />
               </div>
@@ -522,16 +573,16 @@ function StepThree() {
 function StepFour() {
   // Para almacenar los datos del formulario
   const { formData, setFormData } = useContext(SharedStateContext);
-  console.log(formData)
+  console.log(formData);
 
   const onChange = (e) => {
     const { name, value, checked, type } = e.target;
-    const [mainCategory, subCategory, property] = name.split('.');
-  
-    setFormData(prev => {
+    const [mainCategory, subCategory, property] = name.split(".");
+
+    setFormData((prev) => {
       // Copia del estado anterior
       const newFormData = { ...prev };
-  
+
       // Aseguramos que mainCategory y subCategory existen en el estado
       if (!newFormData[mainCategory]) {
         newFormData[mainCategory] = {};
@@ -539,10 +590,11 @@ function StepFour() {
       if (!newFormData[mainCategory][subCategory]) {
         newFormData[mainCategory][subCategory] = {};
       }
-  
+
       // Asignamos el valor dependiendo si es checkbox o no
-      newFormData[mainCategory][subCategory][property] = type === 'checkbox' ? (checked ? "Si" : "No") : value;
-  
+      newFormData[mainCategory][subCategory][property] =
+        type === "checkbox" ? (checked ? "Si" : "No") : value;
+
       return newFormData;
     });
   };
@@ -563,14 +615,20 @@ function StepFour() {
                   type="checkbox"
                   label="Diabetes"
                   name="antecedentesPersonalesPatologicos.diabetes.estado"
-                  checked={formData?.antecedentesPersonalesPatologicos?.diabetes?.estado === "Si"}
+                  checked={
+                    formData?.antecedentesPersonalesPatologicos?.diabetes
+                      ?.estado === "Si"
+                  }
                   onChange={onChange}
                 />
                 <Form.Control
                   as="textarea"
                   placeholder="Añade descripción"
                   name="antecedentesPersonalesPatologicos.diabetes.descripcion"
-                  value={formData?.antecedentesPersonalesPatologicos?.diabetes?.descripcion}
+                  value={
+                    formData?.antecedentesPersonalesPatologicos?.diabetes
+                      ?.descripcion
+                  }
                   onChange={onChange}
                 />
               </div>
@@ -581,14 +639,20 @@ function StepFour() {
                   type="checkbox"
                   label="Hipertensión"
                   name="antecedentesPersonalesPatologicos.hipertension.estado"
-                  checked={formData?.antecedentesPersonalesPatologicos?.hipertension?.estado === "Si"}
+                  checked={
+                    formData?.antecedentesPersonalesPatologicos?.hipertension
+                      ?.estado === "Si"
+                  }
                   onChange={onChange}
                 />
                 <Form.Control
                   as="textarea"
                   placeholder="Añade descripción"
                   name="antecedentesPersonalesPatologicos.hipertension.descripcion"
-                  value={formData?.antecedentesPersonalesPatologicos?.hipertension?.descripcion}
+                  value={
+                    formData?.antecedentesPersonalesPatologicos?.hipertension
+                      ?.descripcion
+                  }
                   onChange={onChange}
                 />
               </div>
@@ -603,14 +667,20 @@ function StepFour() {
                   type="checkbox"
                   label="Nefropatías"
                   name="antecedentesPersonalesPatologicos.nefropatias.estado"
-                  checked={formData?.antecedentesPersonalesPatologicos?.nefropatias?.estado === "Si"}
+                  checked={
+                    formData?.antecedentesPersonalesPatologicos?.nefropatias
+                      ?.estado === "Si"
+                  }
                   onChange={onChange}
                 />
                 <Form.Control
                   as="textarea"
                   placeholder="Añade descripción"
                   name="antecedentesPersonalesPatologicos.nefropatias.descripcion"
-                  value={formData?.antecedentesPersonalesPatologicos?.nefropatias.descripcion}
+                  value={
+                    formData?.antecedentesPersonalesPatologicos?.nefropatias
+                      .descripcion
+                  }
                   onChange={onChange}
                 />
               </div>
@@ -621,14 +691,20 @@ function StepFour() {
                   type="checkbox"
                   label="Tuberculosis"
                   name="antecedentesPersonalesPatologicos.tuberculosis.estado"
-                  checked={formData?.antecedentesPersonalesPatologicos?.tuberculosis?.estado === "Si"}
+                  checked={
+                    formData?.antecedentesPersonalesPatologicos?.tuberculosis
+                      ?.estado === "Si"
+                  }
                   onChange={onChange}
                 />
                 <Form.Control
                   as="textarea"
                   placeholder="Añade descripción"
                   name="antecedentesPersonalesPatologicos.tuberculosis.descripcion"
-                  value={formData?.antecedentesPersonalesPatologicos?.tuberculosis?.descripcion}
+                  value={
+                    formData?.antecedentesPersonalesPatologicos?.tuberculosis
+                      ?.descripcion
+                  }
                   onChange={onChange}
                 />
               </div>
@@ -643,14 +719,20 @@ function StepFour() {
                   type="checkbox"
                   label="Cáncer"
                   name="antecedentesPersonalesPatologicos.cancer.estado"
-                  checked={formData?.antecedentesPersonalesPatologicos?.cancer?.estado === "Si"}
+                  checked={
+                    formData?.antecedentesPersonalesPatologicos?.cancer
+                      ?.estado === "Si"
+                  }
                   onChange={onChange}
                 />
                 <Form.Control
                   as="textarea"
                   placeholder="Añade descripción"
                   name="antecedentesPersonalesPatologicos.cancer.descripcion"
-                  value={formData?.antecedentesPersonalesPatologicos?.cancer?.descripcion}
+                  value={
+                    formData?.antecedentesPersonalesPatologicos?.cancer
+                      ?.descripcion
+                  }
                   onChange={onChange}
                 />
               </div>
@@ -661,20 +743,25 @@ function StepFour() {
                   type="checkbox"
                   label="Cardiopatías"
                   name="antecedentesPersonalesPatologicos.cardiopatias.estado"
-                  checked={formData?.antecedentesPersonalesPatologicos?.cardiopatias?.estado === "Si"}
+                  checked={
+                    formData?.antecedentesPersonalesPatologicos?.cardiopatias
+                      ?.estado === "Si"
+                  }
                   onChange={onChange}
                 />
                 <Form.Control
                   as="textarea"
                   placeholder="Añade descripción"
                   name="antecedentesPersonalesPatologicos.cardiopatias.descripcion"
-                  value={formData?.antecedentesPersonalesPatologicos?.cardiopatias?.descripcion}
+                  value={
+                    formData?.antecedentesPersonalesPatologicos?.cardiopatias
+                      ?.descripcion
+                  }
                   onChange={onChange}
                 />
               </div>
             </Col>
           </Row>
-
 
           <Row className="mb-2 mb-md-4 mb-lg-7">
             <Col sm={12} md={6} lg={6}>
@@ -683,14 +770,20 @@ function StepFour() {
                   type="checkbox"
                   label="Alergias"
                   name="antecedentesPersonalesPatologicos.alergias.estado"
-                  checked={formData?.antecedentesPersonalesPatologicos?.alergias?.estado === "Si"}
+                  checked={
+                    formData?.antecedentesPersonalesPatologicos?.alergias
+                      ?.estado === "Si"
+                  }
                   onChange={onChange}
                 />
                 <Form.Control
                   as="textarea"
                   placeholder="Añade descripción"
                   name="antecedentesPersonalesPatologicos.alergias.descripcion"
-                  value={formData?.antecedentesPersonalesPatologicos?.alergias?.descripcion}
+                  value={
+                    formData?.antecedentesPersonalesPatologicos?.alergias
+                      ?.descripcion
+                  }
                   onChange={onChange}
                 />
               </div>
@@ -701,14 +794,20 @@ function StepFour() {
                   type="checkbox"
                   label="Toxicomanias"
                   name="antecedentesPersonalesPatologicos.toxicomanias.estado"
-                  checked={formData?.antecedentesPersonalesPatologicos?.toxicomanias?.estado === "Si"}
+                  checked={
+                    formData?.antecedentesPersonalesPatologicos?.toxicomanias
+                      ?.estado === "Si"
+                  }
                   onChange={onChange}
                 />
                 <Form.Control
                   as="textarea"
                   placeholder="Añade descripción"
                   name="antecedentesPersonalesPatologicos.toxicomanias.descripcion"
-                  value={formData?.antecedentesPersonalesPatologicos?.toxicomanias?.descripcion}
+                  value={
+                    formData?.antecedentesPersonalesPatologicos?.toxicomanias
+                      ?.descripcion
+                  }
                   onChange={onChange}
                 />
               </div>
@@ -722,14 +821,20 @@ function StepFour() {
                   type="checkbox"
                   label="Sanguíneo"
                   name="antecedentesPersonalesPatologicos.grupoSanguineo.estado"
-                  checked={formData?.antecedentesPersonalesPatologicos?.grupoSanguineo?.estado === "Si"}
+                  checked={
+                    formData?.antecedentesPersonalesPatologicos?.grupoSanguineo
+                      ?.estado === "Si"
+                  }
                   onChange={onChange}
                 />
                 <Form.Control
                   as="textarea"
                   placeholder="Añade descripción"
                   name="antecedentesPersonalesPatologicos.grupoSanguineo.descripcion"
-                  value={formData?.antecedentesPersonalesPatologicos?.grupoSanguineo?.descripcion}
+                  value={
+                    formData?.antecedentesPersonalesPatologicos?.grupoSanguineo
+                      ?.descripcion
+                  }
                   onChange={onChange}
                 />
               </div>
@@ -741,14 +846,20 @@ function StepFour() {
                   type="checkbox"
                   label="Hemoragias"
                   name="antecedentesPersonalesPatologicos.transtornosHemorragicos.estado"
-                  checked={formData?.antecedentesPersonalesPatologicos?.transtornosHemorragicos?.estado === "Si"}
+                  checked={
+                    formData?.antecedentesPersonalesPatologicos
+                      ?.transtornosHemorragicos?.estado === "Si"
+                  }
                   onChange={onChange}
                 />
                 <Form.Control
                   as="textarea"
                   placeholder="Añade descripción"
                   name="antecedentesPersonalesPatologicos.transtornosHemorragicos.descripcion"
-                  value={formData?.antecedentesPersonalesPatologicos?.transtornosHemorragicos?.descripcion}
+                  value={
+                    formData?.antecedentesPersonalesPatologicos
+                      ?.transtornosHemorragicos?.descripcion
+                  }
                   onChange={onChange}
                 />
               </div>
@@ -763,23 +874,23 @@ function StepFour() {
 function StepFive() {
   // Para almacenar los datos del formulario
   const { formData, setFormData } = useContext(SharedStateContext);
-  console.log(formData)
+  console.log(formData);
 
   // Manejador de cambios para actualizar el estado de formData
   const onChange = (e) => {
     const { name, value, type, checked } = e.target;
-    const path = name.split('.');
+    const path = name.split(".");
     const mainCategory = path[0];
     const subCategory = path[1];
 
-    setFormData(prevFormData => ({
-        ...prevFormData,
-        [mainCategory]: {
-            ...prevFormData[mainCategory],
-            [subCategory]: type === 'checkbox' ? (checked ? 'Si' : 'No') : value
-        }
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [mainCategory]: {
+        ...prevFormData[mainCategory],
+        [subCategory]: type === "checkbox" ? (checked ? "Si" : "No") : value,
+      },
     }));
-};
+  };
 
   return (
     <div>
@@ -790,9 +901,17 @@ function StepFive() {
       <div>
         <Form onChange={onChange}>
           <Row className="mb-2 mb-md-4 mb-lg-7 justify-content-center">
-            <Col sm={12} md={4} lg={4} className="d-flex flex-column align-items-center justify-content-center">
+            <Col
+              sm={12}
+              md={4}
+              lg={4}
+              className="d-flex flex-column align-items-center justify-content-center"
+            >
               <Form.Check
-                checked={formData?.antecedentesPersonalesNoPatologicos?.alimentacion.estado === "Si"} // Esta propiedad refleja el estado actual del checkbox
+                checked={
+                  formData?.antecedentesPersonalesNoPatologicos?.alimentacion
+                    .estado === "Si"
+                } // Esta propiedad refleja el estado actual del checkbox
                 onChange={onChange} // Añadir el onChange que maneja la actualización del estado
                 name="antecedentesPersonalesNoPatologicos.alimentacion"
                 value="Si"
@@ -800,15 +919,26 @@ function StepFive() {
                 label={"Alimentación"}
               />
               <Form.Control
-                as='textarea'
+                as="textarea"
                 name="antecedentesPersonalesNoPatologicos.alimentacion.descripcion"
-                defaultValue={formData.antecedentesPersonalesNoPatologicos.alimentacion.descripcion}
+                defaultValue={
+                  formData.antecedentesPersonalesNoPatologicos?.alimentacion
+                    .descripcion
+                }
                 onChange={onChange}
               />
             </Col>
-            <Col sm={12} md={4} lg={4} className="d-flex flex-column align-items-center justify-content-center">
+            <Col
+              sm={12}
+              md={4}
+              lg={4}
+              className="d-flex flex-column align-items-center justify-content-center"
+            >
               <Form.Check
-                checked={formData?.antecedentesPersonalesNoPatologicos?.higiene.estado === "Si"} // Esta propiedad refleja el estado actual del checkbox
+                checked={
+                  formData?.antecedentesPersonalesNoPatologicos?.higiene
+                    .estado === "Si"
+                } // Esta propiedad refleja el estado actual del checkbox
                 onChange={onChange} // Añadir el onChange que maneja la actualización del estado
                 name="antecedentesPersonalesNoPatologicos.higiene"
                 value="Si"
@@ -816,15 +946,26 @@ function StepFive() {
                 label={"Higiene"}
               />
               <Form.Control
-                as='textarea'
+                as="textarea"
                 name="antecedentesPersonalesNoPatologicos.higiene.descripcion"
-                defaultValue={formData.antecedentesPersonalesNoPatologicos.higiene.descripcion}
+                defaultValue={
+                  formData.antecedentesPersonalesNoPatologicos.higiene
+                    .descripcion
+                }
                 onChange={onChange}
               />
             </Col>
-            <Col sm={12} md={4} lg={4} className="d-flex flex-column align-items-center justify-content-center">
+            <Col
+              sm={12}
+              md={4}
+              lg={4}
+              className="d-flex flex-column align-items-center justify-content-center"
+            >
               <Form.Check
-                checked={formData?.antecedentesPersonalesNoPatologicos?.convivenciaConAnimales.estado === "Si"} // Esta propiedad refleja el estado actual del checkbox
+                checked={
+                  formData?.antecedentesPersonalesNoPatologicos
+                    ?.convivenciaConAnimales.estado === "Si"
+                } // Esta propiedad refleja el estado actual del checkbox
                 onChange={onChange} // Añadir el onChange que maneja la actualización del estado
                 name="antecedentesPersonalesNoPatologicos.convivenciaConAnimales"
                 value="Si"
@@ -832,17 +973,28 @@ function StepFive() {
                 label={"Convivencia con animales"}
               />
               <Form.Control
-                as='textarea'
+                as="textarea"
                 name="antecedentesPersonalesNoPatologicos.convivenciaConAnimales.descripcion"
-                defaultValue={formData.antecedentesPersonalesNoPatologicos.convivenciaConAnimales.descripcion}
+                defaultValue={
+                  formData.antecedentesPersonalesNoPatologicos
+                    .convivenciaConAnimales.descripcion
+                }
                 onChange={onChange}
               />
             </Col>
           </Row>
           <Row className="mb-2 mb-md-4 mb-lg-7 justify-content-center">
-            <Col sm={12} md={4} lg={4} className="d-flex flex-column align-items-center justify-content-center" >
+            <Col
+              sm={12}
+              md={4}
+              lg={4}
+              className="d-flex flex-column align-items-center justify-content-center"
+            >
               <Form.Check
-                checked={formData?.antecedentesPersonalesNoPatologicos?.tatuajes.estado === "Si"} // Esta propiedad refleja el estado actual del checkbox
+                checked={
+                  formData?.antecedentesPersonalesNoPatologicos?.tatuajes
+                    .estado === "Si"
+                } // Esta propiedad refleja el estado actual del checkbox
                 onChange={onChange} // Añadir el onChange que maneja la actualización del estado
                 name="antecedentesPersonalesNoPatologicos.tatuajes"
                 value="Si"
@@ -850,15 +1002,26 @@ function StepFive() {
                 label={"Tatuajes"}
               />
               <Form.Control
-                as='textarea'
+                as="textarea"
                 name="antecedentesPersonalesNoPatologicos.tatuajes.descripcion"
-                defaultValue={formData.antecedentesPersonalesNoPatologicos.tatuajes.descripcion}
+                defaultValue={
+                  formData.antecedentesPersonalesNoPatologicos.tatuajes
+                    .descripcion
+                }
                 onChange={onChange}
               />
             </Col>
-            <Col sm={12} md={4} lg={4} className="d-flex flex-column align-items-center justify-content-center" >
+            <Col
+              sm={12}
+              md={4}
+              lg={4}
+              className="d-flex flex-column align-items-center justify-content-center"
+            >
               <Form.Check
-                checked={formData?.antecedentesPersonalesNoPatologicos?.deportes.estado === "Si"} // Esta propiedad refleja el estado actual del checkbox
+                checked={
+                  formData?.antecedentesPersonalesNoPatologicos?.deportes
+                    .estado === "Si"
+                } // Esta propiedad refleja el estado actual del checkbox
                 onChange={onChange} // Añadir el onChange que maneja la actualización del estado
                 name="antecedentesPersonalesNoPatologicos.deportes"
                 value="Si"
@@ -866,15 +1029,26 @@ function StepFive() {
                 label={"Deportes"}
               />
               <Form.Control
-                as='textarea'
+                as="textarea"
                 name="antecedentesPersonalesNoPatologicos.deportes.descripcion"
-                defaultValue={formData.antecedentesPersonalesNoPatologicos.deportes.descripcion}
+                defaultValue={
+                  formData.antecedentesPersonalesNoPatologicos.deportes
+                    .descripcion
+                }
                 onChange={onChange}
               />
             </Col>
-            <Col sm={12} md={4} lg={4} className="d-flex flex-column align-items-center justify-content-center" >
+            <Col
+              sm={12}
+              md={4}
+              lg={4}
+              className="d-flex flex-column align-items-center justify-content-center"
+            >
               <Form.Check
-                checked={formData?.antecedentesPersonalesNoPatologicos?.vacunas.estado === "Si"} // Esta propiedad refleja el estado actual del checkbox
+                checked={
+                  formData?.antecedentesPersonalesNoPatologicos?.vacunas
+                    .estado === "Si"
+                } // Esta propiedad refleja el estado actual del checkbox
                 onChange={onChange} // Añadir el onChange que maneja la actualización del estado
                 name="antecedentesPersonalesNoPatologicos.vacunas"
                 value="Si"
@@ -882,9 +1056,12 @@ function StepFive() {
                 label={"Vacunas"}
               />
               <Form.Control
-                as='textarea'
+                as="textarea"
                 name="antecedentesPersonalesNoPatologicos.vacunas.descripcion"
-                defaultValue={formData.antecedentesPersonalesNoPatologicos.vacunas.descripcion}
+                defaultValue={
+                  formData.antecedentesPersonalesNoPatologicos.vacunas
+                    .descripcion
+                }
                 onChange={onChange}
               />
             </Col>
@@ -898,19 +1075,19 @@ function StepFive() {
 function StepSix() {
   // Para almacenar los datos del formulario
   const { formData, setFormData } = useContext(SharedStateContext);
-  console.log(formData)
+  console.log(formData);
 
   // Manejador de cambios para actualizar el estado de formData
   const onChange = (e) => {
     const { name, value } = e.target;
-    const [mainCategory, subCategory] = name.split('.');
-  
-    setFormData(prevFormData => ({
+    const [mainCategory, subCategory] = name.split(".");
+
+    setFormData((prevFormData) => ({
       ...prevFormData,
       [mainCategory]: {
         ...prevFormData[mainCategory],
-        [subCategory]: value
-      }
+        [subCategory]: value,
+      },
     }));
   };
 
@@ -922,8 +1099,13 @@ function StepSix() {
         <Form onChange={onChange}>
           <Row className="d-flex mb-2 mb-md-4 mb-lg-7  justify-content-center">
             {/* TA */}
-            <Col sm={6} md={3} lg={3} className="d-flex align-items-center justify-content-center">
-              <span className="label-formControl" >TA: </span>
+            <Col
+              sm={6}
+              md={3}
+              lg={3}
+              className="d-flex align-items-center justify-content-center"
+            >
+              <span className="label-formControl">TA: </span>
               <Form.Control
                 type="text"
                 name="signosVitales.TA"
@@ -932,8 +1114,13 @@ function StepSix() {
                 placeholder={"TA"}
               />
             </Col>
-            <Col sm={6} md={3} lg={3} className="d-flex align-items-center justify-content-center">
-              <span className="label-formControl" >Temperatura: </span>
+            <Col
+              sm={6}
+              md={3}
+              lg={3}
+              className="d-flex align-items-center justify-content-center"
+            >
+              <span className="label-formControl">Temperatura: </span>
               <Form.Control
                 type="text"
                 name="signosVitales.temperatura"
@@ -942,8 +1129,13 @@ function StepSix() {
                 placeholder={"Temp"}
               />
             </Col>
-            <Col sm={6} md={3} lg={3} className="d-flex align-items-center justify-content-center">
-              <span className="label-formControl" >FR: </span>
+            <Col
+              sm={6}
+              md={3}
+              lg={3}
+              className="d-flex align-items-center justify-content-center"
+            >
+              <span className="label-formControl">FR: </span>
               <Form.Control
                 type="text"
                 name="signosVitales.FR"
@@ -952,8 +1144,13 @@ function StepSix() {
                 placeholder={"FR"}
               />
             </Col>
-            <Col sm={6} md={3} lg={3} className="d-flex align-items-center justify-content-center">
-              <span className="label-formControl" >Peso: </span>
+            <Col
+              sm={6}
+              md={3}
+              lg={3}
+              className="d-flex align-items-center justify-content-center"
+            >
+              <span className="label-formControl">Peso: </span>
               <Form.Control
                 type="text"
                 name="signosVitales.peso"
@@ -966,8 +1163,13 @@ function StepSix() {
 
           <Row className="d-flex mb-2 mb-md-4 mb-lg-7 justify-content-center">
             {/* TA */}
-            <Col sm={6} md={3} lg={3} className="d-flex align-items-center justify-content-center">
-              <span className="label-formControl" >Talla: </span>
+            <Col
+              sm={6}
+              md={3}
+              lg={3}
+              className="d-flex align-items-center justify-content-center"
+            >
+              <span className="label-formControl">Talla: </span>
               <Form.Control
                 type="text"
                 name="signosVitales.talla"
@@ -976,8 +1178,13 @@ function StepSix() {
                 placeholder={"Talla"}
               />
             </Col>
-            <Col sm={6} md={3} lg={3} className="d-flex align-items-center justify-content-center">
-              <span className="label-formControl" >Glucosa capilar: </span>
+            <Col
+              sm={6}
+              md={3}
+              lg={3}
+              className="d-flex align-items-center justify-content-center"
+            >
+              <span className="label-formControl">Glucosa capilar: </span>
               <Form.Control
                 type="text"
                 name="signosVitales.glucosaCapilar"
@@ -986,8 +1193,13 @@ function StepSix() {
                 placeholder={"Glucosa capilar"}
               />
             </Col>
-            <Col sm={6} md={3} lg={3} className="d-flex align-items-center justify-content-center">
-              <span className="label-formControl" >FC: </span>
+            <Col
+              sm={6}
+              md={3}
+              lg={3}
+              className="d-flex align-items-center justify-content-center"
+            >
+              <span className="label-formControl">FC: </span>
               <Form.Control
                 type="text"
                 name="signosVitales.FC"
@@ -997,7 +1209,6 @@ function StepSix() {
               />
             </Col>
           </Row>
-
         </Form>
       </div>
     </div>
@@ -1009,12 +1220,12 @@ function StepSeven() {
 
   const onChange = (e) => {
     const { name, value, checked, type } = e.target;
-    const [mainCategory, subCategory, property] = name.split('.');
-  
-    setFormData(prev => {
+    const [mainCategory, subCategory, property] = name.split(".");
+
+    setFormData((prev) => {
       // Copia del estado anterior
       const newFormData = { ...prev };
-  
+
       // Aseguramos que mainCategory y subCategory existen en el estado
       if (!newFormData[mainCategory]) {
         newFormData[mainCategory] = {};
@@ -1022,22 +1233,31 @@ function StepSeven() {
       if (!newFormData[mainCategory][subCategory]) {
         newFormData[mainCategory][subCategory] = {};
       }
-  
+
       // Asignamos el valor dependiendo si es checkbox o no
-      newFormData[mainCategory][subCategory][property] = type === 'checkbox' ? (checked ? "Si" : "No") : value;
-  
+      newFormData[mainCategory][subCategory][property] =
+        type === "checkbox" ? (checked ? "Si" : "No") : value;
+
       return newFormData;
     });
   };
 
   var imgSrcEstudiosGab = formData.estudios.estudiosGabinete.imagen;
-  if (imgSrcEstudiosGab == null || imgSrcEstudiosGab === "" || imgSrcEstudiosGab === undefined) {
-    imgSrcEstudiosGab = noImage; 
+  if (
+    imgSrcEstudiosGab == null ||
+    imgSrcEstudiosGab === "" ||
+    imgSrcEstudiosGab === undefined
+  ) {
+    imgSrcEstudiosGab = noImage;
   }
 
   var imgSrcEstudiosLab = formData.estudios.estudiosLaboratorio.imagen;
-  if (imgSrcEstudiosLab === null || imgSrcEstudiosLab === "" || imgSrcEstudiosLab === undefined) {
-    imgSrcEstudiosLab = noImage; 
+  if (
+    imgSrcEstudiosLab === null ||
+    imgSrcEstudiosLab === "" ||
+    imgSrcEstudiosLab === undefined
+  ) {
+    imgSrcEstudiosLab = noImage;
   }
 
   return (
@@ -1047,11 +1267,16 @@ function StepSeven() {
       <Form>
         <Row className="mb-2 mb-md-4 mb-lg-7">
           {/* Estudios de gabinete */}
-          <Col sm={12} md={6} lg={6} className="d-flex flex-column align-items-center">
+          <Col
+            sm={12}
+            md={6}
+            lg={6}
+            className="d-flex flex-column align-items-center"
+          >
             <div className="mb-2 d-flex flex-column align-items-center">
-              <img 
-                src={imgSrcEstudiosGab} 
-                alt="Estudios gabinete" 
+              <img
+                src={imgSrcEstudiosGab}
+                alt="Estudios gabinete"
                 className="img-thumbnail"
                 height="300px"
                 width="300px"
@@ -1066,7 +1291,7 @@ function StepSeven() {
             </div>
             <Form.Control
               as="textarea"
-              value={formData?.estudios?.estudiosGabinete?.descripcion || ''}
+              value={formData?.estudios?.estudiosGabinete?.descripcion || ""}
               name="estudios.estudiosGabinete.descripcion"
               onChange={onChange}
               placeholder="Descripción de los estudios de gabinete (Radiografías, Resonancias, etc.)"
@@ -1080,10 +1305,15 @@ function StepSeven() {
             />
           </Col>
           {/* Estudios de laboratorio */}
-          <Col sm={12} md={6} lg={6} className="d-flex flex-column align-items-center">
+          <Col
+            sm={12}
+            md={6}
+            lg={6}
+            className="d-flex flex-column align-items-center"
+          >
             <div className="mb-2 d-flex flex-column align-items-center">
-              <img 
-                src={imgSrcEstudiosLab} 
+              <img
+                src={imgSrcEstudiosLab}
                 alt="Estudios gabinete"
                 className="img-thumbnail"
                 height="300px"
@@ -1091,7 +1321,9 @@ function StepSeven() {
               />
               <Form.Check
                 type="checkbox"
-                checked={formData?.estudios?.estudiosLaboratorio?.estado === "Si"}
+                checked={
+                  formData?.estudios?.estudiosLaboratorio?.estado === "Si"
+                }
                 name="estudios.estudiosLaboratorio.estado"
                 onChange={onChange}
                 label={"Estudios de Laboratorio"}
@@ -1099,7 +1331,7 @@ function StepSeven() {
             </div>
             <Form.Control
               as="textarea"
-              value={formData?.estudios?.estudiosLaboratorio?.descripcion || ''}
+              value={formData?.estudios?.estudiosLaboratorio?.descripcion || ""}
               name="estudios.estudiosLaboratorio.descripcion"
               onChange={onChange}
               placeholder="Descripción de los estudios de Laboratorio (Análisis, etc.)"
@@ -1120,16 +1352,16 @@ function StepSeven() {
 function StepEight() {
   // Para almacenar los datos del formulario
   const { formData, setFormData } = useContext(SharedStateContext);
-  console.log(formData)
+  console.log(formData);
 
   const onChange = (e) => {
     const { name, value, checked, type } = e.target;
-    const [mainCategory, subCategory, property] = name.split('.');
-  
-    setFormData(prev => {
+    const [mainCategory, subCategory, property] = name.split(".");
+
+    setFormData((prev) => {
       // Copia del estado anterior
       const newFormData = { ...prev };
-  
+
       // Aseguramos que mainCategory y subCategory existen en el estado
       if (!newFormData[mainCategory]) {
         newFormData[mainCategory] = {};
@@ -1137,10 +1369,11 @@ function StepEight() {
       if (!newFormData[mainCategory][subCategory]) {
         newFormData[mainCategory][subCategory] = {};
       }
-  
+
       // Asignamos el valor dependiendo si es checkbox o no
-      newFormData[mainCategory][subCategory][property] = type === 'checkbox' ? (checked ? "Si" : "No") : value;
-  
+      newFormData[mainCategory][subCategory][property] =
+        type === "checkbox" ? (checked ? "Si" : "No") : value;
+
       return newFormData;
     });
   };
@@ -1153,14 +1386,9 @@ function StepEight() {
       <hr />
       <div>
         <Form onChange={onChange}>
-
           {/*TEJIDOS BLANDOS*/}
           <Row className="justify-content-center mb-2 mb-md-4 mb-lg-7">
-            <Col
-              sm={12}
-              md={4}
-              lg={4}
-            >
+            <Col sm={12} md={4} lg={4}>
               <div className="d-flex flex-column align-items-center">
                 <Form.Label>Tejidos blandos:</Form.Label>
                 <Form.Control
@@ -1175,11 +1403,7 @@ function StepEight() {
 
           {/*TEJIDO OSEO*/}
           <Row className="justify-content-center mb-2 mb-md-4 mb-lg-7">
-            <Col
-              sm={12}
-              md={4}
-              lg={4}
-            >
+            <Col sm={12} md={4} lg={4}>
               <div className="d-flex flex-column align-items-center">
                 <Form.Label>Tejido óseo:</Form.Label>
                 <Form.Control
@@ -1194,11 +1418,7 @@ function StepEight() {
 
           {/*ARTICULACIÓN TEMPOROMANDIBULAR ATM*/}
           <Row className="justify-content-center mb-2 mb-md-4 mb-lg-7">
-            <Col
-              sm={12}
-              md={4}
-              lg={4}
-            >
+            <Col sm={12} md={4} lg={4}>
               <div className="d-flex flex-column align-items-center">
                 <Form.Label>Articulación temporomandibular (ATM):</Form.Label>
                 <Form.Control
@@ -1213,7 +1433,12 @@ function StepEight() {
 
           {/*DOLOR Y CREPITACIÓN*/}
           <Row className="mb-2 mb-md-4 mb-lg-7">
-            <Col sm={12} md={6} lg={6} className="d-flex flex-column align-items-center">
+            <Col
+              sm={12}
+              md={6}
+              lg={6}
+              className="d-flex flex-column align-items-center"
+            >
               <div className="mb-2">
                 <Form.Check
                   onChange={onChange}
@@ -1230,7 +1455,12 @@ function StepEight() {
                 placeholder="Descripción del dolor"
               />
             </Col>
-            <Col sm={12} md={6} lg={6} className="d-flex flex-column align-items-center">
+            <Col
+              sm={12}
+              md={6}
+              lg={6}
+              className="d-flex flex-column align-items-center"
+            >
               <div className="mb-2">
                 <Form.Check
                   onChange={onChange}
@@ -1249,7 +1479,12 @@ function StepEight() {
             </Col>
           </Row>
           <Row className="mb-2 mb-md-4 mb-lg-7">
-            <Col sm={12} md={6} lg={6} className="d-flex flex-column align-items-center">
+            <Col
+              sm={12}
+              md={6}
+              lg={6}
+              className="d-flex flex-column align-items-center"
+            >
               <Form.Check
                 onChange={onChange}
                 checked={formData?.cavidadBucal?.subluxacion?.estado === "Si"}
@@ -1264,7 +1499,12 @@ function StepEight() {
                 placeholder="Descripción de la subluxación"
               />
             </Col>
-            <Col sm={12} md={6} lg={6} className="d-flex flex-column align-items-center">
+            <Col
+              sm={12}
+              md={6}
+              lg={6}
+              className="d-flex flex-column align-items-center"
+            >
               <Form.Check
                 onChange={onChange}
                 checked={formData?.cavidadBucal?.anquilosis?.estado === "Si"}
@@ -1282,7 +1522,12 @@ function StepEight() {
           </Row>
 
           <Row className="mb-2 mb-md-4 mb-lg-7">
-            <Col sm={12} md={6} lg={6} className="d-flex flex-column align-items-center">
+            <Col
+              sm={12}
+              md={6}
+              lg={6}
+              className="d-flex flex-column align-items-center"
+            >
               <div className="mb-2">
                 <Form.Check
                   onChange={onChange}
@@ -1299,18 +1544,27 @@ function StepEight() {
                 placeholder="Descripción del bruxismo"
               />
             </Col>
-            <Col sm={12} md={6} lg={6} className="d-flex flex-column align-items-center">
+            <Col
+              sm={12}
+              md={6}
+              lg={6}
+              className="d-flex flex-column align-items-center"
+            >
               <div className="mb-2">
                 <Form.Check
                   onChange={onChange}
-                  checked={formData?.cavidadBucal?.espasmoMuscular?.estado === "Si"}
+                  checked={
+                    formData?.cavidadBucal?.espasmoMuscular?.estado === "Si"
+                  }
                   name="cavidadBucal.espasmoMuscular.estado"
                   type="checkbox"
                   label={"Espasmo muscular"}
                 />
               </div>
               <Form.Control
-                defaultValue={formData?.cavidadBucal?.espasmoMuscular?.descripcion}
+                defaultValue={
+                  formData?.cavidadBucal?.espasmoMuscular?.descripcion
+                }
                 name="cavidadBucal.espasmoMuscular.descripcion"
                 as="textarea"
                 placeholder="Descripción del espasmo muscular"
@@ -1318,7 +1572,12 @@ function StepEight() {
             </Col>
           </Row>
           <Row className="mb-2 mb-md-4 mb-lg-7">
-            <Col sm={12} md={6} lg={6} className="d-flex flex-column align-items-center">
+            <Col
+              sm={12}
+              md={6}
+              lg={6}
+              className="d-flex flex-column align-items-center"
+            >
               <div className="mb-2">
                 <Form.Check
                   onChange={onChange}
@@ -1339,11 +1598,7 @@ function StepEight() {
 
           {/*DIAGNOSTICO*/}
           <Row className="justify-content-center mb-2 mb-md-4 mb-lg-7">
-            <Col
-              sm={12}
-              md={4}
-              lg={4}
-            >
+            <Col sm={12} md={4} lg={4}>
               <div className="d-flex flex-column align-items-center">
                 <Form.Label>Diagnostico:</Form.Label>
                 <Form.Control
@@ -1358,11 +1613,7 @@ function StepEight() {
 
           {/*PRONOSTICO*/}
           <Row className="justify-content-center mb-2 mb-md-4 mb-lg-7">
-            <Col
-              sm={12}
-              md={4}
-              lg={4}
-            >
+            <Col sm={12} md={4} lg={4}>
               <div className="d-flex flex-column align-items-center">
                 <Form.Label>Pronostico:</Form.Label>
                 <Form.Control
@@ -1377,11 +1628,7 @@ function StepEight() {
 
           {/*PLAN DE TRATAMIENTO*/}
           <Row className="justify-content-center mb-2 mb-md-4 mb-lg-7">
-            <Col
-              sm={12}
-              md={4}
-              lg={4}
-            >
+            <Col sm={12} md={4} lg={4}>
               <div className="d-flex flex-column align-items-center">
                 <Form.Label>Plan de tratamiento:</Form.Label>
                 <Form.Control
@@ -1393,7 +1640,6 @@ function StepEight() {
               </div>
             </Col>
           </Row>
-
         </Form>
       </div>
     </div>
@@ -1401,24 +1647,28 @@ function StepEight() {
 }
 
 function StepNine() {
-  const { formData, setFormData } = useContext(SharedStateContext)
+  const { formData, setFormData } = useContext(SharedStateContext);
 
   const [procedimientos, setProcedimientos] = useState([]);
 
   const eliminarProcedimiento = (index) => {
-    const updatedProcedimientos = formData.procedimientos.filter((_, i) => i !== index);
+    const updatedProcedimientos = formData.procedimientos.filter(
+      (_, i) => i !== index
+    );
     setFormData({ ...formData, procedimientos: updatedProcedimientos });
   };
 
   const anadirProcedimiento = (nuevoProcedimiento) => {
-    const updatedProcedimientos = [...formData.procedimientos, nuevoProcedimiento];
+    const updatedProcedimientos = [
+      ...formData.procedimientos,
+      nuevoProcedimiento,
+    ];
     setFormData({ ...formData, procedimientos: updatedProcedimientos });
   };
 
   useEffect(() => {
     console.log("Procedimientos actualizados:", procedimientos);
   }, [procedimientos]);
-
 
   // Para hacer uso del modal
   const [showModal, setShowModal] = useState(false);
@@ -1429,14 +1679,11 @@ function StepNine() {
     setTitulosModal("Añadir procedimientos");
     setContentModal(content);
     setShowModal(true);
-  }
+  };
 
   return (
     <div>
-
-      <h2 className="titulosMultiStep">
-        Procedimientos
-      </h2>
+      <h2 className="titulosMultiStep">Procedimientos</h2>
       <div className="container mt-5">
         <table className="table">
           <thead>
@@ -1476,12 +1723,16 @@ function StepNine() {
                   setShowModal={setShowModal}
                   anadirProcedimiento={anadirProcedimiento}
                 />
-              )
+              );
             }}
           >
             Añadir otro registro
           </button>
-          <BasicModal show={showModal} setShow={setShowModal} title={titulosModal}>
+          <BasicModal
+            show={showModal}
+            setShow={setShowModal}
+            title={titulosModal}
+          >
             {contentModal}
           </BasicModal>
         </div>
@@ -1495,9 +1746,9 @@ function StepNine() {
 function StepTen() {
   const [identificador, setIdentificador] = useState("");
 
-  const { formData, setFormData } = useContext(SharedStateContext)
-  const { odontogramaFinal, setOdontogramaFinal } = useContext(SharedStateContext);
-
+  const { formData, setFormData } = useContext(SharedStateContext);
+  const { odontogramaFinal, setOdontogramaFinal } =
+    useContext(SharedStateContext);
 
   const [pointsLC, setPointsLC] = useState([]);
   const [pointsIE, setPointsIE] = useState([]);
@@ -1514,9 +1765,10 @@ function StepTen() {
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
     const newPoint = {
-      x, y,
+      x,
+      y,
       category: identificador,
-      timestamp: new Date().getTime() // O usa un contador incremental
+      timestamp: new Date().getTime(), // O usa un contador incremental
     };
     setPoints([...points, newPoint]);
   };
@@ -1527,7 +1779,7 @@ function StepTen() {
       const lastIndex = points.reduce((latest, point, index) => {
         return point.timestamp > points[latest].timestamp ? index : latest;
       }, 0);
-      
+
       // Crea una copia del arreglo de puntos excepto el último añadido
       const newPoints = [...points];
       newPoints.splice(lastIndex, 1);
@@ -1537,14 +1789,22 @@ function StepTen() {
 
   const getImageForCategory = (category) => {
     switch (category) {
-      case 'LC': return imgLesionCariosa;
-      case 'IE': return imgIndExt;
-      case 'OB': return imgObturado;
-      case 'EV': return imgEspacioVacio;
-      case 'DSN': return imgDiSupNum;
-      case 'RG': return imgRetGin;
-      case 'MD': return imgMovDent;
-      default: return undefined;
+      case "LC":
+        return imgLesionCariosa;
+      case "IE":
+        return imgIndExt;
+      case "OB":
+        return imgObturado;
+      case "EV":
+        return imgEspacioVacio;
+      case "DSN":
+        return imgDiSupNum;
+      case "RG":
+        return imgRetGin;
+      case "MD":
+        return imgMovDent;
+      default:
+        return undefined;
     }
   };
 
@@ -1562,12 +1822,12 @@ function StepTen() {
   };
 
   const cargarImagen1 = (imgData) => {
-    console.log(imgData)
+    console.log(imgData);
     return new Promise((resolve, reject) => {
       try {
         subeArchivosCloudinary(imgData, "odontogramas")
           .then((response) => {
-            console.log(response)
+            console.log(response);
             setOdontogramaFinal(response);
             resolve(response); // Resuelve la promesa después de establecer el enlace de la imagen
           })
@@ -1584,9 +1844,9 @@ function StepTen() {
 
   useEffect(() => {
     if (odontogramaFinal) {
-      setFormData(prevFormData => ({
-        ...prevFormData, 
-        odontogramaFinal: odontogramaFinal
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        odontogramaFinal: odontogramaFinal,
       }));
     }
   }, [odontogramaFinal]);
@@ -1601,31 +1861,32 @@ function StepTen() {
   };
 
   async function ejecutarCapturasYMostrarLogs() {
-      try {
-        await Promise.all([
-          ejecutarCapturaEImagen(),
-        ]);
-      } catch (error) {
-        console.error("Error en ejecutarCapturasYMostrarLogs:", error);
-      }
+    try {
+      await Promise.all([ejecutarCapturaEImagen()]);
+    } catch (error) {
+      console.error("Error en ejecutarCapturasYMostrarLogs:", error);
+    }
   }
 
   return (
     <div>
-
       <div>
-        <h2 className="titulosMultiStep">
-          Odontograma final
-        </h2>
+        <h2 className="titulosMultiStep">Odontograma final</h2>
       </div>
 
       <div className="btnsSimbologia">
-        <Button onClick={() => setIdentificador("LC")} variant="dark">Lesion cariosa</Button>
+        <Button onClick={() => setIdentificador("LC")} variant="dark">
+          Lesion cariosa
+        </Button>
         <Button onClick={() => setIdentificador("IE")} variant="dark">
           Indicado para extraerse
         </Button>
-        <Button onClick={() => setIdentificador("OB")} variant="dark">Obturado</Button>
-        <Button onClick={() => setIdentificador("EV")} variant="dark">Espacio vacio</Button>
+        <Button onClick={() => setIdentificador("OB")} variant="dark">
+          Obturado
+        </Button>
+        <Button onClick={() => setIdentificador("EV")} variant="dark">
+          Espacio vacio
+        </Button>
         <Button onClick={() => setIdentificador("DSN")} variant="dark">
           Diente superior numerado
         </Button>
@@ -1661,46 +1922,53 @@ function StepTen() {
                   borderRadius: "50%",
                 }}
               >
-                <img src={getImageForCategory(point.category)} width="100%" height="100%" />
+                <img
+                  src={getImageForCategory(point.category)}
+                  width="100%"
+                  height="100%"
+                />
               </div>
             ))}
           </div>
-
         </div>
       </div>
       <div className="btnsSimbologia">
-
-          <div className="me-2">
-            <button  className="btn btn-primary" onClick={ejecutarCapturasYMostrarLogs}>Capture Image</button>
-          </div>
-          <Button className="ms-2" onClick={removeLastPoint} variant="warning">Borrar último punto</Button>
+        <div className="me-2">
+          <button
+            className="btn btn-primary"
+            onClick={ejecutarCapturasYMostrarLogs}
+          >
+            Capture Image
+          </button>
+        </div>
+        <Button className="ms-2" onClick={removeLastPoint} variant="warning">
+          Borrar último punto
+        </Button>
         {/* ESPACIO EN BLANCO */}
-        
       </div>
       <div className="container mt-5"></div>
     </div>
   );
 }
 
-
 const EditarHistoriaClinica = () => {
-
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   // Define estilos condicionales basados en si es móvil o no
-  const stepStyles = isMobile ? {
-    width: '100%', // Usa el 100% del contenedor en móviles
-    overflowX: 'auto' // Añade scroll horizontal si es necesario en móviles
-  } : {
-    maxWidth: '100%', // Tamaño máximo para no-móviles
-  };
-
+  const stepStyles = isMobile
+    ? {
+        width: "100%", // Usa el 100% del contenedor en móviles
+        overflowX: "auto", // Añade scroll horizontal si es necesario en móviles
+      }
+    : {
+        maxWidth: "100%", // Tamaño máximo para no-móviles
+      };
 
   const { id } = useParams(); // Obtiene el ID del paciente desde la URL
 
@@ -1718,9 +1986,9 @@ const EditarHistoriaClinica = () => {
     odontograma: "",
     odontogramaFinal: "",
     cartaResponsiva: "",
-  })
+  });
 
-  const [ odontogramaFinal, setOdontogramaFinal ] = useState("");
+  const [odontogramaFinal, setOdontogramaFinal] = useState("");
 
   useEffect(() => {
     // Función para cargar los datos del paciente
@@ -1732,9 +2000,12 @@ const EditarHistoriaClinica = () => {
           // Aquí actualizas el estado con los datos obtenidos o mantienes los valores por defecto
           datosPaciente: response.data.datosPaciente || {},
           interrogatorio: response.data.interrogatorio || {},
-          antecedentesHeredofamiliares: response.data.antecedentesHeredofamiliares || {},
-          antecedentesPersonalesPatologicos: response.data.antecedentesPersonalesPatologicos || {},
-          antecedentesPersonalesNoPatologicos: response.data.antecedentesPersonalesNoPatologicos || {},
+          antecedentesHeredofamiliares:
+            response.data.antecedentesHeredofamiliares || {},
+          antecedentesPersonalesPatologicos:
+            response.data.antecedentesPersonalesPatologicos || {},
+          antecedentesPersonalesNoPatologicos:
+            response.data.antecedentesPersonalesNoPatologicos || {},
           signosVitales: response.data.signosVitales || {},
           estudios: response.data.estudios || {},
           cavidadBucal: response.data.cavidadBucal || {},
@@ -1745,7 +2016,7 @@ const EditarHistoriaClinica = () => {
           // Repite para cada categoría según tu estructura de datos
         });
       } catch (error) {
-        console.error('Error al cargar los datos del paciente:', error);
+        console.error("Error al cargar los datos del paciente:", error);
       }
     };
 
@@ -1772,12 +2043,11 @@ const EditarHistoriaClinica = () => {
 
   // Verificar si estamos en el último paso
   const isLastStep = currentStepIndex === totalSteps - 1;
-  console.log(isLastStep)
+  console.log(isLastStep);
 
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-
       const dataTemp = {
         datosPaciente: {
           nombre: formData?.datosPaciente?.nombre,
@@ -1792,92 +2062,174 @@ const EditarHistoriaClinica = () => {
         interrogatorio: {
           motivoConsulta: formData?.interrogatorio?.motivoConsulta,
           padecimientoActual: formData?.interrogatorio?.padecimientoActual,
-          padecimientosSistemticos: formData?.interrogatorio?.padecimientosSistemticos,
+          padecimientosSistemticos:
+            formData?.interrogatorio?.padecimientosSistemticos,
           tomandoMedicamento: formData?.interrogatorio?.tomandoMedicamento,
         },
         antecedentesHeredofamiliares: {
           diabetes: {
             estado: formData?.antecedentesHeredofamiliares?.diabetes?.estado,
-            descripcion: formData?.antecedentesHeredofamiliares?.diabetes?.descripcion
+            descripcion:
+              formData?.antecedentesHeredofamiliares?.diabetes?.descripcion,
           },
           nefropatias: {
             estado: formData?.antecedentesHeredofamiliares?.nefropatias?.estado,
-            descripcion: formData?.antecedentesHeredofamiliares?.nefropatias?.descripcion
+            descripcion:
+              formData?.antecedentesHeredofamiliares?.nefropatias?.descripcion,
           },
           cancer: {
             estado: formData?.antecedentesHeredofamiliares?.cancer?.estado,
-            descripcion: formData?.antecedentesHeredofamiliares?.cancer?.descripcion
+            descripcion:
+              formData?.antecedentesHeredofamiliares?.cancer?.descripcion,
           },
           alergias: {
             estado: formData?.antecedentesHeredofamiliares?.alergias?.estado,
-            descripcion: formData?.antecedentesHeredofamiliares?.alergias?.descripcion
+            descripcion:
+              formData?.antecedentesHeredofamiliares?.alergias?.descripcion,
           },
           hipertension: {
-            estado: formData?.antecedentesHeredofamiliares?.hipertension?.estado,
-            descripcion: formData?.antecedentesHeredofamiliares?.hipertension?.descripcion
+            estado:
+              formData?.antecedentesHeredofamiliares?.hipertension?.estado,
+            descripcion:
+              formData?.antecedentesHeredofamiliares?.hipertension?.descripcion,
           },
           tuberculosis: {
-            estado: formData?.antecedentesHeredofamiliares?.tuberculosis?.estado,
-            descripcion: formData?.antecedentesHeredofamiliares?.tuberculosis?.descripcion
+            estado:
+              formData?.antecedentesHeredofamiliares?.tuberculosis?.estado,
+            descripcion:
+              formData?.antecedentesHeredofamiliares?.tuberculosis?.descripcion,
           },
           cardiopatias: {
-            estado: formData?.antecedentesHeredofamiliares?.cardiopatias?.estado,
-            descripcion: formData?.antecedentesHeredofamiliares?.cardiopatias?.descripcion
+            estado:
+              formData?.antecedentesHeredofamiliares?.cardiopatias?.estado,
+            descripcion:
+              formData?.antecedentesHeredofamiliares?.cardiopatias?.descripcion,
           },
           otros: {
             estado: formData?.antecedentesHeredofamiliares?.otros?.estado,
-            descripcion: formData?.antecedentesHeredofamiliares?.otros?.descripcion
+            descripcion:
+              formData?.antecedentesHeredofamiliares?.otros?.descripcion,
           },
         },
         antecedentesPersonalesPatologicos: {
           diabetes: {
-            estado: formData?.antecedentesPersonalesPatologicos?.diabetes?.estado,
-            descripcion: formData?.antecedentesPersonalesPatologicos?.diabetes?.descripcion
+            estado:
+              formData?.antecedentesPersonalesPatologicos?.diabetes?.estado,
+            descripcion:
+              formData?.antecedentesPersonalesPatologicos?.diabetes
+                ?.descripcion,
           },
           nefropatias: {
-            estado: formData?.antecedentesPersonalesPatologicos?.nefropatias?.estado,
-            descripcion: formData?.antecedentesPersonalesPatologicos?.nefropatias?.descripcion
+            estado:
+              formData?.antecedentesPersonalesPatologicos?.nefropatias?.estado,
+            descripcion:
+              formData?.antecedentesPersonalesPatologicos?.nefropatias
+                ?.descripcion,
           },
           cancer: {
             estado: formData?.antecedentesPersonalesPatologicos?.cancer?.estado,
-            descripcion: formData?.antecedentesPersonalesPatologicos?.cancer?.descripcion
+            descripcion:
+              formData?.antecedentesPersonalesPatologicos?.cancer?.descripcion,
           },
           alergias: {
-            estado: formData?.antecedentesPersonalesPatologicos?.alergias?.estado,
-            descripcion: formData?.antecedentesPersonalesPatologicos?.alergias?.descripcion
+            estado:
+              formData?.antecedentesPersonalesPatologicos?.alergias?.estado,
+            descripcion:
+              formData?.antecedentesPersonalesPatologicos?.alergias
+                ?.descripcion,
           },
           transtornosHemorragicos: {
-            estado: formData?.antecedentesPersonalesPatologicos?.transtornosHemorragicos?.estado,
-            descripcion: formData?.antecedentesPersonalesPatologicos?.transtornosHemorragicos?.descripcion
+            estado:
+              formData?.antecedentesPersonalesPatologicos
+                ?.transtornosHemorragicos?.estado,
+            descripcion:
+              formData?.antecedentesPersonalesPatologicos
+                ?.transtornosHemorragicos?.descripcion,
           },
           hipertension: {
-            estado: formData?.antecedentesPersonalesPatologicos?.hipertension?.estado,
-            descripcion: formData?.antecedentesPersonalesPatologicos?.hipertension?.descripcion
+            estado:
+              formData?.antecedentesPersonalesPatologicos?.hipertension?.estado,
+            descripcion:
+              formData?.antecedentesPersonalesPatologicos?.hipertension
+                ?.descripcion,
           },
           tuberculosis: {
-            estado: formData?.antecedentesPersonalesPatologicos?.tuberculosis?.estado,
-            descripcion: formData?.antecedentesPersonalesPatologicos?.tuberculosis?.descripcion
+            estado:
+              formData?.antecedentesPersonalesPatologicos?.tuberculosis?.estado,
+            descripcion:
+              formData?.antecedentesPersonalesPatologicos?.tuberculosis
+                ?.descripcion,
           },
           cardiopatias: {
-            estado: formData?.antecedentesPersonalesPatologicos?.cardiopatias?.estado,
-            descripcion: formData?.antecedentesPersonalesPatologicos?.cardiopatias?.descripcion
+            estado:
+              formData?.antecedentesPersonalesPatologicos?.cardiopatias?.estado,
+            descripcion:
+              formData?.antecedentesPersonalesPatologicos?.cardiopatias
+                ?.descripcion,
           },
           toxicomanias: {
-            estado: formData?.antecedentesPersonalesPatologicos?.toxicomanias?.estado,
-            descripcion: formData?.antecedentesPersonalesPatologicos?.toxicomanias?.descripcion
+            estado:
+              formData?.antecedentesPersonalesPatologicos?.toxicomanias?.estado,
+            descripcion:
+              formData?.antecedentesPersonalesPatologicos?.toxicomanias
+                ?.descripcion,
           },
           grupoSanguineo: {
-            estado: formData?.antecedentesPersonalesPatologicos?.grupoSanguineo?.estado,
-            descripcion: formData?.antecedentesPersonalesPatologicos?.grupoSanguineo?.descripcion
+            estado:
+              formData?.antecedentesPersonalesPatologicos?.grupoSanguineo
+                ?.estado,
+            descripcion:
+              formData?.antecedentesPersonalesPatologicos?.grupoSanguineo
+                ?.descripcion,
           },
         },
         antecedentesPersonalesNoPatologicos: {
-          alimentacion: formData?.antecedentesPersonalesNoPatologicos?.alimentacion,
-          higiene: formData?.antecedentesPersonalesNoPatologicos?.higiene,
-          convivenciaConAnimales: formData?.antecedentesPersonalesNoPatologicos?.convivenciaConAnimales,
-          tatuajes: formData?.antecedentesPersonalesNoPatologicos?.tatuajes,
-          deportes: formData?.antecedentesPersonalesNoPatologicos?.deportes,
-          vacunas: formData?.antecedentesPersonalesNoPatologicos?.vacunas
+          alimentacion: {
+            estado:
+              formData?.antecedentesPersonalesNoPatologicos?.alimentacion
+                .estado,
+            descripcion:
+              formData?.antecedentesPersonalesNoPatologicos?.alimentacion
+                .descripcion,
+          },
+
+          higiene: {
+            estado:
+              formData?.antecedentesPersonalesNoPatologicos?.higiene.estado,
+            descripcion:
+              formData?.antecedentesPersonalesNoPatologicos?.higiene
+                .descripcion,
+          },
+          convivenciaConAnimales: {
+            estado:
+              formData?.antecedentesPersonalesNoPatologicos
+                ?.convivenciaConAnimales.estado,
+            descripcion:
+              formData?.antecedentesPersonalesNoPatologicos
+                ?.convivenciaConAnimales.descripcion,
+          },
+          tatuajes: {
+            estado:
+              formData?.antecedentesPersonalesNoPatologicos?.tatuajes.estado,
+            descripcion:
+              formData?.antecedentesPersonalesNoPatologicos?.tatuajes
+                .descripcion,
+          },
+
+          deportes: {
+            estado:
+              formData?.antecedentesPersonalesNoPatologicos?.deportes.estado,
+            descripcion:
+              formData?.antecedentesPersonalesNoPatologicos?.deportes
+                .descripcion,
+          },
+          vacunas: {
+            estado:
+              formData?.antecedentesPersonalesNoPatologicos?.vacunas.estado,
+            descripcion:
+              formData?.antecedentesPersonalesNoPatologicos?.vacunas
+                .descripcion,
+          },
         },
         signosVitales: {
           TA: formData?.signosVitales?.TA,
@@ -1886,19 +2238,19 @@ const EditarHistoriaClinica = () => {
           FC: formData?.signosVitales?.FC,
           FR: formData?.signosVitales?.FR,
           talla: formData?.signosVitales?.talla,
-          peso: formData?.signosVitales?.peso
+          peso: formData?.signosVitales?.peso,
         },
         estudios: {
           estudiosGabinete: {
             estado: formData?.estudios?.estudiosGabinete?.estado,
             descripcion: formData?.estudios?.estudiosGabinete?.descripcion,
-            imagen: formData?.estudios?.estudiosGabinete?.imagen
+            imagen: formData?.estudios?.estudiosGabinete?.imagen,
           },
           estudiosLaboratorio: {
             estado: formData?.estudios?.estudiosLaboratorio?.estado,
             descripcion: formData?.estudios?.estudiosLaboratorio?.descripcion,
-            imagen: formData?.estudios?.estudiosLaboratorio?.imagen
-          }
+            imagen: formData?.estudios?.estudiosLaboratorio?.imagen,
+          },
         },
         cavidadBucal: {
           tejidosBlandos: formData?.cavidadBucal?.tejidosBlandos,
@@ -1906,31 +2258,31 @@ const EditarHistoriaClinica = () => {
           ATM: formData?.cavidadBucal?.ATM,
           dolor: {
             estado: formData?.cavidadBucal?.dolor?.estado,
-            descripcion: formData?.cavidadBucal?.dolor?.descripcion
+            descripcion: formData?.cavidadBucal?.dolor?.descripcion,
           },
           crepitacion: {
             estado: formData?.cavidadBucal?.crepitacion?.estado,
-            descripcion: formData?.cavidadBucal?.crepitacion?.descripcion
+            descripcion: formData?.cavidadBucal?.crepitacion?.descripcion,
           },
           subluxacion: {
             estado: formData?.cavidadBucal?.subluxacion?.estado,
-            descripcion: formData?.cavidadBucal?.subluxacion?.descripcion
+            descripcion: formData?.cavidadBucal?.subluxacion?.descripcion,
           },
           anquilosis: {
             estado: formData?.cavidadBucal?.anquilosis?.estado,
-            descripcion: formData?.cavidadBucal?.anquilosis?.descripcion
+            descripcion: formData?.cavidadBucal?.anquilosis?.descripcion,
           },
           bruxismo: {
             estado: formData?.cavidadBucal?.bruxismo?.estado,
-            descripcion: formData?.cavidadBucal?.bruxismo?.descripcion
+            descripcion: formData?.cavidadBucal?.bruxismo?.descripcion,
           },
           espasmoMuscular: {
             estado: formData?.cavidadBucal?.espasmoMuscular?.estado,
-            descripcion: formData?.cavidadBucal?.espasmoMuscular?.descripcion
+            descripcion: formData?.cavidadBucal?.espasmoMuscular?.descripcion,
           },
           luxacion: {
             estado: formData?.cavidadBucal?.luxacion?.estado,
-            descripcion: formData?.cavidadBucal?.luxacion?.descripcion
+            descripcion: formData?.cavidadBucal?.luxacion?.descripcion,
           },
           diagnostico: formData?.cavidadBucal?.diagnostico,
           pronostico: formData?.cavidadBucal?.pronostico,
@@ -1952,13 +2304,12 @@ const EditarHistoriaClinica = () => {
       }
 
       console.log(dataTemp);
-
     } catch (e) {
-      console.error('Error al actualizar la historia clínica', e);
+      console.error("Error al actualizar la historia clínica", e);
     }
   };
 
-  console.log(formData)
+  console.log(formData);
 
   return (
     <Autenticate>
@@ -1987,8 +2338,15 @@ const EditarHistoriaClinica = () => {
                 <br />
               </div>
             </div>
-            <div >
-              <SharedStateContext.Provider value={{ formData, setFormData, odontogramaFinal, setOdontogramaFinal}}>
+            <div>
+              <SharedStateContext.Provider
+                value={{
+                  formData,
+                  setFormData,
+                  odontogramaFinal,
+                  setOdontogramaFinal,
+                }}
+              >
                 <div className="container-fluid">
                   <div style={stepStyles}>
                     <MultiStep
@@ -2020,16 +2378,21 @@ const EditarHistoriaClinica = () => {
                         },
                       }}
                     />
-
                   </div>
 
-                  <div className="button-container" style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+                  <div
+                    className="button-container"
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      marginTop: "20px",
+                    }}
+                  >
                     <Button variant="success" onClick={onSubmit}>
                       <FontAwesomeIcon icon={faPen} />
                       &nbsp; Editar
                     </Button>
                   </div>
-
                 </div>
               </SharedStateContext.Provider>
             </div>
@@ -2038,6 +2401,6 @@ const EditarHistoriaClinica = () => {
       </Container>
     </Autenticate>
   );
-}
+};
 
 export default EditarHistoriaClinica;
