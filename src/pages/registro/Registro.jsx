@@ -3,7 +3,10 @@ import Dropzone from "../../components/dropzone/Dropzone";
 import Autenticate from "../../layout/Autenticate";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCloudArrowUp } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCloudArrowUp,
+  faFloppyDisk,
+} from "@fortawesome/free-solid-svg-icons";
 import Container from "../../components/presentational/Container";
 import MultiStep from "react-multistep";
 import "./style.css";
@@ -15,7 +18,10 @@ import imgEspacioVacio from "../../assets/img/simbologia/EspacioVacio.png";
 import imgDiSupNum from "../../assets/img/simbologia/DienteSuperiorNumerado.png";
 import imgRetGin from "../../assets/img/simbologia/RetraccionGingival.png";
 import imgMovDent from "../../assets/img/simbologia/MovilidadDentaria.png";
-import { registraHistoriaClinica } from "../../api/historiaClinica";
+import {
+  actualizarHistoriaClinica,
+  registraHistoriaClinica,
+} from "../../api/historiaClinica";
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 import BasicModal from "../../components/Modal/BasicModal";
@@ -1845,7 +1851,10 @@ function StepTen() {
 }
 
 const Registro = () => {
+  const [registroPrevio, setRegistroPrevio] = useState("");
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  console.log(registroPrevio);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
@@ -1950,12 +1959,97 @@ const Registro = () => {
         estado: "true",
       };
 
-      registraHistoriaClinica(dataTemp).then((response) => {
-        const { data } = response;
-        window.location.reload();
-        //cancelarRegistro()
+      if (registroPrevio) {
+        actualizarHistoriaClinica(registroPrevio, dataTemp);
+        toast.success("Datos guardados");
+      } else {
+        registraHistoriaClinica(dataTemp).then((response) => {
+          const { data } = response;
+          const { datos } = data;
+          setRegistroPrevio(datos._id);
+          console.log(registroPrevio);
+          console.log(data);
+          //cancelarRegistro()
+          toast.success("Datos guardados");
+        });
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const saveReload = async (e) => {
+    e.preventDefault();
+    try {
+      // Subir imágenes al servidor de Cloudinary antes de registrar la historia clínica
+
+      console.log(formData.estudios.estudiosLaboratorio.imagen);
+      const imagenEstLab = formData.estudios.estudiosLaboratorio.imagen;
+
+      console.log(formData.estudios.estudiosGabinete.imagen, imagenEstLab);
+
+      const uploads = [];
+
+      if (formData.estudios.estudiosGabinete.imagen) {
+        const uploadPromise = subeArchivosCloudinary(
+          formData.estudios.estudiosGabinete.imagen,
+          "estudiosGabinete"
+        ).then((url) => {
+          formData.estudios.estudiosGabinete.imagen = url; // Actualiza la propiedad con la URL
+          return url; // Opcionalmente puedes devolver la URL si es necesario para algo más
+        });
+        uploads.push(uploadPromise);
+      }
+
+      if (formData.estudios.estudiosLaboratorio.imagen) {
+        const uploadPromise = subeArchivosCloudinary(
+          formData.estudios.estudiosLaboratorio.imagen,
+          "estudiosLaboratorio"
+        ).then((url) => {
+          formData.estudios.estudiosLaboratorio.imagen = url; // Actualiza la propiedad con la URL
+          return url; // Opcionalmente puedes devolver la URL si es necesario para algo más
+        });
+        uploads.push(uploadPromise);
+      }
+
+      // Esperar a que todas las imágenes se hayan subido y las URLs estén actualizadas en formData
+      await Promise.all(uploads);
+
+      console.log(
+        "Imágenes subidas y URLs actualizadas en formData:",
+        formData
+      );
+
+      const dataTemp = {
+        datosPaciente: formData.datosPaciente,
+        interrogatorio: formData.interrogatorio,
+        antecedentesHeredofamiliares: formData.antecedentesHeredofamiliares,
+        antecedentesPersonalesPatologicos:
+          formData.antecedentesPersonalesPatologicos,
+        antecedentesPersonalesNoPatologicos:
+          formData.antecedentesPersonalesNoPatologicos,
+        signosVitales: formData.signosVitales,
+        estudios: formData.estudios,
+        cavidadBucal: formData.cavidadBucal,
+        procedimientos: formData.procedimientos,
+        odontograma: odontograma,
+        odontogramaFinal: "",
+        cartaResponsiva: formData.cartaResponsiva,
+        estado: "true",
+      };
+
+      if (registroPrevio) {
+        actualizarHistoriaClinica(registroPrevio, dataTemp);
         toast.success("Historia clinica registrada correctamente");
-      });
+        window.location.reload();
+      } else {
+        registraHistoriaClinica(dataTemp).then((response) => {
+          const { data } = response;
+          window.location.reload();
+          //cancelarRegistro()
+          toast.success("Historia clinica registrada correctamente");
+        });
+      }
     } catch (e) {
       console.log(e);
     }
@@ -2026,9 +2120,17 @@ const Registro = () => {
                   </div>
 
                   <div className="d-flex justify-content-center mt-4">
-                    <Button variant="success" onClick={onSubmit}>
+                    <Button
+                      className="mx-1"
+                      variant="success"
+                      onClick={saveReload}
+                    >
                       <FontAwesomeIcon icon={faCloudArrowUp} />
                       &nbsp; Enviar
+                    </Button>
+                    <Button className="mx-1" onClick={onSubmit}>
+                      <FontAwesomeIcon icon={faFloppyDisk} />
+                      &nbsp; Guardar
                     </Button>
                   </div>
                 </div>
